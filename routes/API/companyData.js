@@ -114,9 +114,9 @@ router.get("/api/v1/company-data/income-statement/:ticker", (req, res) => {
                     list: toArray(htmlString, '.r_xcmenu.rf_table > #data_i90')
                 },
             ]
-            res.send(data)
+            res.json(data)
         }).catch(err => {
-            res.status(400).send({error: true, message: "Something weng wrong. The ticker entered may not exist"})
+            res.status(400).json({error: true, message: "Something weng wrong. The ticker entered may not exist"})
         })
 })
 
@@ -307,9 +307,9 @@ router.get("/api/v1/company-data/balance-sheet-statement/:ticker", (req, res) =>
                     list: toArray(htmlString, '.r_xcmenu.rf_table > r_content, #data_tts2')
                 },
             ]
-            res.send(data)
+            res.json(data)
         }).catch(err => {
-            res.status(400).send({error: true, message: "Something weng wrong. The ticker entered may not exist"})
+            res.status(400).json({error: true, message: "Something weng wrong. The ticker entered may not exist"})
         })
 })
 
@@ -468,9 +468,9 @@ router.get("/api/v1/company-data/cash-flow-statement/:ticker", (req, res) => {
                     list: toArray(htmlString, '.r_xcmenu.rf_table > #data_i97')
                 },
             ]
-            res.send(data)
+            res.json(data)
         }).catch(err => {
-            res.status(400).send({error: true, message: "Something weng wrong. The ticker entered may not exist"})
+            res.status(400).json({error: true, message: "Something weng wrong. The ticker entered may not exist"})
         })
 })
 

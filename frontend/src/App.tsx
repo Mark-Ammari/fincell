@@ -7,7 +7,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
         <Header />
-        <FinancialSection reportType="income-statement-statement" ticker="AAPL" />
+        <FinancialSection reportType="income-statement" ticker="AAPL" />
     </div>
   );
 }

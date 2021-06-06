@@ -1,6 +1,5 @@
 const express = require("express");
 const cheerio = require('cheerio');
-const rp = require('request-promise');
 const axios = require('axios');
 
 const config = require("../../config/keys");

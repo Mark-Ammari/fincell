@@ -11,7 +11,8 @@ const useStyles = makeStyles({
         maxWidth: "100%",
         color: "white",
         background: "#1e1e1e",
-        position: "sticky"
+        position: "sticky",
+        top: -1
     },
     icon: {
         color: "white",

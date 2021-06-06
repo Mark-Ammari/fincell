@@ -1,3 +1,16 @@
 .Header {
-    background-color: #20C178;
+    background-color: #1e1e1e;
+    color: white;
+    width: calc(100% - 16px)
+}
+
+.SearchBar {
+    padding: 5px;
+    background: inherit;
+    border: 1px solid white;
+    outline: white;
+    border-radius: 5px;
+    margin-left: 1em;
+    padding-left: 10px;
+    color: white;
 }

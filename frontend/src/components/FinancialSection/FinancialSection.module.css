@@ -1,5 +1,6 @@
 .Container {
     width: 100vw;
+    color: black;
 }
 
 .FinancialSection {
@@ -10,6 +11,11 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    color: black;
+}
+
+.FinancialTable {
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 .Details {
@@ -77,7 +83,7 @@
         background-color: #FFF;
     }
     50% {
-        background-color: #F7F7F7;
+        background-color: #F5F5F5;
     }
     100% {
         background-color: #FFF;
@@ -88,7 +94,7 @@
     animation: loader .5s ease-in-out infinite;
     -webkit-animation: loader .5s ease-in-out infinite;
     transition: 1s ease-in-out;
-    height: 100%;
+    height: 100vh;
     width: 100%;
 }
 
@@ -96,7 +102,7 @@
 
 @media only screen and (max-width: 400px) {
     .Container {
-        width: 100vw;
+        width: 100%;
     }
     .FinancialSection {
         margin: 0 auto;
@@ -107,6 +113,9 @@
         align-items: center;
         flex-direction: column;
         position: relative;
+    }
+    .FinancialTable {
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
     }
     .Details {
         width: 100%;
@@ -133,22 +142,21 @@
     .FinancialRow {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         width: 100vw;
         font-size: 9pt;
-        padding: 8px
     }
     .FinancialRow:nth-child(even) {
         background-color: #f9f9f9;
     }
-    .FinancialTable>.FinancialRow:first-child {
+    .FinancialTable>.FinancialRow:nth-child(2) {
         background-color: #1e1e1e;
         color: #FFF;
         width: auto;
         font-weight: bold;
         position: sticky;
         position: -webkit-sticky;
-        top: -1px;
+        top: 45px;
         z-index: 1;
     }
     .Title {
@@ -165,17 +173,20 @@
 
 @media only screen and (min-width: 401px) {
     .Container {
-        width: 100vw;
+        width: 100%;
     }
     .FinancialSection {
         margin: 0 auto;
         width: 100%;
         display: flex;
         height: auto;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
+        align-items: flex-start;
         flex-direction: column;
         position: relative;
+    }
+    .FinancialTable {
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
     }
     .Details {
         width: 100%;
@@ -197,27 +208,26 @@
         margin: 10px 0 5px 10px;
         font-style: italic;
         font-weight: bold;
-        font-size: 12pt;
+        font-size: 10pt;
     }
     .FinancialRow {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         width: 100vw;
         font-size: 10pt;
-        padding: 8px
     }
     .FinancialRow:nth-child(even) {
         background-color: #f9f9f9;
     }
-    .FinancialTable>.FinancialRow:first-child {
+    .FinancialTable>.FinancialRow:nth-child(2) {
         background-color: #1e1e1e;
         color: #FFF;
         width: auto;
         font-weight: bold;
         position: sticky;
         position: -webkit-sticky;
-        top: -1px;
+        top: 45px;
         z-index: 1;
     }
     .Title {
@@ -228,6 +238,118 @@
     .Value {
         text-align: right;
         margin: 10px;
+        width: 100px;
+    }
+}
+
+@media only screen and (min-width: 550px) {
+    .Container {
+        width: 100%;
+    }
+    .FinancialSection {
+        width: 500px;
+    }
+    .FinancialTable {
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+    .Details {
+        width: 500px;
+    }
+    .Ticker {
+        font-size: 24pt;
+    }
+    .ReportType {
+        font-size: 24pt;
+    }
+    .RoundNumbers {
+        font-size: 12pt;
+    }
+    .FinancialRow {
+        width: 500px;
+        font-size: 12pt;
+    }
+    .FinancialTable>.FinancialRow:nth-child(2) {
+        top: 45px;
+    }
+}
+
+@media only screen and (min-width: 1366px) {
+    .Container {
+        color: black;
+        width: 100%;
+    }
+    .FinancialSection {
+        margin: 0 auto;
+        width: 1366px;
+        color: black;
+        display: flex;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+    }
+    .FinancialTable {
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+    .Details {
+        width: 1366px;
+        margin: auto;
+        text-align: left;
+    }
+    .Ticker {
+        text-transform: uppercase;
+        margin: 5px 0 0 10px;
+        font-size: 18pt;
+    }
+    .ReportType {
+        text-transform: capitalize;
+        line-height: 25px;
+        margin: 0 0 0 10px;
+        font-size: 18pt;
+    }
+    .RoundNumbers {
+        margin: 10px 0 5px 10px;
+        font-style: italic;
+        font-weight: bold;
+        font-size: 12pt;
+    }
+    .FinancialRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 1366px;
+        font-size: 12pt;
+        padding: 8px
+    }
+    .FinancialRow:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    .FinancialTable>.FinancialRow:nth-child(1) {
+        background-color: #1e1e1e;
+        color: #FFF;
         width: auto;
+        font-weight: bold;
+        position: sticky;
+        position: -webkit-sticky;
+        top: -1px;
+        z-index: 1;
+    }
+    .FinancialTable>.FinancialRow:nth-child(2) {
+        background-color: #f9f9f9;
+        color: black;
+        width: auto;
+        font-weight: normal;
+        position: static;
+    }
+    .Title {
+        width: 377px;
+        text-align: left;
+        margin: 10px;
+    }
+    .Value {
+        text-align: right;
+        margin: 10px;
+        width: 100px;
     }
 }

@@ -2,6 +2,7 @@ import { Paper, useMediaQuery } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { data, fetchFinancialStatement, loading } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
+import ReportType from '../ReportType/ReportType';
 import Tablet from '../Tablet/Tablet';
 import classes from './FinancialSection.module.css';
 
@@ -25,6 +26,7 @@ const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType, ticker 
                 <h1 className={classes.Ticker}>{ticker}</h1>
                 <h1 className={classes.ReportType}>{reportType.replaceAll("-", " ")}</h1>
                 <p className={classes.RoundNumbers}>All Numbers in the Millions.</p>
+                <ReportType />
             </div>
             <div className={classes.FinancialSection}>
                 {loadFinancials ?
@@ -79,7 +81,7 @@ const FinancialSectionMobile: React.FC = () => {
             {financialData.map((item: any, index: number) => {
                 return <div className={classes.FinancialRow} key={index}>
                     <p title={item["title"]} className={classes.Title}>{item["title"]}</p>
-                    <p className={classes.Value}>{item["list"][0]}</p>
+                    <p className={classes.Value}>{item["list"][activeStep]}</p>
                 </div>
             })}
         </div>

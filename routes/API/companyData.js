@@ -301,10 +301,6 @@ router.get("/api/v1/company-data/balance-sheet-statement/:ticker", (req, res) =>
                 },
                 {
                     title: "Total Shareholders' Equity",
-                    list: toArray(htmlString, '.r_xcmenu.rf_table > r_content > r_content, #data_ttg8')
-                },
-                {
-                    title: "Total Shareholders' Equity",
                     list: toArray(htmlString, '.r_xcmenu.rf_table > r_content, #data_tts2')
                 },
             ]

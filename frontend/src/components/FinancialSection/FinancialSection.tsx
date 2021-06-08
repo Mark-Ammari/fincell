@@ -1,18 +1,19 @@
 import { Paper, useMediaQuery } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { data, fetchFinancialStatement, loading } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
-import ReportType from '../ReportType/ReportType';
 import Tablet from '../Tablet/Tablet';
 import classes from './FinancialSection.module.css';
 
 interface FinancialSectionProps {
     reportType: string,
-    ticker: string
 }
 
-const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType, ticker }) => {
-    const dispatch = useDispatch()
+const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType }) => {
+    const dispatch = useDispatch();
+    const { ticker } = useParams<any>();
+
     useEffect(() => {
         dispatch(fetchFinancialStatement(reportType, ticker))
     }, [reportType, ticker, dispatch])
@@ -23,7 +24,6 @@ const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType, ticker 
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
-                <h1 className={classes.Ticker}>{ticker}</h1>
                 <h1 className={classes.ReportType}>{reportType.replaceAll("-", " ")}</h1>
                 <p className={classes.RoundNumbers}>All Numbers in the Millions.</p>
             </div>
@@ -58,7 +58,6 @@ const FinancialSectionDesktop: React.FC = () => {
 const FinancialSectionMobile: React.FC = () => {
     const financialData = useSelector(data);
     const [activeStep, setActiveStep] = React.useState(0);
-
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };

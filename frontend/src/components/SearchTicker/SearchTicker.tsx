@@ -58,12 +58,9 @@ export default function SearchTicker() {
         setOpen(false);
     };
 
-    const handleSearch = (ticker: string, performanceId: string) => {
+    const handleSearch = (ticker: string) => {
         history.push({
             pathname: `/stocks/${ticker}`,
-            state: {
-                performanceId: performanceId
-            }
         })
         handleClose()
     }
@@ -115,7 +112,7 @@ export default function SearchTicker() {
                     <List>
                         {
                             !loadData ? tickerData.results.map((t: any, index: number) => {
-                                return <ListItem key={index} button onClick={() => handleSearch(t["ticker"], t["performanceId"])} >
+                                return <ListItem key={index} button onClick={() => handleSearch(t["ticker"])} >
                                     <ListItemText primary={t["name"]} secondary={t["ticker"]} />
                                 </ListItem>
                             }) : <div></div>

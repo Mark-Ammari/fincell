@@ -1,6 +1,6 @@
 .StatsPanel {
     width: 100%;
-    margin: 0
+    margin: 0;
 }
 
 /* media queries */
@@ -8,7 +8,7 @@
 @media only screen and (max-width: 400px) {
     .StatsPanel {
         width: 100%;
-        margin: auto
+        margin: auto;
     }
 }
 
@@ -19,7 +19,7 @@
     }
 }
 
-@media only screen and (min-width: 525px) {
+@media only screen and (min-width: 500px) {
     .StatsPanel {
         width: 502px;
         margin: auto

@@ -109,29 +109,22 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        position: relative;
     }
     .Details {
-        width: 100vw;
+        width: 100%;
         margin: auto;
         text-align: left;
     }
-    .Ticker {
-        text-transform: uppercase;
-        margin: 5px 0 0 10px;
-        font-size: 16pt;
-    }
     .ReportType {
         text-transform: capitalize;
-        line-height: 25px;
-        margin: 0 0 0 10px;
         font-size: 16pt;
+        margin: 10px;
     }
     .RoundNumbers {
-        margin: 10px 0 5px 10px;
         font-style: italic;
-        font-size: 8pt;
+        font-size: 10pt;
         color: #777;
+        margin: 10px;
         font-weight: lighter;
     }
     .FinancialRow {
@@ -149,10 +142,6 @@
         color: #FFF;
         width: 100vw;
         font-weight: bold;
-        position: sticky;
-        position: -webkit-sticky;
-        top: 45px;
-        z-index: 1;
     }
     .Title {
         width: 200px;
@@ -178,29 +167,22 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        position: relative;
     }
     .Details {
         width: 100vw;
         margin: auto;
         text-align: left;
     }
-    .Ticker {
-        text-transform: uppercase;
-        margin: 5px 0 0 10px;
-        font-size: 20pt;
-    }
     .ReportType {
         text-transform: capitalize;
-        line-height: 25px;
-        margin: 0 0 0 10px;
-        font-size: 20pt;
+        font-size: 16pt;
+        margin: 10px;
     }
     .RoundNumbers {
-        margin: 10px 0 5px 10px;
         font-style: italic;
         font-size: 10pt;
         color: #777;
+        margin: 10px;
         font-weight: lighter;
     }
     .FinancialRow {
@@ -218,10 +200,6 @@
         color: #FFF;
         width: 100vw;
         font-weight: bold;
-        position: sticky;
-        position: -webkit-sticky;
-        top: 45px;
-        z-index: 1;
     }
     .Title {
         width: 200px;
@@ -235,42 +213,35 @@
     }
 }
 
-@media only screen and (min-width: 525px) {
+@media only screen and (min-width: 500px) {
     .Container {
         width: 500px;
         margin: auto;
     }
     .FinancialSection {
-        margin: 0 auto;
+        margin: auto;
         width: 500px;
         display: flex;
         height: auto;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        position: relative;
     }
     .Details {
         width: 500px;
         margin: auto;
         text-align: left;
     }
-    .Ticker {
-        text-transform: uppercase;
-        margin: 5px 0 0 10px;
-        font-size: 24pt;
-    }
     .ReportType {
         text-transform: capitalize;
-        line-height: 25px;
-        margin: 0 0 0 10px;
-        font-size: 24pt;
+        font-size: 18pt;
+        margin: 10px !important;
     }
     .RoundNumbers {
-        margin: 10px 0 5px 10px;
         font-style: italic;
         font-size: 10pt;
         color: #777;
+        margin: 10px;
         font-weight: lighter;
     }
     .FinancialRow {
@@ -288,10 +259,6 @@
         color: #FFF;
         width: 500px;
         font-weight: bold;
-        position: sticky;
-        position: -webkit-sticky;
-        top: 45px;
-        z-index: 1;
     }
     .Title {
         width: 250px;
@@ -319,29 +286,22 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        position: relative;
     }
     .Details {
         width: 1366px;
         margin: auto;
         text-align: left;
     }
-    .Ticker {
-        text-transform: uppercase;
-        margin: 5px 0 0 10px;
-        font-size: 18pt;
-    }
     .ReportType {
         text-transform: capitalize;
-        line-height: 25px;
-        margin: 0 0 0 10px;
         font-size: 18pt;
+        margin: 10px !important;
     }
     .RoundNumbers {
-        margin: 10px 0 5px 10px;
         font-style: italic;
         font-size: 10pt;
         color: #777;
+        margin: 10px;
         font-weight: lighter;
     }
     .FinancialRow {
@@ -359,10 +319,6 @@
         color: #FFF;
         width: auto;
         font-weight: bold;
-        position: sticky;
-        position: -webkit-sticky;
-        top: -1px;
-        z-index: 1;
     }
     .FinancialTable>.FinancialRow:nth-child(2) {
         background-color: #f9f9f9;

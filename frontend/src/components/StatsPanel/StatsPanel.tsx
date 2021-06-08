@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, useTheme, AppBar, Box, Typography } from '@material-ui/core';
 import FinancialSection from '../FinancialSection/FinancialSection';
-import { useLocation, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import SwipeableViews from 'react-swipeable-views';
 import classes from './StatsPanel.module.css';
 
@@ -10,7 +10,8 @@ const useStyles = makeStyles({
     root: {
         flexGrow: 1,
         backgroundColor: "#1e1e1e",
-        color: "white"
+        color: "white",
+        overflowX: "hidden"
     },
     tabs: {
         background: "#FFF",
@@ -67,7 +68,6 @@ export default function StatsPanel() {
     const styles = useStyles();
     const [value, setValue] = React.useState(0);
     const { ticker } = useParams<any>();
-    const { state } = useLocation<any>();
 
     const theme = useTheme();
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -150,13 +150,13 @@ export default function StatsPanel() {
                     Item Two
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <FinancialSection reportType="income-statement" ticker={ticker} />
+                    <FinancialSection reportType="income-statement" />
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
-                    <FinancialSection reportType="balance-sheet-statement" ticker={ticker} />
+                    <FinancialSection reportType="balance-sheet-statement" />
                 </TabPanel>
                 <TabPanel value={value} index={4} dir={theme.direction}>
-                    <FinancialSection reportType="cash-flow-statement" ticker={ticker} />
+                    <FinancialSection reportType="cash-flow-statement" />
                 </TabPanel>
             </SwipeableViews>
         </div>

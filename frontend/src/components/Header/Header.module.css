@@ -1,7 +1,7 @@
 .Header {
-    background-color: #1e1e1e;
+    background: #1e1e1e;
     color: white;
-    width: calc(100% - 16px)
+    width: 100%
 }
 
 .SearchBar {

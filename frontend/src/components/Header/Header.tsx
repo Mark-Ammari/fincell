@@ -1,21 +1,37 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
+import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { Menu, SearchRounded } from '@material-ui/icons';
 import React from 'react';
+import SearchTicker from '../SearchTicker/SearchTicker';
 import classes from './Header.module.css';
 
+const useStyles = makeStyles(() => ({
+    root: {
+        width: "100%",
+        backgroundColor: "#1e1e1e",
+    },
+    toolbar: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    iconButton: {
+        color: "white",
+        margin: "0 5px"
+    }
+}));
+
 const Header: React.FC = () => {
+    const styles = useStyles()
+
     return (
-        <header className={classes.Header}>
-            <Toolbar >
-                <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+        <AppBar className={styles.root} position="static">
+            <Toolbar className={styles.toolbar}>
+                <IconButton className={styles.iconButton} edge="start" color="inherit" aria-label="menu">
                     <Menu />
                 </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                    Fincell
-                </Typography>
-                <input className={classes.SearchBar} type="text" id="search-bar" name="search-bar" placeholder="Search Ticker..."/>
+                <SearchTicker />
             </Toolbar>
-        </header>
+        </AppBar>
     )
 };
 

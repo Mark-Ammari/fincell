@@ -3,6 +3,7 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 
 const config = require("../../config/keys");
+const searchQuery = require('../../middleware/search');
 
 const router = express.Router();
 
@@ -116,7 +117,7 @@ router.get("/api/v1/company-data/income-statement/:ticker", (req, res) => {
             ]
             res.json(data)
         }).catch(err => {
-            res.status(400).json({error: true, message: "Something weng wrong. The ticker entered may not exist"})
+            res.status(400).json({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
         })
 })
 
@@ -309,7 +310,7 @@ router.get("/api/v1/company-data/balance-sheet-statement/:ticker", (req, res) =>
             ]
             res.json(data)
         }).catch(err => {
-            res.status(400).json({error: true, message: "Something weng wrong. The ticker entered may not exist"})
+            res.status(400).json({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
         })
 })
 
@@ -470,7 +471,7 @@ router.get("/api/v1/company-data/cash-flow-statement/:ticker", (req, res) => {
             ]
             res.json(data)
         }).catch(err => {
-            res.status(400).json({error: true, message: "Something weng wrong. The ticker entered may not exist"})
+            res.status(400).json({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
         })
 })
 
@@ -481,8 +482,37 @@ router.get("/api/v1/company-data/metadata/:ticker", (req, res) => {
             let $ = cheerio.load(response.data["ksContent"])
             res.send($("div").html())
         }).catch(err => {
-            res.status(400).send({error: true, message: "Something weng wrong. The ticker entered may not exist"})
+            res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
         })
+})
+
+
+// GET Search Ticker
+router.get("/api/v1/company-data/search/:ticker", (req, res) => {
+    axios.get(`${config.URI}/search/entities?q=${req.params.ticker}&limit=6&autocomplete=true`, {
+        headers: {
+            'x-api-key': config.SEARCH_API_KEY
+        }
+    }).then(response => {
+        res.json(response.data)
+    }).catch(err => {
+        res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
+    })
+})
+
+
+// GET keyRatios
+router.get("/api/v1/stock/keyratios/:performanceid/details", (req, res) => {
+    axios.get(`${config.SAL_SERVICE}/keyratios/${req.params.performanceid}/data?&clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.KEY_RATIOS_API_KEY
+        },
+    }).then(response => {
+        res.json(response.data)
+    }).catch(err => {
+        console.log(err)
+        res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
+    })
 })
 
 module.exports = router;

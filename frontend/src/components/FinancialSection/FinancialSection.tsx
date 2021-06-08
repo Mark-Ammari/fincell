@@ -25,8 +25,8 @@ const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType, ticker 
             <div className={classes.Details}>
                 <h1 className={classes.Ticker}>{ticker}</h1>
                 <h1 className={classes.ReportType}>{reportType.replaceAll("-", " ")}</h1>
-                <p className={classes.RoundNumbers}>All Numbers in the Millions.</p>
                 <ReportType />
+                <p className={classes.RoundNumbers}>All Numbers in the Millions.</p>
             </div>
             <div className={classes.FinancialSection}>
                 {loadFinancials ?

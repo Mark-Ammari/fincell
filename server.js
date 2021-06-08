@@ -14,7 +14,7 @@ server.set('trust proxy', 1) // trust first proxy
 server.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-Methods", "POST, GET, HEAD, DELETE, PUT, OPTIONS")
+  res.header("Access-Control-Allow-Methods", "POST, GET, HEAD, DELETE, PUT, OPTIONS");
   if ('OPTIONS' == req.method) {
     res.sendStatus(200);
   }

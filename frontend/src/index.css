@@ -5,11 +5,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  min-width: 100vw;
-  overflow-x: hidden;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

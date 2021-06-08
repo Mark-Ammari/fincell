@@ -4,7 +4,6 @@ import classes from './ReportType.module.css';
 
 const ReportType: React.FC = () => {
     const params = useParams<{ticker: string}>()
-    console.log(useHistory().location)
     return (
         <div className={classes.ReportType}>
             <NavLink activeClassName={classes.ActiveNavLink} className={classes.NavLink} to={`/stocks/income-statement/${params.ticker}`}>Income</NavLink>

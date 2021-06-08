@@ -505,7 +505,7 @@ router.get("/api/v1/company-data/search/:ticker", (req, res) => {
 router.get("/api/v1/company-data/keyratios/:performanceid/details", (req, res) => {
     axios.get(`${config.SAL_SERVICE}/keyratios/${req.params.performanceid}/data?&clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
-            'apikey': config.KEY_RATIOS_API_KEY
+            'apikey': config.X_API_KEY
         },
     }).then(response => {
         res.json(response.data)
@@ -514,5 +514,22 @@ router.get("/api/v1/company-data/keyratios/:performanceid/details", (req, res) =
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
     })
 })
+
+// GET quotes
+router.get("/api/v1/company-data/quote/:performanceid/details", (req, res) => {
+    axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.X_API_KEY,
+            'x-api-realtime-e': config.X_API_REALTIME_E
+        },
+    }).then(response => {
+        res.json(response.data)
+    }).catch(err => {
+        console.log(err)
+        res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
+    })
+})
+
+
 
 module.exports = router;

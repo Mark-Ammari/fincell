@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router';
 import './App.css';
+import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Context from './context/Context';
-import { FinancialStatementScreen } from './routes/Routes';
+import { FinancialStatementScreen, CompanyStatsScreen } from './routes/Routes';
 
 const App: React.FC = () => {
   return (
@@ -15,8 +16,10 @@ const App: React.FC = () => {
         }}>
           <Header />
           <Switch>
-            <Route path="/stocks/:reportType/:ticker" component={FinancialStatementScreen} />
+            <Route path="/stocks/:ticker" component={CompanyStatsScreen} />
+            {/* <Route path="/stocks/:reportType/:ticker" component={FinancialStatementScreen} /> */}
           </Switch>
+          <Footer />
         </Context.Provider>
       </Suspense>
     </div>

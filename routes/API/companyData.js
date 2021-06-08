@@ -500,9 +500,9 @@ router.get("/api/v1/company-data/search/:ticker", (req, res) => {
     })
 })
 
-
+ 
 // GET keyRatios
-router.get("/api/v1/stock/keyratios/:performanceid/details", (req, res) => {
+router.get("/api/v1/company-data/keyratios/:performanceid/details", (req, res) => {
     axios.get(`${config.SAL_SERVICE}/keyratios/${req.params.performanceid}/data?&clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
             'apikey': config.KEY_RATIOS_API_KEY

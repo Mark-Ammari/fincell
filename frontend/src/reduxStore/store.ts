@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import getFinancialStatementReducer from './getFinancialStatement/getFinancialStatement';
+import getSeatchTickerReducer from './getSearchTicker/getSearchTicker';
 
 export const store = configureStore({
   reducer: {
-    getFinancialStatement: getFinancialStatementReducer
+    getFinancialStatement: getFinancialStatementReducer,
+    getSearchTicker: getSeatchTickerReducer
   },
 });
 

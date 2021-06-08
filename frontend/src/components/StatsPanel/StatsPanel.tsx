@@ -5,6 +5,7 @@ import FinancialSection from '../FinancialSection/FinancialSection';
 import { useParams } from 'react-router';
 import SwipeableViews from 'react-swipeable-views';
 import classes from './StatsPanel.module.css';
+import KeyRatiosSection from '../KeyRatiosSection/KeyRationsSection';
 
 const useStyles = makeStyles({
     root: {
@@ -147,7 +148,7 @@ export default function StatsPanel() {
                     Item One
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    Item Two
+                    <KeyRatiosSection />
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
                     <FinancialSection reportType="income-statement" />

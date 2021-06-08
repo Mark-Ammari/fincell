@@ -26,6 +26,13 @@
     }
 }
 
+@media only screen and (min-width: 767px) {
+    .StatsPanel {
+        width: 769px;
+        margin: auto
+    }
+}
+
 @media only screen and (min-width: 1366px) {
     .StatsPanel {
         width: 1368px;

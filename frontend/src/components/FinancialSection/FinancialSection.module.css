@@ -272,6 +272,67 @@
     }
 }
 
+@media only screen and (min-width: 767px) {
+    .Container {
+        color: black;
+        width: 100%;
+    }
+    .FinancialSection {
+        margin: 0 auto;
+        width: 767px;
+        color: black;
+        display: flex;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .Details {
+        width: 767px;
+        margin: auto;
+        text-align: left;
+    }
+    .ReportType {
+        text-transform: capitalize;
+        font-size: 18pt;
+        margin: 10px !important;
+    }
+    .RoundNumbers {
+        font-style: italic;
+        font-size: 10pt;
+        color: #777;
+        margin: 10px;
+        font-weight: lighter;
+    }
+    .FinancialRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 767px;
+        font-size: 12pt;
+    }
+    .FinancialRow:nth-child(even) {
+        background-color: #f5f5f5;
+    }
+    .FinancialTable>.FinancialRow:nth-child(2) {
+        background-color: #1e1e1e;
+        color: #FFF;
+        width: 767px;
+        font-weight: bold;
+    }
+    .Title {
+        width: 377px;
+        text-align: left;
+        margin: 10px;
+    }
+    .Value {
+        text-align: right;
+        margin: 10px;
+        width: 100px;
+    }
+}
+
+
 @media only screen and (min-width: 1366px) {
     .Container {
         color: black;

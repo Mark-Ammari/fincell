@@ -56,8 +56,8 @@ export const fetchSearchTicker = (ticker: string): AppThunk => (
     })
 };
 
-export const data = (state: RootState) => state.getSearchTicker.data;
-export const loading = (state: RootState) => state.getSearchTicker.loading;
+export const searchTickerdata = (state: RootState) => state.getSearchTicker.data;
+export const loadSearchTicker = (state: RootState) => state.getSearchTicker.loading;
 export const error = (state: RootState) => state.getSearchTicker.error;
 export const errorMessage = (state: RootState) => state.getSearchTicker.errorMsg;
 

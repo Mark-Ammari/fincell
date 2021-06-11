@@ -1,8 +1,8 @@
 import { Paper, useMediaQuery } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { data, fetchFinancialStatement, loading } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
+import { searchTickerdata } from '../../reduxStore/getSearchTicker/getSearchTicker';
+import { loadFinancialStatement, financialStatementdata, fetchFinancialStatement } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
 import Tablet from '../Tablet/Tablet';
 import classes from './FinancialSection.module.css';
 
@@ -12,20 +12,20 @@ interface FinancialSectionProps {
 
 const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType }) => {
     const dispatch = useDispatch();
-    const { ticker } = useParams<any>();
+    const tickerData = useSelector(searchTickerdata)
+    const loadFinancials = useSelector(loadFinancialStatement)
 
     useEffect(() => {
-        dispatch(fetchFinancialStatement(reportType, ticker))
-    }, [reportType, ticker, dispatch])
+        dispatch(fetchFinancialStatement(reportType, tickerData.results[0]["performanceId"]))
+    }, [tickerData, dispatch, reportType])
 
-    const loadFinancials = useSelector(loading)
     const match = useMediaQuery('(min-width:1366px)')
 
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
-                <h1 className={classes.ReportType}>{reportType.replaceAll("-", " ")}</h1>
-                <p className={classes.RoundNumbers}>All Numbers in the Millions.</p>
+                <h1 className={classes.ReportType}>{reportType.replace(/([a-z])([A-Z])/g, '$1 $2')}</h1>
+                <p className={classes.RoundNumbers}>All Numbers in the Billions.</p>
             </div>
             <Paper elevation={2} className={classes.FinancialSection}>
                 {loadFinancials ?
@@ -39,15 +39,14 @@ const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType }) => {
 };
 
 const FinancialSectionDesktop: React.FC = () => {
-    const financialData = useSelector(data);
-
+    const financialsData = useSelector(financialStatementdata)
     return (
         <div className={classes.FinancialTable}>
-            {financialData.map((item: any, index: number) => {
+            {financialsData.map((item: any, index: number) => {
                 return <div className={classes.FinancialRow} key={index}>
                     <p title={item["title"]} className={classes.Title}>{item["title"]}</p>
-                    {item["list"].map((data: any, position: number) => {
-                        return <p className={classes.Value} key={position}>{data}</p>
+                    {item["data"].map((data: any, position: number) => {
+                        return <p className={classes.Value} key={position}>{data || "—"}</p>
                     })}
                 </div>
             })}
@@ -55,8 +54,10 @@ const FinancialSectionDesktop: React.FC = () => {
     );
 }
 
+
+
 const FinancialSectionMobile: React.FC = () => {
-    const financialData = useSelector(data);
+    const financialsData = useSelector(financialStatementdata)
     const [activeStep, setActiveStep] = React.useState(0);
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -70,16 +71,16 @@ const FinancialSectionMobile: React.FC = () => {
         <div className={classes.FinancialTable}>
             <Tablet
                 activeStep={activeStep}
-                steps={financialData[0]["list"].length}
+                steps={financialsData[0]["data"].length}
                 handleNext={handleNext}
                 handleBack={handleBack}
                 disableBack={activeStep === 0}
-                disableNext={activeStep === financialData[0]["list"].length - 1}
+                disableNext={activeStep === financialsData[0]["data"].length - 1}
             />
-            {financialData.map((item: any, index: number) => {
+            {financialsData.map((item: any, index: number) => {
                 return <div className={classes.FinancialRow} key={index}>
-                    <p title={item["title"]} className={classes.Title}>{item["title"]}</p>
-                    <p className={classes.Value}>{item["list"][activeStep]}</p>
+                    <p title={item["data"]} className={classes.Title}>{item["title"]}</p>
+                    <p className={classes.Value}>{item["data"][activeStep] || "—"}</p>
                 </div>
             })}
         </div>

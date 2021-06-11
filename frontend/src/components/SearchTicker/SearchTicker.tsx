@@ -4,7 +4,7 @@ import { InputBase, Dialog, ListItemText, ListItem, List, Divider, AppBar, Toolb
 import { TransitionProps } from '@material-ui/core/transitions';
 import { CloseRounded, SearchRounded } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { data, fetchSearchTicker, loading } from '../../reduxStore/getSearchTicker/getSearchTicker';
+import { searchTickerdata, fetchSearchTicker, loadSearchTicker } from '../../reduxStore/getSearchTicker/getSearchTicker';
 import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -46,8 +46,8 @@ export default function SearchTicker() {
     const [value, setValue] = React.useState("");
     const [show, setShow] = React.useState(false);
     const ref = useRef<string>();
-    const tickerData = useSelector(data);
-    const loadData = useSelector(loading);
+    const tickerData = useSelector(searchTickerdata);
+    const loadTickerData = useSelector(loadSearchTicker);
     const history = useHistory()
 
     const handleClickOpen = () => {
@@ -111,7 +111,7 @@ export default function SearchTicker() {
                 {show ?
                     <List>
                         {
-                            !loadData ? tickerData.results.map((t: any, index: number) => {
+                            !loadTickerData ? tickerData.results.map((t: any, index: number) => {
                                 return <ListItem key={index} button onClick={() => handleSearch(t["ticker"])} >
                                     <ListItemText primary={t["name"]} secondary={t["ticker"]} />
                                 </ListItem>

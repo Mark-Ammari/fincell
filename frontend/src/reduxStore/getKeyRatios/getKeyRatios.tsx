@@ -44,11 +44,11 @@ export const getKeyRatiosSlice = createSlice({
 
 export const { getKeyRatiosStart, getKeyRatiosSuccess, getKeyRatiosFailed } = getKeyRatiosSlice.actions;
 
-export const fetchKeyRatios = (performanceId: string): AppThunk => (
+export const fetchKeyRatios = (ratioType: string, performanceId: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getKeyRatiosStart())
-    baseURI.get(`/keyratios/${performanceId}/details`)
+    baseURI.get(`/keyratios/${ratioType}/${performanceId}/details`)
     .then(res => {
         dispatch(getKeyRatiosSuccess(res.data))
     }).catch(err => {

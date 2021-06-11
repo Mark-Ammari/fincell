@@ -30,35 +30,29 @@
         align-items: center;
         width: 100%;
     }
-    .Loader {
-        animation: loader .5s ease-in-out infinite;
-        -webkit-animation: loader .5s ease-in-out infinite;
-        transition: 1s ease-in-out;
-        height: 100vh;
-        width: 300px;
-        margin: auto
-    }
     .KeyRatiosChart {
         width: 300px;
         /* padding: 0; */
         margin: 0 5px 10px 5px;
     }
-    .Data {
+    .Title {
+        text-transform: capitalize;
+        text-align: center;
+        background-color: #1e1e1e;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+        padding: 5px 0;
+    }
+    .DataPoints {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 10pt;
     }
-    
-    .Data:nth-child(even) {
+    .DataPoints:nth-child(even) {
         background-color: #f5f5f5;
     }
-    .Data:nth-child(2) {
-        background-color: #1e1e1e;
-        color:white;
-        font-weight: bold;
-    }
-    .Data p {
+    .DataPoints p {
         margin: 0 10px;
         padding: 5px 0;
         text-transform: capitalize;
@@ -72,16 +66,6 @@
         text-transform: capitalize;
         font-size: 16pt;
         margin: 10px !important;
-    }
-    .Title {
-        width: auto;
-        text-align: left;
-        margin: 10px;
-    }
-    .Value {
-        text-align: right;
-        margin: 10px;
-        width: auto;
     }
 }
 
@@ -93,35 +77,29 @@
         align-items: center;
         width: 100%;
     }
-    .Loader {
-        animation: loader .5s ease-in-out infinite;
-        -webkit-animation: loader .5s ease-in-out infinite;
-        transition: 1s ease-in-out;
-        height: 100vh;
-        width: 400px;
-        margin: auto
-    }
     .KeyRatiosChart {
         width: 400px;
         /* padding: 0; */
         margin: 0 5px 10px 5px;
     }
-    .Data {
+    .Title {
+        text-transform: capitalize;
+        text-align: center;
+        background-color: #1e1e1e;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+        padding: 5px 0;
+    }
+    .DataPoints {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 10pt;
     }
-    
-    .Data:nth-child(even) {
+    .DataPoints:nth-child(even) {
         background-color: #f5f5f5;
     }
-    .Data:nth-child(2) {
-        background-color: #1e1e1e;
-        color:white;
-        font-weight: bold;
-    }
-    .Data p {
+    .DataPoints p {
         margin: 0 10px;
         padding: 5px 0;
         text-transform: capitalize;
@@ -135,16 +113,6 @@
         text-transform: capitalize;
         font-size: 16pt;
         margin: 10px !important;
-    }
-    .Title {
-        width: auto;
-        text-align: left;
-        margin: 10px;
-    }
-    .Value {
-        text-align: right;
-        margin: 10px;
-        width: auto;
     }
 }
 
@@ -156,58 +124,42 @@
         align-items: center;
         width: 100%;
     }
-    .Loader {
-        animation: loader .5s ease-in-out infinite;
-        -webkit-animation: loader .5s ease-in-out infinite;
-        transition: 1s ease-in-out;
-        height: 100vh;
-        width: 500px;
-        margin: auto
-    }
     .KeyRatiosChart {
         width: 500px;
         /* padding: 0; */
         margin: 0 5px 10px 5px;
     }
-    .Data {
+    .Title {
+        text-transform: capitalize;
+        text-align: center;
+        background-color: #1e1e1e;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+        padding: 5px 0;
+    }
+    .DataPoints {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 12pt;
     }
-    
-    .Data:nth-child(even) {
+    .DataPoints:nth-child(even) {
         background-color: #f5f5f5;
     }
-    .Data:nth-child(2) {
-        background-color: #1e1e1e;
-        color:white;
-        font-weight: bold;
-    }
-    .Data p {
+    .DataPoints p {
         margin: 0 10px;
         padding: 5px 0;
         text-transform: capitalize;
     }
     .Details {
-        width: 100%;
+        width: 500px;
         margin: auto;
         text-align: left;
     }
     .ReportType {
         text-transform: capitalize;
-        font-size: 16pt;
+        font-size: 18pt;
         margin: 10px !important;
-    }
-    .Title {
-        width: auto;
-        text-align: left;
-        margin: 10px;
-    }
-    .Value {
-        text-align: right;
-        margin: 10px;
-        width: auto;
     }
 }
 
@@ -215,45 +167,40 @@
     .KeyRatiosContainer {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: flex-start;
+        flex-wrap: wrap;
         width: 100%;
     }
-    .Loader {
-        animation: loader .5s ease-in-out infinite;
-        -webkit-animation: loader .5s ease-in-out infinite;
-        transition: 1s ease-in-out;
-        height: 668px;
-        width: 767px;
-        margin: auto
-    }
     .KeyRatiosChart {
-        width: 378.5px;
+        width: 374px;
         /* padding: 0; */
         margin: 0 5px 10px 5px;
     }
-    .Data {
+    .Title {
+        text-transform: capitalize;
+        text-align: center;
+        background-color: #1e1e1e;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+        padding: 5px 0;
+    }
+    .DataPoints {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 12pt;
     }
-    
-    .Data:nth-child(even) {
+    .DataPoints:nth-child(even) {
         background-color: #f5f5f5;
     }
-    .Data:nth-child(2) {
-        background-color: #1e1e1e;
-        color:white;
-        font-weight: bold;
-    }
-    .Data p {
+    .DataPoints p {
         margin: 0 10px;
-        padding: 5px 0;
         text-transform: capitalize;
+        padding: 5px 0;
     }
     .Details {
-        width: 100%;
+        width: 767px;
         margin: auto;
         text-align: left;
     }
@@ -261,67 +208,47 @@
         text-transform: capitalize;
         font-size: 18pt;
         margin: 10px !important;
-    }
-    .Title {
-        width: auto;
-        text-align: left;
-        margin: 10px;
-    }
-    .Value {
-        text-align: right;
-        margin: 10px;
-        width: auto;
     }
 }
 
 @media only screen and (min-width: 1366px) {
     .KeyRatiosContainer {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
         width: 100%;
     }
-    .Loader {
-        animation: loader .5s ease-in-out infinite;
-        -webkit-animation: loader .5s ease-in-out infinite;
-        transition: 1s ease-in-out;
-        height: 100vh;
-        width: 1366px;
-        margin: auto
-    }
     .KeyRatiosChart {
-        width: 1366px;
+        width: 446px;
         /* padding: 0; */
         margin: 0 5px 10px 5px;
     }
-    .Data {
+    .Title {
+        text-transform: capitalize;
+        text-align: center;
+        background-color: #1e1e1e;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+        padding: 5px 0;
+    }
+    .DataPoints {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 12pt;
-        width: 1366px;
     }
-    .Data:nth-child(1) {
-        background-color: #1e1e1e;
-        color:white;
-        font-weight: bold;
-    }
-    .Data:nth-child(2) {
-        color:black;
-        font-weight: normal;
-        width: auto;
-    }
-    .Data:nth-child(even) {
+    .DataPoints:nth-child(even) {
         background-color: #f5f5f5;
     }
-    .Data p {
+    .DataPoints p {
         margin: 0 10px;
         padding: 5px 0;
         text-transform: capitalize;
     }
     .Details {
-        width: 100%;
+        width: 1366px;
         margin: auto;
         text-align: left;
     }
@@ -329,19 +256,6 @@
         text-transform: capitalize;
         font-size: 18pt;
         margin: 10px !important;
-    }
-    .Title {
-        width: 300px;
-        text-align: left;
-        margin: 10px;
-    }
-    .Value {
-        text-align: right;
-        margin: 10px;
-        width: 100px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap
     }
 }
 

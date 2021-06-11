@@ -2,27 +2,36 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, useTheme, AppBar, Box, Typography } from '@material-ui/core';
 import FinancialSection from '../FinancialSection/FinancialSection';
-import { useParams } from 'react-router';
 import SwipeableViews from 'react-swipeable-views';
 import classes from './StatsPanel.module.css';
 import KeyRatiosSection from '../KeyRatiosSection/KeyRationsSection';
+import QuoteSection from '../Quote/QuoteSection';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
     root: {
         flexGrow: 1,
-        backgroundColor: "#1e1e1e",
+        backgroundColor: "white",
         color: "white",
-        overflowX: "hidden"
+        width: "100%",
+        overflowX: "hidden",
+        boxShadow: "none",
     },
     tabs: {
-        background: "#FFF",
-        color: "#FFF",
+        background: "#000",
+        color: "#000",
+    },
+    tabRoot: {
+        fontFamily: "'Montserrat', sans-serif",
+        textTransform: "capitalize",
+        fontWeight: "bold",
+        fontSize: "12pt"
     },
     defaultColor: {
-        color: "#F5F5F5"
+        color: "#767676"
     },
     activeColor: {
-        color: "#FFF"
+        color: "#000"
     },
     box: {
         padding: "0 0 5px 0",
@@ -37,7 +46,7 @@ interface TabPanelProps {
     value: any;
 }
 
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
     const { children, value, index, ...other } = props;
     const styles = useStyles();
 
@@ -58,17 +67,16 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-function a11yProps(index: any) {
+const a11yProps = (index: any) => {
     return {
         id: `full-width-tab-${index}`,
         'aria-controls': `full-width-tabpanel-${index}`,
     };
 }
 
-export default function StatsPanel() {
+const StatsPanel = () => {
     const styles = useStyles();
     const [value, setValue] = React.useState(0);
-    const { ticker } = useParams<any>();
 
     const theme = useTheme();
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -88,11 +96,13 @@ export default function StatsPanel() {
                     variant="scrollable"
                     onChange={handleChange}
                     scrollButtons="auto"
+
                 >
                     <Tab
                         classes={{
                             textColorInherit: styles.defaultColor,
-                            selected: styles.activeColor
+                            selected: styles.activeColor,
+                            root: styles.tabRoot
                         }}
                         label="Quote"
                         {...a11yProps(0)}
@@ -100,7 +110,8 @@ export default function StatsPanel() {
                     <Tab
                         classes={{
                             textColorInherit: styles.defaultColor,
-                            selected: styles.activeColor
+                            selected: styles.activeColor,
+                            root: styles.tabRoot
                         }}
                         label="Key Ratios"
                         {...a11yProps(1)}
@@ -108,7 +119,8 @@ export default function StatsPanel() {
                     <Tab
                         classes={{
                             textColorInherit: styles.defaultColor,
-                            selected: styles.activeColor
+                            selected: styles.activeColor,
+                            root: styles.tabRoot
                         }}
                         label="Income Statement"
                         {...a11yProps(2)}
@@ -116,7 +128,8 @@ export default function StatsPanel() {
                     <Tab
                         classes={{
                             textColorInherit: styles.defaultColor,
-                            selected: styles.activeColor
+                            selected: styles.activeColor,
+                            root: styles.tabRoot
                         }}
                         label="Balance Sheet"
                         {...a11yProps(3)}
@@ -124,7 +137,8 @@ export default function StatsPanel() {
                     <Tab
                         classes={{
                             textColorInherit: styles.defaultColor,
-                            selected: styles.activeColor
+                            selected: styles.activeColor,
+                            root: styles.tabRoot
                         }}
                         label="Cash Flows"
                         {...a11yProps(4)}
@@ -132,7 +146,8 @@ export default function StatsPanel() {
                     <Tab
                         classes={{
                             textColorInherit: styles.defaultColor,
-                            selected: styles.activeColor
+                            selected: styles.activeColor,
+                            root: styles.tabRoot
                         }}
                         label="DCF Calculator"
                         {...a11yProps(5)}
@@ -145,21 +160,23 @@ export default function StatsPanel() {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                    Item One
+                    <QuoteSection />
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
                     <KeyRatiosSection />
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <FinancialSection reportType="income-statement" />
+                    <FinancialSection reportType="incomeStatement" />
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
-                    <FinancialSection reportType="balance-sheet-statement" />
+                    <FinancialSection reportType="balanceSheet" />
                 </TabPanel>
                 <TabPanel value={value} index={4} dir={theme.direction}>
-                    <FinancialSection reportType="cash-flow-statement" />
+                    <FinancialSection reportType="cashFlow" />
                 </TabPanel>
             </SwipeableViews>
         </div>
     );
 }
+
+export default StatsPanel;

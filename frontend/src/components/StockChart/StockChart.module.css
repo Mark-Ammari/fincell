@@ -1,0 +1,43 @@
+.StockChart {
+    margin: auto;
+}
+
+.Chart {
+    overflow: hidden
+}
+
+@media only screen and (max-width: 400px) {
+    .StockChart {
+        width: 300px;
+        height: 300px
+    }
+}
+
+@media only screen and (min-width: 401px) {
+    .StockChart {
+        width: 400px;
+        height: 400px
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .StockChart {
+        width: 500px;
+        height: 300px
+    }
+}
+
+@media only screen and (min-width: 767px) {
+    .StockChart {
+        width: 767px;
+        height: 500px
+    }
+}
+
+@media only screen and (min-width: 1366px) {
+    .StockChart {
+        width: 767px;
+        height: 500px
+    }
+}
+

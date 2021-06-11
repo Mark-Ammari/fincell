@@ -44,20 +44,24 @@ export const getFinancialStatementSlice = createSlice({
 
 export const { getFinancialStatementStart, getFinancialStatementSuccess, getFinancialStatementFailed } = getFinancialStatementSlice.actions;
 
-export const fetchFinancialStatement = (financialStatement: string, ticker: string): AppThunk => (
+export const fetchFinancialStatement = (financialStatement: string, performanceId: string, dataType?: string, reportType?: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getFinancialStatementStart())
-    baseURI.get(`/${financialStatement}/${ticker}`)
-    .then(res => {
+    baseURI.get(`/${financialStatement}/${performanceId}/details`, {
+        params: {
+            dataType,
+            reportType
+        }
+    }).then(res => {
         dispatch(getFinancialStatementSuccess(res.data))
     }).catch(err => {
         dispatch(getFinancialStatementFailed(err))
     })
 };
 
-export const data = (state: RootState) => state.getFinancialStatement.data;
-export const loading = (state: RootState) => state.getFinancialStatement.loading;
+export const financialStatementdata = (state: RootState) => state.getFinancialStatement.data;
+export const loadFinancialStatement = (state: RootState) => state.getFinancialStatement.loading;
 export const error = (state: RootState) => state.getFinancialStatement.error;
 export const errorMessage = (state: RootState) => state.getFinancialStatement.errorMsg;
 

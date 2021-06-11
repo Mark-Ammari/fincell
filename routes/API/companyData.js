@@ -4,6 +4,7 @@ const axios = require('axios');
 
 const config = require("../../config/keys");
 const searchQuery = require('../../middleware/search');
+const e = require("express");
 
 const router = express.Router();
 
@@ -62,14 +63,17 @@ router.get("/api/v1/company-data/chart/:ticker/:period/details", (req, res) => {
             let dateA = new Date(a.date)
             let dateB = new Date(b.date)
             return dateA - dateB;
-        }),
-            res.json(data)
+        })
+        if (req.params.period === "1Y") {
+
+        }
+        res.json(data)
     }).catch(err => {
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
     })
 })
 
-function inOrderTraversal(array, years, slice=5) {
+function inOrderTraversal(array, years, slice = 5) {
     let result = []
     if (years) {
         result.push({ title: "Breakdown", data: years?.slice(slice).reverse() || years.reverse() })
@@ -93,7 +97,6 @@ function inOrderTraversal(array, years, slice=5) {
 
 // GET Financials
 router.get("/api/v1/company-data/report-type/:financials/:performanceid/details", (req, res) => {
-    let data = []
     axios.get(`${config.SAL_SERVICE}/newfinancials/${req.params.performanceid}/${req.params.financials}/detail?dataType=${req.query.dataType || "A"}&reportType=${req.query.reportType || "A"}&locale=en&clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
             'apikey': config.X_API_KEY,
@@ -103,7 +106,51 @@ router.get("/api/v1/company-data/report-type/:financials/:performanceid/details"
         let dataCopy = [...response.data.rows]
         let years = [...response.data.columnDefs]
         let result = inOrderTraversal(dataCopy, years)
-        res.json(result)
+        let highlight = [
+            "Breakdown",
+            "Total Revenue",
+            "Gross Profit",
+            "Operating Income/Expenses",
+            "Net Income from Continuing Operations",
+            "Basic Weighted Average Shares Outstanding",
+            "Diluted Weighted Average Shares Outstanding",
+            "Basic EPS",
+            "Diluted EPS",
+            "Cash, Cash Equivalents and Short Term Investments",
+            "Total Current Assets",
+            "Total Assets",
+            "Total Current Liabilities",
+            "Total Liabilities",
+            "Cash Generated from Operating Activities",
+            "Cash Flow from Investing Activities",
+            "Cash Flow from Financing Activities",
+            "Cash and Cash Equivalents, End of Period",
+            "Purchase/Sale and Disposal of Property, Plant and Equipment, Net"
+        ];
+        let nonMultiplier = [
+            "Breakdown",
+            "Basic EPS from Continuing Operations",
+            "Basic EPS",
+            "Diluted EPS from Continuing Operations",
+            "Diluted EPS",
+            "Total Dividend Per Share",
+            "Regular Dividend Per Share Calc",
+        ]
+        let highlightResult = result.map(el => {
+            if (highlight.indexOf(el.title) > -1) {
+                return { ...el, highlight: true }
+            } else {
+                return { ...el, highlight: false }
+            }
+        })
+        let multiplierResult = highlightResult.map(el => {
+            if (nonMultiplier.indexOf(el.title) > -1) {
+                return { ...el, multiplier: false }
+            } else {
+                return { ...el, multiplier: true }
+            }
+        })
+        res.json(multiplierResult)
     }).catch(err => {
         console.log(err)
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
@@ -124,7 +171,23 @@ router.get("/api/v1/company-data/key-ratios/valuation/:performanceid/details", (
         let dataCopy2 = [...response.data["Expanded"].rows]
         let result1 = inOrderTraversal(dataCopy1, years, 0)
         let result2 = inOrderTraversal(dataCopy2, [], 0).slice(1)
-        res.json(result1.concat(result2))
+        let newResult = result1.concat(result2)
+        let endResult = newResult.map(el => {
+            if (el.title !== "Breakdown") {
+                return {
+                    title: el.title,
+                    data: el.data.map(item => {
+                        return parseFloat(item).toFixed(2)
+                    })
+                }
+            } else {
+                return {
+                    title: el.title,
+                    data: el.data
+                }
+            }
+        })
+        res.json(endResult)
     }).catch(err => {
         console.log(err)
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
@@ -145,11 +208,32 @@ router.get("/api/v1/company-data/key-ratios/operating-performance/:performanceid
         let dataCopy2 = [...response.data["reported"]["Expanded"].rows]
         let result1 = inOrderTraversal(dataCopy1, years, 0)
         let result2 = inOrderTraversal(dataCopy2, [], 0).slice(1)
-        res.json(result1.concat(result2))
+        let newResult = result1.concat(result2)
+        let endResult = newResult.map(el => {
+            if (el.title !== "Breakdown") {
+                return {
+                    title: el.title,
+                    data: el.data.map(item => {
+                        return parseFloat(item).toFixed(2)
+                    })
+                }
+            } else {
+                return {
+                    title: el.title,
+                    data: el.data
+                }
+            }
+        })
+        res.json(endResult)
     }).catch(err => {
         console.log(err)
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
     })
 })
+
+// -------------------------------------------
+
+
+// -----------------------------------------------------------------
 
 module.exports = router;

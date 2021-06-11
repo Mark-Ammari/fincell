@@ -25,7 +25,7 @@ const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType }) => {
         <div className={classes.Container}>
             <div className={classes.Details}>
                 <h1 className={classes.ReportType}>{reportType.replace(/([a-z])([A-Z])/g, '$1 $2')}</h1>
-                <p className={classes.RoundNumbers}>All Numbers in the Billions.</p>
+                <p className={classes.RoundNumbers}>All Numbers in the Thousands.</p>
             </div>
             <Paper elevation={2} className={classes.FinancialSection}>
                 {loadFinancials ?
@@ -43,10 +43,10 @@ const FinancialSectionDesktop: React.FC = () => {
     return (
         <div className={classes.FinancialTable}>
             {financialsData.map((item: any, index: number) => {
-                return <div className={classes.FinancialRow} key={index}>
+                return <div style={{ fontWeight: item.highlight ? "bold" : "normal" }} className={classes.FinancialRow} key={index}>
                     <p title={item["title"]} className={classes.Title}>{item["title"]}</p>
                     {item["data"].map((data: any, position: number) => {
-                        return <p className={classes.Value} key={position}>{data || "—"}</p>
+                        return <p className={classes.Value} key={position}>{item.multiplier ? (data * 1000000).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : data}</p>
                     })}
                 </div>
             })}
@@ -78,9 +78,9 @@ const FinancialSectionMobile: React.FC = () => {
                 disableNext={activeStep === financialsData[0]["data"].length - 1}
             />
             {financialsData.map((item: any, index: number) => {
-                return <div className={classes.FinancialRow} key={index}>
+                return <div style={{ fontWeight: item.highlight ? "bold" : "normal" }} className={classes.FinancialRow} key={index}>
                     <p title={item["data"]} className={classes.Title}>{item["title"]}</p>
-                    <p className={classes.Value}>{item["data"][activeStep] || "—"}</p>
+                    <p className={classes.Value}>{item.multiplier ? (item.data[activeStep] * 1000000).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : item.data[activeStep]}</p>
                 </div>
             })}
         </div>

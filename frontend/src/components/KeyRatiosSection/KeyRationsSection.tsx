@@ -47,7 +47,7 @@ const KeyRatiosDesktop: React.FC = () => {
                             <p className={classes.Title}>{item.title}</p>
                             {
                                 item.data.slice(3, 13).map((data: any, j: number) => {
-                                    return <p className={classes.Value}>{data || "—"}</p>
+                                    return <p className={classes.Value}>{data || 0}</p>
                                 })
                             }
                         </div>
@@ -61,7 +61,7 @@ const KeyRatiosDesktop: React.FC = () => {
                             <p className={classes.Title}>{item.title}</p>
                             {
                                 item.data.slice(3).map((data: any, j: number) => {
-                                    return <p className={classes.Value}>{data || "—"}</p>
+                                    return <p className={classes.Value}>{data || 0}</p>
                                 })
                             }
                         </div>
@@ -77,7 +77,7 @@ const KeyRatiosMobile: React.FC = () => {
     const operatingPerformances = useSelector(operatingPerformancedata)
 
     const [vActiveStep, setVActiveStep] = React.useState(0);
-    const [opActiveStep, setOPActiveStep] = React.useState(0);    
+    const [opActiveStep, setOPActiveStep] = React.useState(0);
 
     return (
         <div className={classes.KeyRatiosContainer}>
@@ -98,7 +98,7 @@ const KeyRatiosMobile: React.FC = () => {
                     valuations.map((item: any, i: number) => {
                         return <div className={classes.Data} >
                             <p className={classes.Title}>{item.title}</p>
-                            <p className={classes.Value}>{item.data[vActiveStep] || "—"}</p>
+                            <p className={classes.Value}>{item.data[vActiveStep] === "NaN" ? 0 : item.data[vActiveStep]}</p>
                         </div>
                     })
                 }
@@ -120,7 +120,7 @@ const KeyRatiosMobile: React.FC = () => {
                     operatingPerformances.map((item: any, i: number) => {
                         return <div className={classes.Data}>
                             <p className={classes.Title}>{item.title}</p>
-                            <p className={classes.Value}>{item.data[opActiveStep] || "—"}</p>
+                            <p className={classes.Value}>{item.data[opActiveStep] === "NaN" ? 0 : item.data[opActiveStep]}</p>
                         </div>
                     })
                 }

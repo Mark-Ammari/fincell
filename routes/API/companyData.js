@@ -32,21 +32,6 @@ router.get("/api/v1/company-data/search/:ticker", (req, res) => {
     })
 })
 
-
-// GET keyRatios
-router.get("/api/v1/company-data/keyratios/:performanceid/details", (req, res) => {
-    axios.get(`${config.SAL_SERVICE}/keyratios/${req.params.performanceid}/data?&clientId=MDC&benchmarkId=category&version=3.31.0`, {
-        headers: {
-            'apikey': config.X_API_KEY
-        },
-    }).then(response => {
-        res.json(response.data)
-    }).catch(err => {
-        console.log(err)
-        res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
-    })
-})
-
 // GET quotes
 router.get("/api/v1/company-data/quote/:performanceid/details", (req, res) => {
     axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
@@ -107,7 +92,7 @@ function inOrderTraversal(array, years, slice=5) {
 }
 
 // GET Financials
-router.get("/api/v1/company-data/:financials/:performanceid/details", (req, res) => {
+router.get("/api/v1/company-data/report-type/:financials/:performanceid/details", (req, res) => {
     let data = []
     axios.get(`${config.SAL_SERVICE}/newfinancials/${req.params.performanceid}/${req.params.financials}/detail?dataType=${req.query.dataType || "A"}&reportType=${req.query.reportType || "A"}&locale=en&clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
@@ -126,7 +111,7 @@ router.get("/api/v1/company-data/:financials/:performanceid/details", (req, res)
 })
 
 // GET keyratios/valuations
-router.get("/api/v1/company-data/keyratios/valuation/:performanceid/details", (req, res) => {
+router.get("/api/v1/company-data/key-ratios/valuation/:performanceid/details", (req, res) => {
     let data = []
     axios.get(`${config.SAL_SERVICE}/valuation/v3/${req.params.performanceid}?clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
@@ -147,7 +132,7 @@ router.get("/api/v1/company-data/keyratios/valuation/:performanceid/details", (r
 })
 
 // GET keyratios/operating Performance
-router.get("/api/v1/company-data/keyratios/operatingperformance/:performanceid/details", (req, res) => {
+router.get("/api/v1/company-data/key-ratios/operating-performance/:performanceid/details", (req, res) => {
     let data = []
     axios.get(`${config.SAL_SERVICE}/operatingPerformance/v2/${req.params.performanceid}?clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {

@@ -27,7 +27,6 @@ const CompanyStatsScreen: React.FC = () => {
                         <StatsPanel />
                     </>
             }
-
         </section>
     );
 };

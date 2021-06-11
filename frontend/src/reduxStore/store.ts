@@ -1,7 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import getFinancialStatementReducer from './getFinancialStatement/getFinancialStatement';
 import getSeatchTickerReducer from './getSearchTicker/getSearchTicker';
-import getKeyRatiosReducer from './getKeyRatios/getKeyRatios';
 import getQuoteReducer from './getQuote/getQuote';
 import getChartDataReducer from './getChartData/getChartData';
 import getValuationReducer from './getValuation/getValuation';
@@ -11,7 +10,6 @@ export const store = configureStore({
   reducer: {
     getFinancialStatement: getFinancialStatementReducer,
     getSearchTicker: getSeatchTickerReducer,
-    getKeyRatios: getKeyRatiosReducer,
     getQuote: getQuoteReducer,
     getChartData: getChartDataReducer,
     getValuation: getValuationReducer,

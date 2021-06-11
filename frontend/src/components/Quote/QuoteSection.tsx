@@ -16,33 +16,36 @@ const QuoteSection: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchQuote(performanceId.results[0]["performanceId"]))
-        dispatch(fetchChartData(ticker, "1M"))
+        dispatch(fetchChartData(ticker, "6M"))
     }, [dispatch, performanceId, ticker])
 
     const loadQuote = useSelector(loadingQuote);
+    const loadChartData = useSelector(loadingChartData)
 
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
-                <h1 className={classes.ReportType}>Quote</h1>
+                <h1 className={classes.ReportType}>Metrics</h1>
             </div>
-            {loadQuote ?
+            {loadQuote || loadChartData ?
                 <div className={classes.Loader}></div>
                 :
-                <Quote />
+                <Chart />
             }
         </div>
     );
 };
 
-const Quote: React.FC = () => {
+const Chart: React.FC = () => {
     const quote = useSelector(quoteData);
-    const loadChartData = useSelector(loadingChartData)
     const chart = useSelector(chartData)
 
     return (
         <div className={classes.QuoteContainer}>
-            { loadChartData ? <div></div> : <StockChart data={chart} />}
+            <StockChart data={chart} />
+            <Paper>
+
+            </Paper>
         </div>
     )
 }

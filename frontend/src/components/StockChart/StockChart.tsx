@@ -39,27 +39,25 @@ const StockChart: React.FC<StockChartProps> = ({ data }) => {
                     />
                     <XAxis
                         dataKey="date"
-                        axisLine={false}
+                        // axisLine={false}
                         tickLine={false}
                         tickCount={12}
                         tickMargin={5}
                         tickFormatter={str => {
                             const date = parseISO(str)
-                            console.log(date.getDay())
-                            if (date.getDay() % 3 === 0) {
-                                return format(date, "MM/dd");
-                            }
-                            return "";
+                            return format(date, "MM/dd/yy");
                         }}
+                        fontSize={14}
                     />
                     <YAxis
                         dataKey="close"
-                        axisLine={false}
+                        // axisLine={false}
                         tickLine={false}
                         tickCount={6}
                         tickMargin={5}
-                        domain={[data[0].close/1.1, data[data.length - 1].close]}
+                        domain={[data[0].close/1.08, data[data.length - 1].close]}
                         tickFormatter={number => `$${number.toFixed(1)}`}
+                        fontSize={14}
                     />
                     <Tooltip />
                     <CartesianGrid opacity={0.25} vertical={false} />

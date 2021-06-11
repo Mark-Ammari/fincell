@@ -286,7 +286,7 @@
         animation: loader .5s ease-in-out infinite;
         -webkit-animation: loader .5s ease-in-out infinite;
         transition: 1s ease-in-out;
-        height: 100vh;
+        height: 1006px;
         width: 1366px;
         margin: auto
     }

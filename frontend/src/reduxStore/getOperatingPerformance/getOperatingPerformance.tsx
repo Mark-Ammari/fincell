@@ -48,7 +48,7 @@ export const fetchOperatingPerformance = (performanceId: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getOperatingPerformanceStart())
-    baseURI.get(`/keyratios/operatingperformance/${performanceId}/details`)
+    baseURI.get(`/key-ratios/operating-performance/${performanceId}/details`)
     .then(res => {
         dispatch(getOperatingPerformanceSuccess(res.data))
     }).catch(err => {

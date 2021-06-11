@@ -23,39 +23,12 @@
 /* media queries */
 
 @media only screen and (max-width: 400px) {
-    .KeyRatiosContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    .Loader {
+        animation: loader .5s ease-in-out infinite;
+        -webkit-animation: loader .5s ease-in-out infinite;
+        transition: 1s ease-in-out;
+        height: 200px;
         width: 100%;
-    }
-    .KeyRatiosChart {
-        width: 300px;
-        /* padding: 0; */
-        margin: 0 5px 10px 5px;
-    }
-    .Title {
-        text-transform: capitalize;
-        text-align: center;
-        background-color: #1e1e1e;
-        font-weight: bold;
-        color: white;
-        margin: 0;
-        padding: 5px 0;
-    }
-    .DataPoints {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .DataPoints:nth-child(even) {
-        background-color: #f5f5f5;
-    }
-    .DataPoints p {
-        margin: 0 10px;
-        padding: 5px 0;
-        text-transform: capitalize;
     }
     .Details {
         width: 100%;
@@ -70,39 +43,12 @@
 }
 
 @media only screen and (min-width: 401px) {
-    .KeyRatiosContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    .Loader {
+        animation: loader .5s ease-in-out infinite;
+        -webkit-animation: loader .5s ease-in-out infinite;
+        transition: 1s ease-in-out;
+        height: 300px;
         width: 100%;
-    }
-    .KeyRatiosChart {
-        width: 400px;
-        /* padding: 0; */
-        margin: 0 5px 10px 5px;
-    }
-    .Title {
-        text-transform: capitalize;
-        text-align: center;
-        background-color: #1e1e1e;
-        font-weight: bold;
-        color: white;
-        margin: 0;
-        padding: 5px 0;
-    }
-    .DataPoints {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .DataPoints:nth-child(even) {
-        background-color: #f5f5f5;
-    }
-    .DataPoints p {
-        margin: 0 10px;
-        padding: 5px 0;
-        text-transform: capitalize;
     }
     .Details {
         width: 100%;
@@ -117,145 +63,61 @@
 }
 
 @media only screen and (min-width: 500px) {
-    .KeyRatiosContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-    .KeyRatiosChart {
+    .Loader {
+        animation: loader .5s ease-in-out infinite;
+        -webkit-animation: loader .5s ease-in-out infinite;
+        transition: 1s ease-in-out;
+        height: 400px;
         width: 500px;
-        /* padding: 0; */
-        margin: 0 5px 10px 5px;
-    }
-    .Title {
-        text-transform: capitalize;
-        text-align: center;
-        background-color: #1e1e1e;
-        font-weight: bold;
-        color: white;
-        margin: 0;
-        padding: 5px 0;
-    }
-    .DataPoints {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .DataPoints:nth-child(even) {
-        background-color: #f5f5f5;
-    }
-    .DataPoints p {
-        margin: 0 10px;
-        padding: 5px 0;
-        text-transform: capitalize;
     }
     .Details {
-        width: 500px;
+        width: 100%;
         margin: auto;
         text-align: left;
     }
     .ReportType {
         text-transform: capitalize;
-        font-size: 18pt;
+        font-size: 16pt;
         margin: 10px !important;
     }
 }
 
 @media only screen and (min-width: 767px) {
-    .KeyRatiosContainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-    .KeyRatiosChart {
-        width: 374px;
-        /* padding: 0; */
-        margin: 0 5px 10px 5px;
-    }
-    .Title {
-        text-transform: capitalize;
-        text-align: center;
-        background-color: #1e1e1e;
-        font-weight: bold;
-        color: white;
-        margin: 0;
-        padding: 5px 0;
-    }
-    .DataPoints {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .DataPoints:nth-child(even) {
-        background-color: #f5f5f5;
-    }
-    .DataPoints p {
-        margin: 0 10px;
-        text-transform: capitalize;
-        padding: 5px 0;
+    .Loader {
+        animation: loader .5s ease-in-out infinite;
+        -webkit-animation: loader .5s ease-in-out infinite;
+        transition: 1s ease-in-out;
+        height: 500px;
+        width: 767px;
     }
     .Details {
-        width: 767px;
+        width: 100%;
         margin: auto;
         text-align: left;
     }
     .ReportType {
         text-transform: capitalize;
-        font-size: 18pt;
+        font-size: 16pt;
         margin: 10px !important;
     }
 }
 
 @media only screen and (min-width: 1366px) {
-    .KeyRatiosContainer {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-    .KeyRatiosChart {
-        width: 446px;
-        /* padding: 0; */
-        margin: 0 5px 10px 5px;
-    }
-    .Title {
-        text-transform: capitalize;
-        text-align: center;
-        background-color: #1e1e1e;
-        font-weight: bold;
-        color: white;
-        margin: 0;
-        padding: 5px 0;
-    }
-    .DataPoints {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .DataPoints:nth-child(even) {
-        background-color: #f5f5f5;
-    }
-    .DataPoints p {
-        margin: 0 10px;
-        padding: 5px 0;
-        text-transform: capitalize;
+    .Loader {
+        animation: loader .5s ease-in-out infinite;
+        -webkit-animation: loader .5s ease-in-out infinite;
+        transition: 1s ease-in-out;
+        height: 500px;
+        width: 1366px;
     }
     .Details {
-        width: 1366px;
+        width: 100%;
         margin: auto;
         text-align: left;
     }
     .ReportType {
         text-transform: capitalize;
-        font-size: 18pt;
+        font-size: 16pt;
         margin: 10px !important;
     }
 }
-

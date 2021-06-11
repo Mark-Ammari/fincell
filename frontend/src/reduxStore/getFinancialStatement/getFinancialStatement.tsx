@@ -48,7 +48,7 @@ export const fetchFinancialStatement = (financialStatement: string, performanceI
     dispatch
 ) => {
     dispatch(getFinancialStatementStart())
-    baseURI.get(`/${financialStatement}/${performanceId}/details`, {
+    baseURI.get(`report-type/${financialStatement}/${performanceId}/details`, {
         params: {
             dataType,
             reportType

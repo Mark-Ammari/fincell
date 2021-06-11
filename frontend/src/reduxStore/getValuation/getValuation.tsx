@@ -48,7 +48,7 @@ export const fetchValuation = (performanceId: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getValuationStart())
-    baseURI.get(`/keyratios/valuation/${performanceId}/details`)
+    baseURI.get(`/key-ratios/valuation/${performanceId}/details`)
     .then(res => {
         dispatch(getValuationSuccess(res.data))
     }).catch(err => {

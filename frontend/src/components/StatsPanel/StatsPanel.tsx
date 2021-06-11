@@ -104,7 +104,7 @@ const StatsPanel = () => {
                             selected: styles.activeColor,
                             root: styles.tabRoot
                         }}
-                        label="Quote"
+                        label="Metrics"
                         {...a11yProps(0)}
                     />
                     <Tab
@@ -149,7 +149,7 @@ const StatsPanel = () => {
                             selected: styles.activeColor,
                             root: styles.tabRoot
                         }}
-                        label="DCF Calculator"
+                        label="Fair Value Analysis"
                         {...a11yProps(5)}
                     />
                 </Tabs>

@@ -3,21 +3,8 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 
 const config = require("../../config/keys");
-const searchQuery = require('../../middleware/search');
-const e = require("express");
 
 const router = express.Router();
-
-router.get("/api/v1/company-data/metadata/:ticker", (req, res) => {
-    let data = []
-    axios.get(config.keyRatiosURI + `&t=${req.params.ticker}`)
-        .then(response => {
-            let $ = cheerio.load(response.data["ksContent"])
-            res.send($("div").html())
-        }).catch(err => {
-            res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
-        })
-})
 
 
 // GET Search Ticker
@@ -95,68 +82,6 @@ function inOrderTraversal(array, years, slice = 5) {
     return result
 }
 
-// GET Financials
-router.get("/api/v1/company-data/report-type/:financials/:performanceid/details", (req, res) => {
-    axios.get(`${config.SAL_SERVICE}/newfinancials/${req.params.performanceid}/${req.params.financials}/detail?dataType=${req.query.dataType || "A"}&reportType=${req.query.reportType || "A"}&locale=en&clientId=MDC&benchmarkId=category&version=3.31.0`, {
-        headers: {
-            'apikey': config.X_API_KEY,
-            'x-api-realtime-e': config.X_API_REALTIME_E
-        },
-    }).then(response => {
-        let dataCopy = [...response.data.rows]
-        let years = [...response.data.columnDefs]
-        let result = inOrderTraversal(dataCopy, years)
-        let highlight = [
-            "Breakdown",
-            "Total Revenue",
-            "Gross Profit",
-            "Operating Income/Expenses",
-            "Net Income from Continuing Operations",
-            "Basic Weighted Average Shares Outstanding",
-            "Diluted Weighted Average Shares Outstanding",
-            "Basic EPS",
-            "Diluted EPS",
-            "Cash, Cash Equivalents and Short Term Investments",
-            "Total Current Assets",
-            "Total Assets",
-            "Total Current Liabilities",
-            "Total Liabilities",
-            "Cash Generated from Operating Activities",
-            "Cash Flow from Investing Activities",
-            "Cash Flow from Financing Activities",
-            "Cash and Cash Equivalents, End of Period",
-            "Purchase/Sale and Disposal of Property, Plant and Equipment, Net"
-        ];
-        let nonMultiplier = [
-            "Breakdown",
-            "Basic EPS from Continuing Operations",
-            "Basic EPS",
-            "Diluted EPS from Continuing Operations",
-            "Diluted EPS",
-            "Total Dividend Per Share",
-            "Regular Dividend Per Share Calc",
-        ]
-        let highlightResult = result.map(el => {
-            if (highlight.indexOf(el.title) > -1) {
-                return { ...el, highlight: true }
-            } else {
-                return { ...el, highlight: false }
-            }
-        })
-        let multiplierResult = highlightResult.map(el => {
-            if (nonMultiplier.indexOf(el.title) > -1) {
-                return { ...el, multiplier: false }
-            } else {
-                return { ...el, multiplier: true }
-            }
-        })
-        res.json(multiplierResult)
-    }).catch(err => {
-        console.log(err)
-        res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
-    })
-})
-
 // GET keyratios/valuations
 router.get("/api/v1/company-data/key-ratios/valuation/:performanceid/details", (req, res) => {
     let data = []
@@ -231,8 +156,177 @@ router.get("/api/v1/company-data/key-ratios/operating-performance/:performanceid
     })
 })
 
-// -------------------------------------------
+// -----------------------------------------------------------------
 
+function traverseThroughHTML(htmlString, id) {
+    let $ = cheerio.load(htmlString)
+    let data = []
+    $(id).children().each((i, el) => {
+        return data.push($(el).text())
+    })
+    return data
+}
+
+// GET INCOMESTATEMENT
+router.get("/api/v1/company-data/report-type/income-statement/:ticker/details", (req, res) => {
+    let data = []
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=is&period=12&dataType=A&order=desc&rounding=3`)
+        .then(response => {
+            let htmlString = response.data["result"]
+            data = [
+                { title: "Revenue", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Revenue", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1"), bold: true },
+                { title: "Cost of Revenue", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i6"), margin: true },
+                { title: "Gross Profit", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10"), margin: true },
+
+                { title: "Operating Expenses", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Total Operating Expenses", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > ..r_content > .rf_subtotal, #data_ttg3"), bold: true },
+                { title: "Research & Development", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > ..r_content > .rf_crow, #data_i11"), margin: true },
+                { title: "Sales, General & Administrative", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > ..r_content > .rf_crow, #data_i12"), margin: true },
+
+                { title: "Operating Income", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i30") },
+                { title: "Interest Expense", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i51") },
+                { title: "Other Income (Expense)", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i52") },
+
+                { title: "Net Income", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Net Income", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i80"), bold: true },
+                { title: "Income Before Taxes", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i60"), margin: true },
+                { title: "Provision for Income Taxes", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i61"), margin: true },
+                { title: "Net Income from Continuing Operations", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i70"), margin: true },
+                { title: "Net Income Available to Shareholders'", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i82"), margin: true },
+                { title: "EBITDA", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i84") },
+
+                { title: "Earnings Per Share", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Basic EPS", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i83") },
+                { title: "Diluted EPS", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i84") },
+
+                { title: "Average Shares Outstanding", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Basic WASO", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i85") },
+                { title: "Diluted WASO", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i86") },
+            ]
+            // res.send($(".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i90").html())
+            res.json(data)
+        }).catch(err => {
+            res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
+        })
+})
+
+// GET BALANCESHEET
+router.get("/api/v1/company-data/report-type/balance-sheet/:ticker/details", (req, res) => {
+    let data = []
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=bs&period=12&dataType=A&order=desc&rounding=3`)
+        .then(response => {
+            let htmlString = response.data["result"]
+            data = [
+                { title: "Cash", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Total Cash", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_ttgg1"), bold: true },
+                { title: "Cash & Cash Equivalent", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i1"), margin: true },
+                { title: "Short-Term Investments", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i2"), margin: true },
+
+                { title: "Current Assets", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Total Current Assets", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_subtotal, #data_ttg1"), bold: true },
+                { title: "Total Cash", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_ttgg1"), margin: true },
+                { title: "Account Receivables", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_crow, #data_i3"), margin: true },
+                { title: "Inventories", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_crow, #data_i4"), margin: true },
+                { title: "Other Current Assets", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_crow, #data_i8"), margin: true },
+
+                { title: "Assets", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Total Assets", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_total, #data_tts1"), bold: true },
+                { title: "Total Current Assets", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_subtotal, #data_ttg1"), margin: true },
+                { title: "Total Cash", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_ttgg1"), margin: true },
+                { title: "Gross Property, Plant, & Equipment", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content > .r_content .rf_crow, #data_i9"), margin: true },
+                { title: "Accumulated Depreciation", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content > .r_content .rf_crow, #data_i10"), margin: true },
+                { title: "Net Property, Plant, & Equipment", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content > .r_content .rf_subtotal, #data_ttgg2"), margin: true },
+                { title: "Equity & Other Investments", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i11"), margin: true },
+                { title: "GoodWill", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i12"), margin: true },
+                { title: "Intangible Assets", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i13"), margin: true },
+                { title: "Other Long-Term Assets", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i17"), margin: true },
+                { title: "Total Non-Current Assets", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content > .r_content .rf_subtotal, #data_ttg2"), margin: true },
+
+                { title: "Current Liabilities", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Total Current Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_subtotal, #data_ttgg5"), bold: true },
+                { title: "Short-Term Debt", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i41"), margin: true },
+                { title: "Accounts Payable", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i43"), margin: true },
+                { title: "Accrued Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i46"), margin: true },
+                { title: "Deferred Revenues", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i47"), margin: true },
+                { title: "Other Current Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i49"), margin: true },
+
+                { title: "Liabilities", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Total Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_subtotal, #data_ttg5"), bold: true },
+                { title: "Total Current Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_subtotal, #data_ttgg5"), margin: true },
+                { title: "Long-Term Debt", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i50"), margin: true },
+                { title: "Deferred Taxes Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i52"), margin: true },
+                { title: "Deferred Revenues", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i54"), margin: true },
+                { title: "Other Long-Term Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_crow, #data_i58"), margin: true },
+                { title: "Total Non-Current Liabilities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content > .r_content .rf_subtotal, #data_ttgg6"), margin: true },
+
+                { title: "Stockholders' Equity", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Total Stockholders' Equity", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_subtotal, #data_ttg8"), bold: true },
+                { title: "Common Stock", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_crow, #data_i82"), margin: true },
+                { title: "Retained Earnings", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_crow, #data_i85"), margin: true },
+                { title: "Accumulated Other Comprehensive Income", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content > .r_content .rf_crow, #data_i89"), margin: true },
+                { title: "Total Liabilities & Stockholders' Equity", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_total, #data_tts2") },
+
+            ]
+            res.json(data)
+        }).catch(err => {
+            res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
+        })
+})
+
+// GET CASHFLOW
+router.get("/api/v1/company-data/report-type/cash-flow/:ticker/details", (req, res) => {
+    let data = []
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=cf&period=12&dataType=A&order=desc&rounding=3`)
+        .then(response => {
+            let htmlString = response.data["result"]
+            data = [
+                { title: "Cash Flows - Operations", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Cash Flows From Operations", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_total, #data_tts1"), bold: true },
+                { title: "Net Income", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i1"), margin: true },
+                { title: "Depreciation & Amortization", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i2"), margin: true },
+                { title: "Deferred Income Taxes", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i6"), margin: true },
+                { title: "Stock Based Compensation", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i10"), margin: true },
+                { title: "Change in Working Capital", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i15"), margin: true },
+                { title: "Accounts Receivable", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i16"), margin: true },
+                { title: "Inventory", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i17"), margin: true },
+                { title: "Accounts Payable", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i19"), margin: true },
+                { title: "Other Working Capital", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i23"), margin: true },
+                { title: "Other Non-Cash Items", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i30"), margin: true },
+
+                { title: "Cash Flows - Investing", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Cash Flows From Investing", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_total, #data_tts2"), bold: true },
+                { title: "Investments in Property, Plant & Equipment", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i31"), margin: true },
+                { title: "Acquisitions, Net", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i33"), margin: true },
+                { title: "Purchases of Investments", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i34"), margin: true },
+                { title: "Sales/Maturities of Investments", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i35"), margin: true },
+                { title: "Purchases of Intangibles", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i38"), margin: true },
+                { title: "Other Investing Activities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i60"), margin: true },
+
+                { title: "Cash Flows - Financing", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Cash Flows from Financing", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_tts3"), bold: true },
+                { title: "Debt Issued", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i61"), margin: true },
+                { title: "Debt Repayment", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i62"), margin: true },
+                { title: "Common Stock Issued", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i66"), margin: true },
+                { title: "Common Stock Repurchased", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i67"), margin: true },
+                { title: "Dividend Paid", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i69"), margin: true },
+                { title: "Other Financing Activities", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i90"), margin: true },
+
+                { title: "Cash Position", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Ending Cash Position", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i95"), bold: true },
+                { title: "Beginning Cash Position", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i94"), margin: true },
+                { title: "Net Change in Cash", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i93"), margin: true },
+
+                { title: "Free Cash Flow", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
+                { title: "Free Cash Flow", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97"), bold: true },
+                { title: "Operating Cash Flows", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i100"), margin: true },
+                { title: "Capital Expenditures", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i96"), margin: true }
+            ]
+            res.json(data)
+        }).catch(err => {
+            res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
+        })
+})
 
 // -----------------------------------------------------------------
 

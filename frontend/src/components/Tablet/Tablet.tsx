@@ -4,7 +4,7 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import { IconButton } from '@material-ui/core';
+import { IconButton, useMediaQuery } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
@@ -33,20 +33,26 @@ interface TabletProps {
 
 const Tablet: React.FC<TabletProps> = ({ steps, activeStep, handleNext, handleBack, disableNext, disableBack }) => {
     const classes = useStyles();
+    const match = useMediaQuery('(min-width:1366px)')
 
     return (
-        <MobileStepper
-            variant="text"
-            steps={steps}
-            activeStep={activeStep}
-            className={classes.root}
-            nextButton={
-                <IconButton className={classes.icon} size="small" onClick={handleNext} disabled={disableNext}><KeyboardArrowRight  /> </IconButton>
+        <>
+            {
+                match ? null :
+                    <MobileStepper
+                        variant="text"
+                        steps={steps}
+                        activeStep={activeStep}
+                        className={classes.root}
+                        nextButton={
+                            <IconButton className={classes.icon} size="small" onClick={handleNext} disabled={disableNext}><KeyboardArrowRight /> </IconButton>
+                        }
+                        backButton={
+                            <IconButton className={classes.icon} size="small" onClick={handleBack} disabled={disableBack}><KeyboardArrowLeft /></IconButton>
+                        }
+                    />
             }
-            backButton={
-                <IconButton className={classes.icon} size="small" onClick={handleBack} disabled={disableBack}><KeyboardArrowLeft /></IconButton>
-            }
-        />
+        </>
     );
 };
 

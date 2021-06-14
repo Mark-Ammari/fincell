@@ -1,4 +1,4 @@
-const financialsURI = "https://financials.morningstar.com/ajax/ReportProcess4HtmlAjax.html?"
+const financialsURI = "https://financials.morningstar.com/ajax/ReportProcess4HtmlAjax.html"
 const keyRatiosURI = "https://financials.morningstar.com/ajax/keystatsAjax.html?"
 
 const URI = "https://www.morningstar.com/api/v1"

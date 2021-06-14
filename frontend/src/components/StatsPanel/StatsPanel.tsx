@@ -7,6 +7,9 @@ import classes from './StatsPanel.module.css';
 import KeyRatiosSection from '../KeyRatiosSection/KeyRationsSection';
 import QuoteSection from '../Quote/QuoteSection';
 import { useSelector } from 'react-redux';
+import { incomeStatementdata, loadIncomeStatement } from '../../reduxStore/getIncomeStatement/getIncomeStatement';
+import { balanceSheetata, loadBalanceSheet } from '../../reduxStore/getBalanceSheet/getBalanceSheet';
+import { cashFlowdata, loadCashFlow } from '../../reduxStore/getCashFlow/getCashFlow';
 
 const useStyles = makeStyles({
     root: {
@@ -77,6 +80,13 @@ const a11yProps = (index: any) => {
 const StatsPanel = () => {
     const styles = useStyles();
     const [value, setValue] = React.useState(0);
+
+    const isData = useSelector(incomeStatementdata)
+    const bsData = useSelector(balanceSheetata)
+    const cfData = useSelector(cashFlowdata)
+    const isLoading = useSelector(loadIncomeStatement)
+    const bsLoading = useSelector(loadBalanceSheet)
+    const cfLoading = useSelector(loadCashFlow)
 
     const theme = useTheme();
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -166,13 +176,13 @@ const StatsPanel = () => {
                     <KeyRatiosSection />
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <FinancialSection reportType="incomeStatement" />
+                    <FinancialSection data={isData} reportType="Income Statement" loading={isLoading} />
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
-                    <FinancialSection reportType="balanceSheet" />
+                    <FinancialSection data={bsData} reportType="Balance Sheet" loading={bsLoading} />
                 </TabPanel>
                 <TabPanel value={value} index={4} dir={theme.direction}>
-                    <FinancialSection reportType="cashFlow" />
+                    <FinancialSection data={cfData} reportType="Cash Flow" loading={cfLoading} />
                 </TabPanel>
             </SwipeableViews>
         </div>

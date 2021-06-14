@@ -1,90 +1,85 @@
-import { Paper, useMediaQuery } from '@material-ui/core';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { searchTickerdata } from '../../reduxStore/getSearchTicker/getSearchTicker';
-import { loadFinancialStatement, financialStatementdata, fetchFinancialStatement } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
-import Tablet from '../Tablet/Tablet';
+import React from 'react';
 import classes from './FinancialSection.module.css';
+import Tablet from '../Tablet/Tablet';
+import { useMediaQuery, List, ListItem, ListItemText, Divider } from '@material-ui/core';
 
 interface FinancialSectionProps {
-    reportType: string,
+    reportType?: string,
+    loading?: boolean,
+    data?: any
 }
 
-const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType }) => {
-    const dispatch = useDispatch();
-    const tickerData = useSelector(searchTickerdata)
-    const loadFinancials = useSelector(loadFinancialStatement)
-
-    useEffect(() => {
-        dispatch(fetchFinancialStatement(reportType, tickerData.results[0]["performanceId"]))
-    }, [tickerData, dispatch, reportType])
-
+const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType, loading, data }) => {
     const match = useMediaQuery('(min-width:1366px)')
 
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
-                <h1 className={classes.ReportType}>{reportType.replace(/([a-z])([A-Z])/g, '$1 $2')}</h1>
-                <p className={classes.RoundNumbers}>All Numbers in the Thousands.</p>
+                <h1 className={classes.ReportType}>{reportType?.split("-").join(" ")}</h1>
+                <p className={classes.RoundNumbers}>All Numbers in the Billions.</p>
             </div>
-            <Paper elevation={2} className={classes.FinancialSection}>
-                {loadFinancials ?
-                    <div className={classes.Loader}></div>
-                    :
-                    match ? <FinancialSectionDesktop /> : <FinancialSectionMobile />
+            <div className={classes.FinancialSection}>
+                {loading ? <div className={classes.Loader}></div>
+                    : match ? <FinancialStatementDesktop data={data} />
+                        :
+                        <FinancialStatementMobile data={data} />
                 }
-            </Paper>
+            </div>
         </div>
     );
 };
 
-const FinancialSectionDesktop: React.FC = () => {
-    const financialsData = useSelector(financialStatementdata)
+const FinancialStatementDesktop: React.FC<FinancialSectionProps> = ({ data }) => {
     return (
-        <div className={classes.FinancialTable}>
-            {financialsData.map((item: any, index: number) => {
-                return <div style={{ fontWeight: item.highlight ? "bold" : "normal" }} className={classes.FinancialRow} key={index}>
-                    <p title={item["title"]} className={classes.Title}>{item["title"]}</p>
-                    {item["data"].map((data: any, position: number) => {
-                        return <p className={classes.Value} key={position}>{item.multiplier ? (data * 1000000).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : data}</p>
-                    })}
-                </div>
-            })}
-        </div>
+        <List className={classes.FinancialTable}>
+            {
+                data?.map((item: any, i: number) => {
+                    return <ListItem className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                        <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
+                        <div className={classes.ValueRow}>
+                            {
+                                item["data"].map((value: any, j: number) => {
+                                    return <p key={j} className={classes.Value}>{value}</p>
+                                })
+                            }
+                        </div>
+                    </ListItem>
+                })
+            }
+        </List>
     );
-}
+};
 
-
-
-const FinancialSectionMobile: React.FC = () => {
-    const financialsData = useSelector(financialStatementdata)
+const FinancialStatementMobile: React.FC<FinancialSectionProps> = ({ data }) => {
     const [activeStep, setActiveStep] = React.useState(0);
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
 
     return (
-        <div className={classes.FinancialTable}>
+        <List className={classes.FinancialTable}>
             <Tablet
                 activeStep={activeStep}
-                steps={financialsData[0]["data"].length}
-                handleNext={handleNext}
-                handleBack={handleBack}
+                steps={data[0]["data"].length}
+                handleNext={() => {
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+                }}
+                handleBack={() => {
+                    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+                }}
                 disableBack={activeStep === 0}
-                disableNext={activeStep === financialsData[0]["data"].length - 1}
+                disableNext={activeStep === data[0]["data"].length - 1}
             />
-            {financialsData.map((item: any, index: number) => {
-                return <div style={{ fontWeight: item.highlight ? "bold" : "normal" }} className={classes.FinancialRow} key={index}>
-                    <p title={item["data"]} className={classes.Title}>{item["title"]}</p>
-                    <p className={classes.Value}>{item.multiplier ? (item.data[activeStep] * 1000000).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : item.data[activeStep]}</p>
-                </div>
-            })}
-        </div>
+            {
+                data?.map((item: any, i: number) => {
+                    return <ListItem className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                        <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
+                        <div className={classes.ValueRow}>
+                            <p className={classes.Value}>{item["data"][activeStep]}</p>
+                        </div>
+                    </ListItem>
+                })
+            }
+        </List>
     );
-}
+};
+
 
 export default FinancialSection;

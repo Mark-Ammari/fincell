@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './FinancialSection.module.css';
 import Tablet from '../Tablet/Tablet';
 import { useMediaQuery, List, ListItem, ListItemText, Divider } from '@material-ui/core';
+import Numeral from 'numeral';
 
 interface FinancialSectionProps {
     reportType?: string,
@@ -39,7 +40,7 @@ const FinancialStatementDesktop: React.FC<FinancialSectionProps> = ({ data }) =>
                         <div className={classes.ValueRow}>
                             {
                                 item["data"].map((value: any, j: number) => {
-                                    return <p key={j} className={classes.Value}>{value}</p>
+                                    return <p key={j} className={classes.Value}>{isNaN(value) ? value : Numeral(value).format("0.00a")}</p>
                                 })
                             }
                         </div>
@@ -72,7 +73,7 @@ const FinancialStatementMobile: React.FC<FinancialSectionProps> = ({ data }) => 
                     return <ListItem className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
-                            <p className={classes.Value}>{item["data"][activeStep]}</p>
+                            <p className={classes.Value}>{isNaN(item["data"][activeStep]) ? item["data"][activeStep] : Numeral(item["data"][activeStep]).format("0.00a")}</p>
                         </div>
                     </ListItem>
                 })

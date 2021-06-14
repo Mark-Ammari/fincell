@@ -1,0 +1,389 @@
+/* LOADER */
+
+@keyframes loader {
+    0% {
+        background-color: #FFF;
+    }
+    50% {
+        background-color: #F5F5F5;
+    }
+    100% {
+        background-color: #FFF;
+    }
+}
+
+.Loader {
+    animation: loader .5s ease-in-out infinite;
+    -webkit-animation: loader .5s ease-in-out infinite;
+    transition: 1s ease-in-out;
+    height: 100vh;
+    width: 100%;
+}
+
+/* media queries */
+
+@media only screen and (max-width: 400px) {
+    .Container {
+        width: 100%
+    }
+    .Details {
+        width: 100%;
+    }
+    .ReportType {
+        margin: 10px 0 0 10px;
+    }
+    .RoundNumbers {
+        margin: 0 0 5px 10px;
+        color: #c0c0c0;
+        font-weight: lighter;
+        font-style: italic;
+    }
+    .FinancialSection {
+        width: 100%;
+    }
+    .FinancialTable {
+        width: 100%
+    }
+    .FinancialRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+    }
+    .ValueRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .Bold {
+        font-weight: bold; 
+        position: relative;       
+    }
+
+    .Bold::after {
+        content: "";
+        position: absolute;
+        display: block;
+        left: 0; 
+        right: 0; 
+        bottom: 0;
+        margin-left: auto; 
+        margin-right: auto; 
+        width: 93.75%;
+        height: 1px;
+        border-bottom: 1px solid #c5c5c5;
+        padding: 4px 0 0 0 0;
+    }
+
+    .Title {
+        margin: 0 0 0 10px;
+        width: 200px;
+        text-align: left;
+    }
+    .Value {
+        margin: 0 10px 0 0;
+        width: 100px;
+        text-align: right;
+    }
+}
+
+@media only screen and (min-width: 401px) {
+    .Container {
+        width: 100%
+    }
+    .Details {
+        width: 100%;
+    }
+    .ReportType {
+        margin: 10px 0 0 10px;
+    }
+    .RoundNumbers {
+        margin: 0 0 5px 10px;
+        color: #c0c0c0;
+        font-weight: lighter;
+        font-style: italic;
+    }
+    .FinancialSection {
+        width: 100%;
+    }
+    .FinancialTable {
+        width: 100%
+    }
+    .FinancialRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+    }
+    .ValueRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .Bold {
+        font-weight: bold; 
+        position: relative;       
+    }
+
+    .Bold::after {
+        content: "";
+        position: absolute;
+        display: block;
+        left: 0; 
+        right: 0; 
+        bottom: 0;
+        margin-left: auto; 
+        margin-right: auto; 
+        width: 93.75%;
+        height: 1px;
+        border-bottom: 1px solid #c5c5c5;
+        padding: 4px 0 0 0 0;
+    }
+
+    .Title {
+        margin: 0 0 0 10px;
+        width: 200px;
+        text-align: left;
+    }
+    .Value {
+        margin: 0 10px 0 0;
+        width: 100px;
+        text-align: right;
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .Container {
+        width: 100%
+    }
+    .Details {
+        width: 100%;
+    }
+    .ReportType {
+        margin: 10px 0 0 10px;
+    }
+    .RoundNumbers {
+        margin: 0 0 5px 10px;
+        color: #c0c0c0;
+        font-weight: lighter;
+        font-style: italic;
+    }
+    .FinancialSection {
+        width: 100%;
+    }
+    .FinancialTable {
+        width: 500px
+    }
+    .FinancialRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+    }
+    .ValueRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .Bold {
+        font-weight: bold; 
+        position: relative;       
+    }
+
+    .Bold::after {
+        content: "";
+        position: absolute;
+        display: block;
+        left: 0; 
+        right: 0; 
+        bottom: 0;
+        margin-left: auto; 
+        margin-right: auto; 
+        width: 480px;
+        height: 1px;
+        border-bottom: 1px solid #c5c5c5;
+        padding: 4px 0 0 0 0;
+    }
+
+    .Title {
+        margin: 0 0 0 10px;
+        width: 300px;
+        text-align: left;
+    }
+    .Value {
+        margin: 0 10px 0 0;
+        width: 100px;
+        text-align: right;
+    }
+}
+
+@media only screen and (min-width: 767px) {
+    .Container {
+        width: 100%
+    }
+    .Details {
+        width: 100%;
+    }
+    .ReportType {
+        margin: 10px 0 0 10px;
+    }
+    .RoundNumbers {
+        margin: 0 0 5px 10px;
+        color: #c0c0c0;
+        font-weight: lighter;
+        font-style: italic;
+    }
+    .FinancialSection {
+        width: 100%;
+    }
+    .FinancialTable {
+        width: 767px
+    }
+    .FinancialRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+    }
+    .ValueRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .Bold {
+        font-weight: bold; 
+        position: relative;       
+    }
+
+    .Bold::after {
+        content: "";
+        position: absolute;
+        display: block;
+        left: 0; 
+        right: 0; 
+        bottom: 0;
+        margin-left: auto; 
+        margin-right: auto; 
+        width: 747px;
+        height: 1px;
+        border-bottom: 1px solid #c5c5c5;
+        padding: 4px 0 0 0 0;
+    }
+
+    .Title {
+        margin: 0 0 0 10px;
+        width: 300px;
+        text-align: left;
+    }
+    .Value {
+        margin: 0 10px 0 0;
+        width: 100px;
+        text-align: right;
+    }
+}
+
+
+@media only screen and (min-width: 1366px) {
+    .Container {
+        width: 100%
+    }
+    .Details {
+        width: 100%;
+    }
+    .ReportType {
+        margin: 10px 0 0 10px;
+    }
+    .RoundNumbers {
+        margin: 0 0 5px 10px;
+        color: #c0c0c0;
+        font-weight: lighter;
+        font-style: italic;
+    }
+    .FinancialSection {
+        width: 100%;
+    }
+    .FinancialTable {
+        width: 1366px
+    }
+    .FinancialRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+    }
+    .ValueRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bolder;
+    }
+
+    .Bold {
+        font-weight: bold; 
+        position: relative;       
+    }
+
+    .Bold::after {
+        content: "";
+        position: absolute;
+        display: block;
+        left: 0; 
+        right: 0; 
+        bottom: 0;
+        margin-left: auto; 
+        margin-right: auto; 
+        width: 1346px;
+        height: 1px;
+        border-bottom: 1px solid #c5c5c5;
+        padding: 4px 0 0 0 0;
+    }
+
+    .Title {
+        margin: 0 0 0 10px;
+        width: 300px;
+        text-align: left;
+    }
+    .Value {
+        margin: 0 10px 0 0;
+        width: 150px;
+        text-align: right;
+    }
+}

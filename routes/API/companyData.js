@@ -162,7 +162,7 @@ function traverseThroughHTML(htmlString, id) {
     let $ = cheerio.load(htmlString)
     let data = []
     $(id).children().each((i, el) => {
-        return data.push($(el).text())
+        return data.push($(el).attr("rawvalue") || $(el).text())
     })
     return data
 }
@@ -175,7 +175,7 @@ router.get("/api/v1/company-data/report-type/income-statement/:ticker/details", 
             let htmlString = response.data["result"]
             data = [
                 { title: "Revenue", data: traverseThroughHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
-                { title: "Revenue", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1"), bold: true },
+                { title: "Total Revenue", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1"), bold: true },
                 { title: "Cost of Revenue", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i6"), margin: true },
                 { title: "Gross Profit", data: traverseThroughHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10"), margin: true },
 

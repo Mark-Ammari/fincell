@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { incomeStatementdata, loadIncomeStatement } from '../../reduxStore/getIncomeStatement/getIncomeStatement';
 import { balanceSheetata, loadBalanceSheet } from '../../reduxStore/getBalanceSheet/getBalanceSheet';
 import { cashFlowdata, loadCashFlow } from '../../reduxStore/getCashFlow/getCashFlow';
+import FairValueSection from '../FairValueSection/FairValueSection';
 
 const useStyles = makeStyles({
     root: {
@@ -183,6 +184,9 @@ const StatsPanel = () => {
                 </TabPanel>
                 <TabPanel value={value} index={4} dir={theme.direction}>
                     <FinancialSection data={cfData} reportType="Cash Flow" loading={cfLoading} />
+                </TabPanel>
+                <TabPanel value={value} index={5} dir={theme.direction}>
+                    <FairValueSection />
                 </TabPanel>
             </SwipeableViews>
         </div>

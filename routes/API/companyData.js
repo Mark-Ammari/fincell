@@ -22,15 +22,55 @@ router.get("/api/v1/company-data/search/:ticker", (req, res) => {
 
 // GET quotes
 router.get("/api/v1/company-data/quote/:performanceid/details", (req, res) => {
-    axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+    let data = []
+    let URIone = axios.get(`${config.SAL_SERVICE}/keyratios/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
             'apikey': config.X_API_KEY,
             'x-api-realtime-e': config.X_API_REALTIME_E
-        },
-    }).then(response => {
-        res.json(response.data)
+        }
+    }).then(response => { return response.data })
+    let URItwo = axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.X_API_KEY,
+            'x-api-realtime-e': config.X_API_REALTIME_E
+        }
+    }).then(response => { return response.data })
+    Promise.all([URIone, URItwo]).then(response => {
+        data = [
+            { title: "Today's Stats", data: response[1]["recentTradingDay"], highlight: true },
+            { title: "Market Cap", data: response[1]["marketCap"], bold: true },
+            { title: "Volume", data: response[1]["volume"] },
+            { title: "Today's High", data: response[1]["dayRangeHigh"] },
+            { title: "Today's Low", data: response[1]["dayRangeLow"] },
+            { title: "52-Week High", data: response[1]["yearRangeHigh"] },
+            { title: "52-Week Low", data: response[1]["yearRangeLow"] },
+            { title: "Dividend Yield", data: response[1]["dividendYield"], bold: true },
+
+            { title: "Growth Ratio", data: response[0]["growthRatio"]["reportDate"], highlight: true },
+            { title: "Revenue", data: response[0]["growthRatio"]["revenue"] },
+            { title: "Profit Margin", data: response[0]["profitabilityRatio"]["netMargin"], bold: true },
+            { title: "Operating Income", data: response[0]["growthRatio"]["operatingIncome"] },
+            { title: "Net Income", data: response[0]["growthRatio"]["netIncome"] },
+            { title: "Earnings Per Share", data: response[0]["growthRatio"]["eps"] },
+
+            { title: "Valuation Ratio", data: response[0]["valuationRatio"]["reportDate"], highlight: true },
+            { title: "P/E Ratio (TTM)", data: response[0]["valuationRatio"]["priceToEPS"], bold: true },
+            { title: "P/B Ratio (TTM)", data: response[0]["valuationRatio"]["priceToBook"] },
+            { title: "P/S Ratio (TTM)", data: response[0]["valuationRatio"]["priceToSales"] },
+            { title: "P/CF Ratio (TTM)", data: response[0]["valuationRatio"]["priceToCashFlow"], bold: true },
+            
+            { title: "Efficiency Ratio", data: response[0]["efficiencyRatio"]["reportDate"], highlight: true },
+            { title: "Return on Assets", data: response[0]["efficiencyRatio"]["returnOnAssets"], bold: true },
+            { title: "Return on Equity", data: response[0]["efficiencyRatio"]["returnOnEquity"] },
+            { title: "Return on Invested Capital", data: response[0]["efficiencyRatio"]["returnOnInvestedCapital"], bold: true },
+
+            { title: "Financial Health", data: response[0]["financialHealth"]["reportDate"], highlight: true },
+            { title: "Asset/Debt", data: response[0]["financialHealth"]["currentRatio"], bold: true },
+            { title: "Quick Ratio", data: response[0]["financialHealth"]["quickRatio"] },
+            { title: "Debt/Equity", data: response[0]["financialHealth"]["debtToEquity"] },
+        ]
+        res.json(data)
     }).catch(err => {
-        console.log(err)
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
     })
 })
@@ -51,9 +91,6 @@ router.get("/api/v1/company-data/chart/:ticker/:period/details", (req, res) => {
             let dateB = new Date(b.date)
             return dateA - dateB;
         })
-        if (req.params.period === "1Y") {
-
-        }
         res.json(data)
     }).catch(err => {
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })

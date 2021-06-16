@@ -8,7 +8,7 @@ interface FinancialTableProps {
     reportType?: string,
     loading?: boolean,
     data?: any,
-    width?: string
+    width?: string,
 }
 
 const FinancialTable: React.FC<FinancialTableProps> = ({ reportType, loading, data }) => {

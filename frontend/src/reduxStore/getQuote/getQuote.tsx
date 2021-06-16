@@ -10,7 +10,7 @@ export interface GetQuote {
 }
 
 const initialState: GetQuote = {
-    data: {},
+    data: [],
     loading: true,
     error: false,
     errorMsg: {},
@@ -56,8 +56,8 @@ export const fetchQuote= (performanceId: string): AppThunk => (
     })
 };
 
-export const data = (state: RootState) => state.getQuote.data;
-export const loading = (state: RootState) => state.getQuote.loading;
+export const quoteData = (state: RootState) => state.getQuote.data;
+export const loadQuote = (state: RootState) => state.getQuote.loading;
 export const error = (state: RootState) => state.getQuote.error;
 export const errorMessage = (state: RootState) => state.getQuote.errorMsg;
 

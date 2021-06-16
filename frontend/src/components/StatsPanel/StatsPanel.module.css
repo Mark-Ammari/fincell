@@ -21,21 +21,21 @@
 
 @media only screen and (min-width: 500px) {
     .StatsPanel {
-        width: 502px;
+        width: 500px;
         margin: auto
     }
 }
 
 @media only screen and (min-width: 767px) {
     .StatsPanel {
-        width: 769px;
+        width: 767px;
         margin: auto
     }
 }
 
 @media only screen and (min-width: 1366px) {
     .StatsPanel {
-        width: 1368px;
+        width: 1366px;
         margin: auto
     }
 }

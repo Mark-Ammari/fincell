@@ -1,36 +1,36 @@
 import React from 'react';
-import classes from './FinancialSection.module.css';
+import classes from './FinancialTable.module.css';
 import Tablet from '../Tablet/Tablet';
-import { useMediaQuery, List, ListItem, ListItemText, Divider } from '@material-ui/core';
+import { useMediaQuery, List, ListItem } from '@material-ui/core';
 import Numeral from 'numeral';
 
-interface FinancialSectionProps {
+interface FinancialTableProps {
     reportType?: string,
     loading?: boolean,
-    data?: any
+    data?: any,
+    width?: string
 }
 
-const FinancialSection: React.FC<FinancialSectionProps> = ({ reportType, loading, data }) => {
+const FinancialTable: React.FC<FinancialTableProps> = ({ reportType, loading, data }) => {
     const match = useMediaQuery('(min-width:1366px)')
 
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
                 <h1 className={classes.ReportType}>{reportType?.split("-").join(" ")}</h1>
-                <p className={classes.RoundNumbers}>All Numbers in the Billions.</p>
             </div>
             <div className={classes.FinancialSection}>
-                {loading ? <div className={classes.Loader}></div>
-                    : match ? <FinancialStatementDesktop data={data} />
-                        :
-                        <FinancialStatementMobile data={data} />
+                {loading ? <div className={classes.Loader}></div> : match ?
+                    <FinancialTableDesktop data={data} />
+                    :
+                    <FinancialTableMobile data={data} />
                 }
             </div>
         </div>
     );
 };
 
-const FinancialStatementDesktop: React.FC<FinancialSectionProps> = ({ data }) => {
+const FinancialTableDesktop: React.FC<FinancialTableProps> = ({ data, width }) => {
     return (
         <List className={classes.FinancialTable}>
             {
@@ -40,7 +40,7 @@ const FinancialStatementDesktop: React.FC<FinancialSectionProps> = ({ data }) =>
                         <div className={classes.ValueRow}>
                             {
                                 item["data"].map((value: any, j: number) => {
-                                    return <p key={j} className={classes.Value}>{isNaN(value) ? value : Numeral(value).format("0.00a")}</p>
+                                    return <p key={j} style={{ width: width }} className={classes.Value}>{isNaN(value) ? value : Numeral(value).format("0.00a")}</p>
                                 })
                             }
                         </div>
@@ -51,7 +51,7 @@ const FinancialStatementDesktop: React.FC<FinancialSectionProps> = ({ data }) =>
     );
 };
 
-const FinancialStatementMobile: React.FC<FinancialSectionProps> = ({ data }) => {
+const FinancialTableMobile: React.FC<FinancialTableProps> = ({ data }) => {
     const [activeStep, setActiveStep] = React.useState(0);
 
     return (
@@ -83,4 +83,4 @@ const FinancialStatementMobile: React.FC<FinancialSectionProps> = ({ data }) => 
 };
 
 
-export default FinancialSection;
+export default FinancialTable;

@@ -1,4 +1,6 @@
 const financialsURI = "https://financials.morningstar.com/ajax/ReportProcess4HtmlAjax.html"
+const financialsPartURI = "https://financials.morningstar.com/finan/financials/getFinancePart.html"
+const keyStatsPartURI = "https://financials.morningstar.com/finan/financials/getKeyStatPart.html"
 const keyRatiosURI = "https://financials.morningstar.com/ajax/keystatsAjax.html?"
 
 const URI = "https://www.morningstar.com/api/v1"
@@ -12,4 +14,4 @@ const X_API_REALTIME_E = "eyJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAifQ.XmuAS3x
 const SEEKING_ALPHA_URI = "https://finance.api.seekingalpha.com/v2"
 const SEEKING_ALPHA_FINANCIALS = "https://seekingalpha.com/symbol"
 
-module.exports = { financialsURI, keyRatiosURI, URI, SEARCH_API_KEY, SAL_SERVICE, X_API_KEY, X_API_REALTIME_E, SEEKING_ALPHA_URI, SEEKING_ALPHA_FINANCIALS }
+module.exports = { financialsURI, keyRatiosURI, URI, SEARCH_API_KEY, SAL_SERVICE, X_API_KEY, X_API_REALTIME_E, SEEKING_ALPHA_URI, SEEKING_ALPHA_FINANCIALS, financialsPartURI, keyStatsPartURI }

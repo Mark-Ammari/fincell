@@ -2,22 +2,22 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import getSeatchTickerReducer from './getSearchTicker/getSearchTicker';
 import getQuoteReducer from './getQuote/getQuote';
 import getChartDataReducer from './getChartData/getChartData';
-import getValuationReducer from './getValuation/getValuation';
-import getOperatingPerformanceReducer from './getOperatingPerformance/getOperatingPerformance';
 import getBalanceSheetReducer from './getBalanceSheet/getBalanceSheet';
 import getIncomeStatementReducer from './getIncomeStatement/getIncomeStatement';
 import getCashFlowReducer from './getCashFlow/getCashFlow';
+import getFinancialStatsReducer from './getFinancialStats/getFinancialStats';
+import getKeyStatsReducer from './getKeyStats/getKeyStats';
 
 export const store = configureStore({
   reducer: {
     getSearchTicker: getSeatchTickerReducer,
     getQuote: getQuoteReducer,
     getChartData: getChartDataReducer,
-    getValuation: getValuationReducer,
-    getOperatingPerformance: getOperatingPerformanceReducer,
     getBalanceSheet: getBalanceSheetReducer,
     getIncomeStatement: getIncomeStatementReducer,
-    getCashFlow: getCashFlowReducer
+    getCashFlow: getCashFlowReducer,
+    getFinancialStats: getFinancialStatsReducer,
+    getKeyStats: getKeyStatsReducer
   },
 });
 

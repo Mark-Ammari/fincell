@@ -1,6 +1,7 @@
 const express = require("express");
 const cheerio = require('cheerio');
 const axios = require('axios');
+const Numeral = require('numeral');
 
 const config = require("../../config/keys");
 
@@ -36,39 +37,48 @@ router.get("/api/v1/company-data/quote/:performanceid/details", (req, res) => {
         }
     }).then(response => { return response.data })
     Promise.all([URIone, URItwo]).then(response => {
-        data = [
-            { title: "Today's Stats", data: response[1]["recentTradingDay"], highlight: true },
-            { title: "Market Cap", data: response[1]["marketCap"], bold: true },
-            { title: "Volume", data: response[1]["volume"] },
-            { title: "Today's High", data: response[1]["dayRangeHigh"] },
-            { title: "Today's Low", data: response[1]["dayRangeLow"] },
-            { title: "52-Week High", data: response[1]["yearRangeHigh"] },
-            { title: "52-Week Low", data: response[1]["yearRangeLow"] },
-            { title: "Dividend Yield", data: response[1]["dividendYield"], bold: true },
+        data = {
+            quote: [
+                { title: "Today's Stats", data: response[1]["recentTradingDay"], highlight: true },
+                { title: "Market Cap", data: Numeral(response[1]["marketCap"]).format("0.00a"), bold: true },
+                { title: "Volume", data: Numeral(response[1]["volume"]).format("0.00a") },
+                { title: "Today's High", data: response[1]["dayRangeHigh"] },
+                { title: "Today's Low", data: response[1]["dayRangeLow"] },
+                { title: "52-Week High", data: response[1]["yearRangeHigh"] },
+                { title: "52-Week Low", data: response[1]["yearRangeLow"] },
+                { title: "Dividend Yield", data: response[1]["dividendYield"], bold: true }
+            ],
+            growthRatio: [
+                { title: "Growth Ratio", data: response[0]["growthRatio"]["reportDate"], highlight: true },
+                { title: "Revenue", data: Numeral(response[0]["growthRatio"]["revenue"]).format('0.00%') },
+                { title: "Profit Margin", data: Numeral(response[0]["profitabilityRatio"]["netMargin"]).format('0.00%'), bold: true },
+                { title: "Operating Income", data: Numeral(response[0]["growthRatio"]["operatingIncome"]).format('0.00%') },
+                { title: "Net Income", data: Numeral(response[0]["growthRatio"]["netIncome"]).format('0.00%') },
+                { title: "Earnings Per Share", data: Numeral(response[0]["growthRatio"]["eps"]).format('0.00%') }
+            ],
 
-            { title: "Growth Ratio", data: response[0]["growthRatio"]["reportDate"], highlight: true },
-            { title: "Revenue", data: response[0]["growthRatio"]["revenue"] },
-            { title: "Profit Margin", data: response[0]["profitabilityRatio"]["netMargin"], bold: true },
-            { title: "Operating Income", data: response[0]["growthRatio"]["operatingIncome"] },
-            { title: "Net Income", data: response[0]["growthRatio"]["netIncome"] },
-            { title: "Earnings Per Share", data: response[0]["growthRatio"]["eps"] },
+            valuationRatio: [
+                { title: "Valuation Ratio", data: response[0]["valuationRatio"]["asOfDate"], highlight: true },
+                { title: "P/E Ratio (TTM)", data: response[0]["valuationRatio"]["priceToEPS"], bold: true },
+                { title: "P/B Ratio (TTM)", data: response[0]["valuationRatio"]["priceToBook"] },
+                { title: "P/S Ratio (TTM)", data: response[0]["valuationRatio"]["priceToSales"] },
+                { title: "P/CF Ratio (TTM)", data: response[0]["valuationRatio"]["priceToCashFlow"], bold: true },
+            ],
 
-            { title: "Valuation Ratio", data: response[0]["valuationRatio"]["reportDate"], highlight: true },
-            { title: "P/E Ratio (TTM)", data: response[0]["valuationRatio"]["priceToEPS"], bold: true },
-            { title: "P/B Ratio (TTM)", data: response[0]["valuationRatio"]["priceToBook"] },
-            { title: "P/S Ratio (TTM)", data: response[0]["valuationRatio"]["priceToSales"] },
-            { title: "P/CF Ratio (TTM)", data: response[0]["valuationRatio"]["priceToCashFlow"], bold: true },
-            
-            { title: "Efficiency Ratio", data: response[0]["efficiencyRatio"]["reportDate"], highlight: true },
-            { title: "Return on Assets", data: response[0]["efficiencyRatio"]["returnOnAssets"], bold: true },
-            { title: "Return on Equity", data: response[0]["efficiencyRatio"]["returnOnEquity"] },
-            { title: "Return on Invested Capital", data: response[0]["efficiencyRatio"]["returnOnInvestedCapital"], bold: true },
+            efficiencyRatio: [
+                { title: "Efficiency Ratio", data: response[0]["efficiencyRatio"]["reportDate"], highlight: true },
+                { title: "Return on Assets", data: Numeral(response[0]["efficiencyRatio"]["returnOnAssets"]).format('0.00%'), bold: true },
+                { title: "Return on Equity", data: Numeral(response[0]["efficiencyRatio"]["returnOnEquity"]).format('0.00%') },
+                { title: "Return on Invested Capital", data: Numeral(response[0]["efficiencyRatio"]["returnOnInvestedCapital"]).format('0.00%'), bold: true },
+            ],
 
-            { title: "Financial Health", data: response[0]["financialHealth"]["reportDate"], highlight: true },
-            { title: "Asset/Debt", data: response[0]["financialHealth"]["currentRatio"], bold: true },
-            { title: "Quick Ratio", data: response[0]["financialHealth"]["quickRatio"] },
-            { title: "Debt/Equity", data: response[0]["financialHealth"]["debtToEquity"] },
-        ]
+            financialHealth: [
+                { title: "Financial Health", data: response[0]["financialHealth"]["reportDate"], highlight: true },
+                { title: "Asset/Debt", data: Numeral(response[0]["financialHealth"]["currentRatio"]).format('0.00%'), bold: true },
+                { title: "Quick Ratio", data: Numeral(response[0]["financialHealth"]["quickRatio"]).format('0.00%') },
+                { title: "Debt/Equity", data: Numeral(response[0]["financialHealth"]["debtToEquity"]).format('0.00%') },
+            ]
+        }
         res.json(data)
     }).catch(err => {
         res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })

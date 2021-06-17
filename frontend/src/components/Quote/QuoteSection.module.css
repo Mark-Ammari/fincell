@@ -27,7 +27,10 @@
         animation: loader .5s ease-in-out infinite;
         -webkit-animation: loader .5s ease-in-out infinite;
         transition: 1s ease-in-out;
-        height: 200px;
+        height: 1449px;
+        width: 100%;
+    }
+    .Container {
         width: 100%;
     }
     .Details {
@@ -39,6 +42,44 @@
         text-transform: capitalize;
         font-size: 16pt;
         margin: 10px !important;
+    }
+    .QuoteContainer {
+        display: grid;
+        grid-template-columns: auto;
+        width: 100%;
+        padding: 0;
+        margin: 0
+    }
+    .Chart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: auto;
+        width: 100%;
+        padding: 0
+    }
+
+    .MetricRows {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bold;
+        width: 100%;
+    }
+    .Title {
+        margin: 0 0 0 10px
+    }
+    .Value {
+        margin: 0 10px 0 0;
     }
 }
 
@@ -47,7 +88,10 @@
         animation: loader .5s ease-in-out infinite;
         -webkit-animation: loader .5s ease-in-out infinite;
         transition: 1s ease-in-out;
-        height: 300px;
+        height: 1449px;
+        width: 100%;
+    }
+    .Container {
         width: 100%;
     }
     .Details {
@@ -59,6 +103,46 @@
         text-transform: capitalize;
         font-size: 16pt;
         margin: 10px !important;
+    }
+    .QuotesContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0;
+        margin: 0
+    }
+    .Chart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: auto;
+        width: 100%;
+        padding: 0
+    }
+
+    .MetricRows {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bold;
+        width: 100%;
+    }
+    .Title {
+        margin: 0 0 0 10px
+    }
+    .Value {
+        margin: 0 10px 0 0;
     }
 }
 
@@ -67,8 +151,11 @@
         animation: loader .5s ease-in-out infinite;
         -webkit-animation: loader .5s ease-in-out infinite;
         transition: 1s ease-in-out;
-        height: 400px;
-        width: 500px;
+        height: 1449px;
+        width: 100%;
+    }
+    .Container {
+        width: 100%;
     }
     .Details {
         width: 100%;
@@ -79,6 +166,55 @@
         text-transform: capitalize;
         font-size: 16pt;
         margin: 10px !important;
+    }
+    .QuotesContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 0;
+        margin: auto;
+    }
+    .Chart {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: auto;
+        width: 500px;
+        padding: 0;
+        height: 353px;
+        border-radius: 5px;
+        margin: 10px 5px 0 5px;
+        box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 
+        0px 2px 2px 0px rgb(0 0 0 / 14%), 
+        0px 1px 5px 0px rgb(0 0 0 / 12%);
+    }
+
+    .MetricRows {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        margin: 0
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bold;
+        width: 100%;
+        border-radius: 5px 5px 0 0;
+    }
+    .Title {
+        margin: 0 0 0 10px
+    }
+    .Value {
+        margin: 0 10px 0 0;
     }
 }
 
@@ -87,8 +223,11 @@
         animation: loader .5s ease-in-out infinite;
         -webkit-animation: loader .5s ease-in-out infinite;
         transition: 1s ease-in-out;
-        height: 500px;
-        width: 767px;
+        height: 1449px;
+        width: 100%;
+    }
+    .Container {
+        width: 100%;
     }
     .Details {
         width: 100%;
@@ -100,6 +239,55 @@
         font-size: 16pt;
         margin: 10px !important;
     }
+    .QuotesContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 767px;
+        padding: 0;
+        margin: 0;
+    }
+    .Chart {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: auto;
+        width: 373.5px;
+        padding: 0;
+        height: 353px;
+        border-radius: 5px;
+        margin: 10px 5px 0 5px;
+        box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 
+        0px 2px 2px 0px rgb(0 0 0 / 14%), 
+        0px 1px 5px 0px rgb(0 0 0 / 12%);
+    }
+
+    .MetricRows {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        margin: 0
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bold;
+        width: 100%;
+        border-radius: 5px 5px 0 0;
+    }
+    .Title {
+        margin: 0 0 0 10px
+    }
+    .Value {
+        margin: 0 10px 0 0;
+    }
 }
 
 @media only screen and (min-width: 1366px) {
@@ -107,11 +295,14 @@
         animation: loader .5s ease-in-out infinite;
         -webkit-animation: loader .5s ease-in-out infinite;
         transition: 1s ease-in-out;
-        height: 500px;
-        width: 1366px;
+        height: 100vh;
+        width: 100%;
+    }
+    .Container {
+        width: 100%;
     }
     .Details {
-        width: 1366px;
+        width: 100%;
         margin: auto;
         text-align: left;
     }
@@ -119,5 +310,54 @@
         text-transform: capitalize;
         font-size: 16pt;
         margin: 10px !important;
+    }
+    .QuotesContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 1366px;
+        padding: 0;
+        margin: auto;
+    }
+    .Chart {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        margin: auto;
+        width: 331.5px;
+        padding: 0;
+        height: 353px;
+        border-radius: 5px;
+        margin: 10px 5px 0 5px;
+        box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 
+        0px 2px 2px 0px rgb(0 0 0 / 14%), 
+        0px 1px 5px 0px rgb(0 0 0 / 12%);
+    }
+
+    .MetricRows {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        margin: 0
+    }
+
+    .Highlight {
+        background-color: #1e1e1e;
+        color: white;
+        font-weight: bold;
+        width: 100%;
+        border-radius: 5px 5px 0 0;
+    }
+    .Title {
+        margin: 0 0 0 10px
+    }
+    .Value {
+        margin: 0 10px 0 0;
     }
 }

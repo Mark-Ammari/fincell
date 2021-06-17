@@ -5,9 +5,9 @@ import { fetchChartData } from '../../reduxStore/getChartData/getChartData';
 import { fetchQuote, loadQuote, quoteData } from '../../reduxStore/getQuote/getQuote';
 import { searchTickerdata } from '../../reduxStore/getSearchTicker/getSearchTicker';
 import { data as chartData, loading as loadingChartData } from '../../reduxStore/getChartData/getChartData';
-import StockChart from '../StockChart/StockChart';
 import classes from './QuoteSection.module.css';
-import FinancialTable from '../FinancialTable/FinancialTable';
+import { List, ListItem, Paper } from '@material-ui/core';
+import StockChart from '../StockChart/StockChart';
 
 const QuoteSection: React.FC = () => {
     const dispatch = useDispatch();
@@ -30,20 +30,36 @@ const QuoteSection: React.FC = () => {
             {cLoading || qLoading ?
                 <div className={classes.Loader}></div>
                 :
-                <Chart />
+                <Quotes />
             }
         </div>
     );
 };
 
-const Chart: React.FC = () => {
+const Quotes: React.FC = () => {
     const qData = useSelector(quoteData);
     const cData = useSelector(chartData)
-
     return (
-        <div className={classes.QuoteContainer}>
-            <StockChart data={cData} />
-        </div>
+        <>
+        <StockChart data={cData}/>
+        <List className={classes.QuotesContainer}>
+            {Object.keys(qData).map((el: any, i: number) => {
+
+                return <>
+                    <ListItem className={classes.Chart}>
+                        {
+                            qData[el].map((value: any, j: number) => {
+                                return <div className={[classes.MetricRows, value["highlight"] ? classes.Highlight : ""].join(" ")}>
+                                    <p className={classes.Title}>{value.title}</p>
+                                    <p className={classes.Value}>{value.data}</p>
+                                </div>
+                            })
+                        }
+                    </ListItem>
+                </>
+            })}
+        </List>
+        </>
     )
 }
 

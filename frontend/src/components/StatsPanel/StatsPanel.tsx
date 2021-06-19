@@ -169,7 +169,7 @@ const StatsPanel = () => {
                     <KeyStatsTable />
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <FinancialTable reportType="Income-statement" />
+                    <FinancialTable reportType="income-statement" />
                     <Divider />
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>

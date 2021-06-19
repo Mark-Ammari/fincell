@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFinancialStatement, financialStatementData, loadFinancialStatement } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
 import { useParams } from 'react-router-dom';
+import { valueOfPeriod } from '../../reduxStore/period/period';
 
 interface FinancialTableProps {
     reportType?: string,
@@ -18,13 +19,14 @@ const FinancialTable: React.FC<FinancialTableProps> = ({ reportType }) => {
 
     const loadingFinancialStatement = useSelector(loadFinancialStatement)
     const match = useMediaQuery('(min-width:1366px)')
+    const changePeriod = useSelector(valueOfPeriod)
     
     const dispatch = useDispatch()
 
     const { ticker } = useParams<any>() 
     useEffect(() => {
-        dispatch(fetchFinancialStatement(ticker, reportType as string, ))
-    }, [ticker, reportType])
+        dispatch(fetchFinancialStatement(ticker, reportType as string, changePeriod))
+    }, [ticker, reportType, changePeriod])
 
     return (
         <div className={classes.Container}>
@@ -49,7 +51,7 @@ const FinancialTableDesktop: React.FC<FinancialTableProps> = ({ width }) => {
         <List className={classes.FinancialTable}>
             {
                 data?.map((item: any, i: number) => {
-                    return <ListItem className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
                             {
@@ -85,7 +87,7 @@ const FinancialTableMobile: React.FC = () => {
             />
             {
                 data?.map((item: any, i: number) => {
-                    return <ListItem className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
                             <p className={classes.Value}>{isNaN(item["data"][activeStep]) ? item["data"][activeStep] : Numeral(item["data"][activeStep]).format("0.00a")}</p>

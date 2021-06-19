@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './FairValueSection.module.css';
 import { useMediaQuery } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { cashFlowdata } from '../../reduxStore/getCashFlow/getCashFlow';
+// import { cashFlowdata } from '../../reduxStore/getCashFlow/getCashFlow';
 
 const FairValueSection: React.FC = () => {
     const match = useMediaQuery('(min-width:1366px)')
@@ -21,9 +21,9 @@ const FairValueSection: React.FC = () => {
 };
 
 const Scenario: React.FC = () => {
-    const freeCashFlow = useSelector(cashFlowdata)[33]["data"]
-    const avgFCF = (parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1])) / 5
-    console.log(parseInt(freeCashFlow[0]))
+    // const freeCashFlow = useSelector(cashFlowdata)[33]["data"]
+    // const avgFCF = (parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1])) / 5
+    // console.log(parseInt(freeCashFlow[0]))
     return (
         <div className={classes.ScenarioTable}>
 

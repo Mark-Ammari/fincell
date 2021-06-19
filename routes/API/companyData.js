@@ -121,11 +121,7 @@ function traverseThroughFinancialsHTML(htmlString, id) {
 // GET INCOMESTATEMENT
 router.get("/api/v1/company-data/report-type/income-statement/:ticker/details", (req, res) => {
     let data = []
-    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=is&period=${req.query.period || "12"}&dataType=A&order=desc&rounding=3`, {
-        params: {
-            period: req.query.period || "12",
-        }
-    })
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=is&period=${req.query.period}&dataType=A&order=desc&rounding=3`)
         .then(response => {
             let htmlString = response.data["result"]
             data = [
@@ -169,7 +165,7 @@ router.get("/api/v1/company-data/report-type/income-statement/:ticker/details", 
 // GET BALANCESHEET
 router.get("/api/v1/company-data/report-type/balance-sheet/:ticker/details", (req, res) => {
     let data = []
-    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=bs&period=${req.query.period || "12"}&dataType=${req.query.dataType || "A"}&order=desc&rounding=3`)
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=bs&period=${req.query.period}&dataType=A&order=desc&rounding=3`)
         .then(response => {
             let htmlString = response.data["result"]
             data = [
@@ -232,7 +228,7 @@ router.get("/api/v1/company-data/report-type/balance-sheet/:ticker/details", (re
 // GET CASHFLOW
 router.get("/api/v1/company-data/report-type/cash-flow/:ticker/details", (req, res) => {
     let data = []
-    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=cf&period=${req.query.period || "12"}&dataType=${req.query.dataType || "A"}&order=desc&rounding=3`)
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=cf&period=${req.query.period}&dataType=A&order=desc&rounding=3`)
         .then(response => {
             let htmlString = response.data["result"]
             data = [

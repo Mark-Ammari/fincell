@@ -4,17 +4,20 @@ import MenuItem from '@material-ui/core/MenuItem';
 import classes from './PeriodDropdown.module.css';
 import { switchPeriod, valueOfPeriod } from '../../reduxStore/period/period';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 export default function PeriodDropdown() {
     const changePeriod = useSelector(valueOfPeriod)
     const dispatch = useDispatch();
-    const [period, setPeriod] = React.useState("12");
+    const [period, setPeriod] = React.useState(changePeriod);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPeriod(event.target.value);
-        dispatch(switchPeriod(period))
-        console.log(changePeriod)
     };
+
+    useEffect(() => {
+        dispatch(switchPeriod(period))
+    }, [dispatch, period])
 
     return (
         <form className={classes.PeriodDropdown} noValidate autoComplete="off">

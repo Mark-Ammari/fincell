@@ -2,9 +2,6 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import getSeatchTickerReducer from './getSearchTicker/getSearchTicker';
 import getQuoteReducer from './getQuote/getQuote';
 import getChartDataReducer from './getChartData/getChartData';
-import getBalanceSheetReducer from './getBalanceSheet/getBalanceSheet';
-import getIncomeStatementReducer from './getIncomeStatement/getIncomeStatement';
-import getCashFlowReducer from './getCashFlow/getCashFlow';
 import getFinancialStatsReducer from './getFinancialStats/getFinancialStats';
 import getKeyStatsReducer from './getKeyStats/getKeyStats';
 import periodReducer from './period/period';
@@ -15,13 +12,10 @@ export const store = configureStore({
     getSearchTicker: getSeatchTickerReducer,
     getQuote: getQuoteReducer,
     getChartData: getChartDataReducer,
-    getBalanceSheet: getBalanceSheetReducer,
-    getIncomeStatement: getIncomeStatementReducer,
-    getCashFlow: getCashFlowReducer,
     getFinancialStats: getFinancialStatsReducer,
     getKeyStats: getKeyStatsReducer,
     period: periodReducer,
-    getFinancialStatement: getFinancialStatsReducer
+    getFinancialStatement: getFinancialStatementReducer
   },
 });
 

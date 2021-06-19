@@ -1,50 +1,47 @@
 import React from 'react';
-import classes from './FinancialTable.module.css';
+import classes from './FinancialStatsTable.module.css';
 import Tablet from '../Tablet/Tablet';
 import { useMediaQuery, List, ListItem } from '@material-ui/core';
 import Numeral from 'numeral';
-import PeriodDropdown from '../PeriodDropdown/PeriodDropdown';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFinancialStatement, financialStatementData, loadFinancialStatement } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
 import { useParams } from 'react-router-dom';
+import { fetchFinancialStats, financialStatsdata, loadFinancialStats } from '../../reduxStore/getFinancialStats/getFinancialStats';
 
-interface FinancialTableProps {
+interface FinancialStatsTableProps {
     reportType?: string,
     width?: string,
 }
 
-const FinancialTable: React.FC<FinancialTableProps> = ({ reportType }) => {
-
-    const loadingFinancialStatement = useSelector(loadFinancialStatement)
+const FinancialStatsTable: React.FC<FinancialStatsTableProps> = ({ reportType }) => {
+    const loadingFinancialStats = useSelector(loadFinancialStats)
     const match = useMediaQuery('(min-width:1366px)')
     
     const dispatch = useDispatch()
 
     const { ticker } = useParams<any>() 
     useEffect(() => {
-        dispatch(fetchFinancialStatement(ticker, reportType as string, ))
-    }, [ticker, reportType])
+        dispatch(fetchFinancialStats(ticker))
+    }, [ticker])
 
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
                 <h1 className={classes.ReportType}>{reportType?.split("-").join(" ")}</h1>
-                <PeriodDropdown />
             </div>
             <div className={classes.FinancialSection}>
-                {loadingFinancialStatement ? <div className={classes.Loader}></div> : match ?
-                    <FinancialTableDesktop />
+                {loadingFinancialStats ? <div className={classes.Loader}></div> : match ?
+                    <FinancialStatsTableDesktop />
                     :
-                    <FinancialTableMobile />
+                    <FinancialStatsTableMobile />
                 }
             </div>
         </div>
     );
 };
 
-const FinancialTableDesktop: React.FC<FinancialTableProps> = ({ width }) => {
-    const data = useSelector(financialStatementData)
+const FinancialStatsTableDesktop: React.FC<FinancialStatsTableProps> = ({ width }) => {
+    const data = useSelector(financialStatsdata)
     return (
         <List className={classes.FinancialTable}>
             {
@@ -65,8 +62,8 @@ const FinancialTableDesktop: React.FC<FinancialTableProps> = ({ width }) => {
     );
 };
 
-const FinancialTableMobile: React.FC = () => {
-    const data = useSelector(financialStatementData)
+const FinancialStatsTableMobile: React.FC = () => {
+    const data = useSelector(financialStatsdata)
     const [activeStep, setActiveStep] = React.useState(0);
 
     return (
@@ -98,4 +95,4 @@ const FinancialTableMobile: React.FC = () => {
 };
 
 
-export default FinancialTable;
+export default FinancialStatsTable;

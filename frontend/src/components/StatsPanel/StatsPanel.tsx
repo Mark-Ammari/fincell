@@ -4,14 +4,10 @@ import { Tabs, Tab, useTheme, AppBar, Box, Typography, Divider } from '@material
 import SwipeableViews from 'react-swipeable-views';
 import classes from './StatsPanel.module.css';
 import QuoteSection from '../Quote/QuoteSection';
-import { useSelector } from 'react-redux';
-import { incomeStatementdata, loadIncomeStatement } from '../../reduxStore/getIncomeStatement/getIncomeStatement';
-import { balanceSheetata, loadBalanceSheet } from '../../reduxStore/getBalanceSheet/getBalanceSheet';
-import { cashFlowdata, loadCashFlow } from '../../reduxStore/getCashFlow/getCashFlow';
 import FairValueSection from '../FairValueSection/FairValueSection';
-import { financialStatsdata, loadFinancialStats } from '../../reduxStore/getFinancialStats/getFinancialStats';
 import FinancialTable from '../FinancialTable/FinancialTable';
-import { keyStatsdata, loadKeyStats } from '../../reduxStore/getKeyStats/getKeyStats';
+import FinancialStatsTable from '../FinancialStatsTable/FinancialStatsTable';
+import KeyStatsTable from '../KeyStatsTable/KeyStatsTable';
 
 const useStyles = makeStyles({
     root: {
@@ -82,18 +78,6 @@ const a11yProps = (index: any) => {
 const StatsPanel = () => {
     const styles = useStyles();
     const [value, setValue] = React.useState(0);
-
-    const isData = useSelector(incomeStatementdata)
-    const bsData = useSelector(balanceSheetata)
-    const cfData = useSelector(cashFlowdata)
-    const fsData = useSelector(financialStatsdata)
-    const ksData = useSelector(keyStatsdata)
-
-    const isLoading = useSelector(loadIncomeStatement)
-    const bsLoading = useSelector(loadBalanceSheet)
-    const cfLoading = useSelector(loadCashFlow)
-    const fsLoading = useSelector(loadFinancialStats)
-    const ksLoading = useSelector(loadKeyStats)
 
     const theme = useTheme();
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -180,25 +164,21 @@ const StatsPanel = () => {
                     <QuoteSection />
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    {/* <KeyRatiosSection /> */}
-                    <FinancialTable data={fsData} width="150px" reportType="Key Ratios" loading={fsLoading} />
+                    <FinancialStatsTable reportType="key-ratios"/>
                     <Divider />
-                    <FinancialTable data={ksData["profitability"]} width="150px" loading={ksLoading} />
+                    <KeyStatsTable />
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    <FinancialTable data={isData} width="150px" reportType="Income Statement" loading={isLoading} />
+                    <FinancialTable reportType="Income-statement" />
                     <Divider />
-                    <FinancialTable data={ksData["growth"]} width="150px" loading={ksLoading} />
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
-                    <FinancialTable data={bsData} width="150px" reportType="Balance Sheet" loading={bsLoading} />
+                    <FinancialTable reportType="balance-sheet" />
                     <Divider />
-                    <FinancialTable data={ksData["financialHealth"]} width="150px" loading={ksLoading} />
                 </TabPanel>
                 <TabPanel value={value} index={4} dir={theme.direction}>
-                    <FinancialTable data={cfData} width="150px" reportType="Cash Flow" loading={cfLoading} />
+                    <FinancialTable reportType="cash-flow" />
                     <Divider />
-                    <FinancialTable data={ksData["cashFlow"]} width="150px" loading={ksLoading} />
                 </TabPanel>
                 <TabPanel value={value} index={5} dir={theme.direction}>
                     <FairValueSection />

@@ -5,11 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { searchTickerdata, fetchSearchTicker, loadSearchTicker } from '../../reduxStore/getSearchTicker/getSearchTicker';
 import { useParams } from 'react-router';
-import { fetchIncomeStatement } from '../../reduxStore/getIncomeStatement/getIncomeStatement';
-import { fetchBalanceSheet } from '../../reduxStore/getBalanceSheet/getBalanceSheet';
-import { fetchCashFlow } from '../../reduxStore/getCashFlow/getCashFlow';
-import { fetchFinancialStats } from '../../reduxStore/getFinancialStats/getFinancialStats';
-import { fetchKeyStats } from '../../reduxStore/getKeyStats/getKeyStats';
 
 const CompanyStatsScreen: React.FC = () => {
     const { ticker } = useParams<any>();
@@ -19,11 +14,6 @@ const CompanyStatsScreen: React.FC = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchSearchTicker(ticker))
-        dispatch(fetchIncomeStatement(ticker))
-        dispatch(fetchBalanceSheet(ticker))
-        dispatch(fetchCashFlow(ticker))
-        dispatch(fetchFinancialStats(ticker))
-        dispatch(fetchKeyStats(ticker))
     }, [ticker, dispatch])
 
     return (

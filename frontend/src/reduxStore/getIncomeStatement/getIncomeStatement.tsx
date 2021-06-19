@@ -44,11 +44,11 @@ export const getIncomeStatementSlice = createSlice({
 
 export const { getIncomeStatementStart, getIncomeStatementSuccess, getIncomeStatementFailed } = getIncomeStatementSlice.actions;
 
-export const fetchIncomeStatement = (ticker: string): AppThunk => (
+export const fetchIncomeStatement = (ticker: string, period?: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getIncomeStatementStart())
-    baseURI.get(`report-type/income-statement/${ticker}/details`)
+    baseURI.get(`report-type/income-statement/${ticker}/details?period=${period || "12"}`)
     .then(res => {
         dispatch(getIncomeStatementSuccess(res.data))
     }).catch(err => {

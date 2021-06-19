@@ -121,7 +121,11 @@ function traverseThroughFinancialsHTML(htmlString, id) {
 // GET INCOMESTATEMENT
 router.get("/api/v1/company-data/report-type/income-statement/:ticker/details", (req, res) => {
     let data = []
-    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=is&period=12&dataType=A&order=desc&rounding=3`)
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=is&period=${req.query.period || "12"}&dataType=A&order=desc&rounding=3`, {
+        params: {
+            period: req.query.period || "12",
+        }
+    })
         .then(response => {
             let htmlString = response.data["result"]
             data = [
@@ -165,7 +169,7 @@ router.get("/api/v1/company-data/report-type/income-statement/:ticker/details", 
 // GET BALANCESHEET
 router.get("/api/v1/company-data/report-type/balance-sheet/:ticker/details", (req, res) => {
     let data = []
-    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=bs&period=12&dataType=A&order=desc&rounding=3`)
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=bs&period=${req.query.period || "12"}&dataType=${req.query.dataType || "A"}&order=desc&rounding=3`)
         .then(response => {
             let htmlString = response.data["result"]
             data = [
@@ -228,7 +232,7 @@ router.get("/api/v1/company-data/report-type/balance-sheet/:ticker/details", (re
 // GET CASHFLOW
 router.get("/api/v1/company-data/report-type/cash-flow/:ticker/details", (req, res) => {
     let data = []
-    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=cf&period=12&dataType=A&order=desc&rounding=3`)
+    axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=cf&period=${req.query.period || "12"}&dataType=${req.query.dataType || "A"}&order=desc&rounding=3`)
         .then(response => {
             let htmlString = response.data["result"]
             data = [
@@ -332,94 +336,82 @@ router.get("/api/v1/company-data/key-ratios/stats/:ticker/details", (req, res) =
             let htmlString = response.data["componentData"]
             let financialData = traverseThroughKeyStatsHTML(htmlString, "td")
             let heading = traverseThroughKeyStatsHTML(htmlString, "th").slice(1, 12)
-            data = {
-                profitability: [
-                    { title: "Margin % of Sales", data: heading, highlight: true },
-                    { title: "Revenue", data: financialData.slice(0, 11), bold: true },
-                    { title: "COGS", data: financialData.slice(11, 22) },
-                    { title: "Gross Margin", data: financialData.slice(22, 33), bold: true },
-                    { title: "SG&A", data: financialData.slice(33, 44) },
-                    { title: "R&D", data: financialData.slice(44, 55) },
-                    { title: "Other", data: financialData.slice(55, 66) },
-                    { title: "Operating Margin", data: financialData.slice(66, 77), bold: true },
-                    { title: "Net Int Inc & Other", data: financialData.slice(77, 88) },
-                    { title: "EBT Margin", data: financialData.slice(88, 99) },
-                    { title: "Profitability", data: heading, highlight: true },
-                    { title: "Tax Rate %", data: financialData.slice(99, 110) },
-                    { title: "Net Margin %", data: financialData.slice(110, 121), bold: true },
-                    { title: "Asset Turnover (AVG)", data: financialData.slice(121, 132) },
-                    { title: "Return on Assets %", data: financialData.slice(132, 143), bold: true },
-                    { title: "Financial Leverage (AVG)", data: financialData.slice(143, 154) },
-                    { title: "Return on Equity %", data: financialData.slice(154, 165), bold: true },
-                    { title: "Return on Invested Capital %", data: financialData.slice(165, 176), bold: true },
-                    { title: "Interest Coverage", data: financialData.slice(176, 187) },
-                ],
-                growth: [
-                    { title: "Revenue %", data: heading, highlight: true },
-                    { title: "YoY", data: financialData.slice(187, 198) },
-                    { title: "3Y AVG", data: financialData.slice(198, 209) },
-                    { title: "5Y AVG", data: financialData.slice(209, 220) },
-                    { title: "10Y AVG", data: financialData.slice(220, 231) },
+            data = [
+                { title: "Margin % of Sales", data: heading, highlight: true },
+                { title: "Revenue", data: financialData.slice(0, 11), bold: true },
+                { title: "COGS", data: financialData.slice(11, 22) },
+                { title: "Gross Margin", data: financialData.slice(22, 33), bold: true },
+                { title: "SG&A", data: financialData.slice(33, 44) },
+                { title: "R&D", data: financialData.slice(44, 55) },
+                { title: "Other", data: financialData.slice(55, 66) },
+                { title: "Operating Margin", data: financialData.slice(66, 77), bold: true },
+                { title: "Net Int Inc & Other", data: financialData.slice(77, 88) },
+                { title: "EBT Margin", data: financialData.slice(88, 99) },
+                { title: "Profitability", data: heading, highlight: true },
+                { title: "Tax Rate %", data: financialData.slice(99, 110) },
+                { title: "Net Margin %", data: financialData.slice(110, 121), bold: true },
+                { title: "Asset Turnover (AVG)", data: financialData.slice(121, 132) },
+                { title: "Return on Assets %", data: financialData.slice(132, 143), bold: true },
+                { title: "Financial Leverage (AVG)", data: financialData.slice(143, 154) },
+                { title: "Return on Equity %", data: financialData.slice(154, 165), bold: true },
+                { title: "Return on Invested Capital %", data: financialData.slice(165, 176), bold: true },
+                { title: "Interest Coverage", data: financialData.slice(176, 187) },
 
-                    { title: "Operating Income %", data: heading, highlight: true },
-                    { title: "YoY", data: financialData.slice(231, 242) },
-                    { title: "3Y AVG", data: financialData.slice(242, 253) },
-                    { title: "5Y AVG", data: financialData.slice(253, 264) },
-                    { title: "10Y AVG", data: financialData.slice(264, 275) },
+                { title: "Revenue %", data: heading, highlight: true },
+                { title: "YoY", data: financialData.slice(187, 198) },
+                { title: "3Y AVG", data: financialData.slice(198, 209) },
+                { title: "5Y AVG", data: financialData.slice(209, 220) },
+                { title: "10Y AVG", data: financialData.slice(220, 231) },
+                { title: "Operating Income %", data: heading, highlight: true },
+                { title: "YoY", data: financialData.slice(231, 242) },
+                { title: "3Y AVG", data: financialData.slice(242, 253) },
+                { title: "5Y AVG", data: financialData.slice(253, 264) },
+                { title: "10Y AVG", data: financialData.slice(264, 275) },
+                { title: "Net Income %", data: heading, highlight: true },
+                { title: "YoY", data: financialData.slice(275, 286) },
+                { title: "3Y AVG", data: financialData.slice(286, 297) },
+                { title: "5Y AVG", data: financialData.slice(297, 308) },
+                { title: "10Y AVG", data: financialData.slice(308, 319) },
+                { title: "EPS %", data: heading, highlight: true },
+                { title: "YoY", data: financialData.slice(319, 330) },
+                { title: "3Y AVG", data: financialData.slice(330, 341) },
+                { title: "5Y AVG", data: financialData.slice(341, 352) },
+                { title: "10Y AVG", data: financialData.slice(352, 363) },
 
-                    { title: "Net Income %", data: heading, highlight: true },
-                    { title: "YoY", data: financialData.slice(275, 286) },
-                    { title: "3Y AVG", data: financialData.slice(286, 297) },
-                    { title: "5Y AVG", data: financialData.slice(297, 308) },
-                    { title: "10Y AVG", data: financialData.slice(308, 319) },
+                { title: "Cash Flow Ratios", data: heading, highlight: true },
+                { title: "Operating Cash Flow Growth % YoY", data: financialData.slice(363, 374), bold: true },
+                { title: "Free Cash Flow Growth % YoY", data: financialData.slice(374, 385), bold: true },
+                { title: "Cap Ex as a % of Sales", data: financialData.slice(385, 396) },
+                { title: "Free Cash Flow/Sales %", data: financialData.slice(396, 407) },
+                { title: "Free Cash Flow/Net Income", data: financialData.slice(407, 418) },
 
-                    { title: "EPS %", data: heading, highlight: true },
-                    { title: "YoY", data: financialData.slice(319, 330) },
-                    { title: "3Y AVG", data: financialData.slice(330, 341) },
-                    { title: "5Y AVG", data: financialData.slice(341, 352) },
-                    { title: "10Y AVG", data: financialData.slice(352, 363) },
-                ],
-
-                cashFlow: [
-                    { title: "Cash Flow Ratios", data: heading, highlight: true },
-                    { title: "Operating Cash Flow Growth % YoY", data: financialData.slice(363, 374), bold: true },
-                    { title: "Free Cash Flow Growth % YoY", data: financialData.slice(374, 385), bold: true },
-                    { title: "Cap Ex as a % of Sales", data: financialData.slice(385, 396) },
-                    { title: "Free Cash Flow/Sales %", data: financialData.slice(396, 407) },
-                    { title: "Free Cash Flow/Net Income", data: financialData.slice(407, 418) },
-                ],
-
-                financialHealth: [
-                    { title: "Balance Sheet Items (in %)", data: heading, highlight: true },
-                    { title: "Cash & Short-Term Investments", data: financialData.slice(418, 429) },
-                    { title: "Accounts Receivable", data: financialData.slice(429, 440) },
-                    { title: "Inventory", data: financialData.slice(440, 451) },
-                    { title: "Other Current Assets", data: financialData.slice(451, 462) },
-                    { title: "Total Current Assets", data: financialData.slice(462, 473), bold: true },
-                    { title: "Net PP&E", data: financialData.slice(473, 484) },
-                    { title: "Intangibles", data: financialData.slice(484, 495) },
-                    { title: "Other Long-Term Assets", data: financialData.slice(495, 506) },
-                    { title: "Total Assets", data: financialData.slice(506, 517), bold: true },
-
-                    { title: "Accounts Payable", data: financialData.slice(517, 528) },
-                    { title: "Short-Term Debt", data: financialData.slice(528, 539) },
-                    { title: "Taxes Payable", data: financialData.slice(539, 550) },
-                    { title: "Accrued Liabilities", data: financialData.slice(550, 561) },
-                    { title: "Other Short-Term Debt", data: financialData.slice(561, 572) },
-                    { title: "Total Current Liabilities", data: financialData.slice(572, 583), bold: true },
-                    { title: "Long-Term Debt", data: financialData.slice(583, 594) },
-                    { title: "Other Long-Term Liabilities", data: financialData.slice(594, 605) },
-                    { title: "Total Liabilities", data: financialData.slice(605, 616), bold: true },
-                    { title: "Total Stockholders' Equity", data: financialData.slice(616, 627) },
-                    { title: "Total Liabilities & Equity", data: financialData.slice(627, 638) },
-
-                    { title: "Liquidity/Financial Health", data: heading, highlight: true },
-                    { title: "Asset/Debt", data: financialData.slice(638, 649), bold: true },
-                    { title: "Quick Ratio", data: financialData.slice(649, 660) },
-                    { title: "Financial Leverage", data: financialData.slice(660, 671) },
-                    { title: "Debt/Equity", data: financialData.slice(671, 682) },
-                ]
-            }
+                { title: "Balance Sheet Items (in %)", data: heading, highlight: true },
+                { title: "Cash & Short-Term Investments", data: financialData.slice(418, 429) },
+                { title: "Accounts Receivable", data: financialData.slice(429, 440) },
+                { title: "Inventory", data: financialData.slice(440, 451) },
+                { title: "Other Current Assets", data: financialData.slice(451, 462) },
+                { title: "Total Current Assets", data: financialData.slice(462, 473), bold: true },
+                { title: "Net PP&E", data: financialData.slice(473, 484) },
+                { title: "Intangibles", data: financialData.slice(484, 495) },
+                { title: "Other Long-Term Assets", data: financialData.slice(495, 506) },
+                { title: "Total Assets", data: financialData.slice(506, 517), bold: true },
+                { title: "Accounts Payable", data: financialData.slice(517, 528) },
+                { title: "Short-Term Debt", data: financialData.slice(528, 539) },
+                { title: "Taxes Payable", data: financialData.slice(539, 550) },
+                { title: "Accrued Liabilities", data: financialData.slice(550, 561) },
+                { title: "Other Short-Term Debt", data: financialData.slice(561, 572) },
+                { title: "Total Current Liabilities", data: financialData.slice(572, 583), bold: true },
+                { title: "Long-Term Debt", data: financialData.slice(583, 594) },
+                { title: "Other Long-Term Liabilities", data: financialData.slice(594, 605) },
+                { title: "Total Liabilities", data: financialData.slice(605, 616), bold: true },
+                { title: "Total Stockholders' Equity", data: financialData.slice(616, 627) },
+                { title: "Total Liabilities & Equity", data: financialData.slice(627, 638) },
+                { title: "Liquidity/Financial Health", data: heading, highlight: true },
+                { title: "Asset/Debt", data: financialData.slice(638, 649), bold: true },
+                { title: "Quick Ratio", data: financialData.slice(649, 660) },
+                { title: "Financial Leverage", data: financialData.slice(660, 671) },
+                { title: "Debt/Equity", data: financialData.slice(671, 682) },
+            ]
             res.json(data)
         }).catch(err => {
             res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })

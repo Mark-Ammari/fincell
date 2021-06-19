@@ -7,6 +7,8 @@ import getIncomeStatementReducer from './getIncomeStatement/getIncomeStatement';
 import getCashFlowReducer from './getCashFlow/getCashFlow';
 import getFinancialStatsReducer from './getFinancialStats/getFinancialStats';
 import getKeyStatsReducer from './getKeyStats/getKeyStats';
+import periodReducer from './period/period';
+import getFinancialStatementReducer from './getFinancialStatement/getFinancialStatement';
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +19,9 @@ export const store = configureStore({
     getIncomeStatement: getIncomeStatementReducer,
     getCashFlow: getCashFlowReducer,
     getFinancialStats: getFinancialStatsReducer,
-    getKeyStats: getKeyStatsReducer
+    getKeyStats: getKeyStatsReducer,
+    period: periodReducer,
+    getFinancialStatement: getFinancialStatsReducer
   },
 });
 

@@ -414,4 +414,15 @@ router.get("/api/v1/company-data/key-ratios/stats/:ticker/details", (req, res) =
         })
 })
 
+// GET getAllData
+router.get("/api/v1/company-data/:ticker/:performanceId/details", (req, res) => {
+    let data = []
+    let quoteURL = axios.get(`/api/v1/company-data/quote/${req.params.performanceId}/details`).then(response => response.data)
+    let financialsPartURL = axios.get(`/api/v1/company-data/key-ratios/financials/${req.params.ticker}/details`).then(response => response.data)
+    let keyStatsPartURL = axios.get(`/api/v1/company-data/key-ratios/stats/${req.params.ticker}/details`).then(response => response.data)
+    let incomeStatementURL = axios.get(`/api/v1/company-data/report-type/income-statement/${req.params.ticker}/details`).then(response => response.data)
+    let balanceSheetURL = axios.get(`/api/v1/company-data/report-type/balance-sheet/${req.params.ticker}/details`).then(response => response.data)
+    let cashFlowsURL = axios.get(`/api/v1/company-data/report-type/cash-flow/${req.params.ticker}/details`).then(response => response.data)
+})
+
 module.exports = router;

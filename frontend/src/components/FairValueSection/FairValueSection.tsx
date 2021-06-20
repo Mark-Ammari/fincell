@@ -11,7 +11,6 @@ const FairValueSection: React.FC = () => {
         <div className={classes.Container}>
             <div className={classes.Details}>
                 <h1 className={classes.ReportType}>Intrinsic Value Analysis</h1>
-                {/* <p className={classes.RoundNumbers}>All Numbers in the Billions.</p> */}
             </div>
             <div className={classes.FinancialSection}>
                 <Scenario />
@@ -21,9 +20,6 @@ const FairValueSection: React.FC = () => {
 };
 
 const Scenario: React.FC = () => {
-    // const freeCashFlow = useSelector(cashFlowdata)[33]["data"]
-    // const avgFCF = (parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1]) + parseInt(freeCashFlow[1])) / 5
-    // console.log(parseInt(freeCashFlow[0]))
     return (
         <div className={classes.ScenarioTable}>
 

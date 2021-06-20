@@ -10,7 +10,6 @@ const CompanyStatsScreen: React.FC = () => {
     const { ticker } = useParams<any>();
     const tickerData = useSelector(searchTickerdata);
     const loadTickerData = useSelector(loadSearchTicker);
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchSearchTicker(ticker))

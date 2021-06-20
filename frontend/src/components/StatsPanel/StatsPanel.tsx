@@ -12,15 +12,15 @@ import KeyStatsTable from '../KeyStatsTable/KeyStatsTable';
 const useStyles = makeStyles({
     root: {
         flexGrow: 1,
-        backgroundColor: "white",
+        backgroundColor: "#1e1e1e",
         color: "white",
         width: "100%",
         overflowX: "hidden",
         boxShadow: "none",
     },
     tabs: {
-        background: "#000",
-        color: "#000",
+        background: "#fff",
+        color: "#fff",
     },
     tabRoot: {
         fontFamily: "'Montserrat', sans-serif",
@@ -29,10 +29,10 @@ const useStyles = makeStyles({
         fontSize: "12pt"
     },
     defaultColor: {
-        color: "#767676"
+        color: "#ccc"
     },
     activeColor: {
-        color: "#000"
+        color: "#fff"
     },
     box: {
         padding: "0 0 5px 0",

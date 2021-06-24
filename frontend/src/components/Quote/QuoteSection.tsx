@@ -16,7 +16,7 @@ const QuoteSection: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchQuote(performanceId.results[0]["performanceId"]))
-        dispatch(fetchChartData(ticker, "6M"))
+        dispatch(fetchChartData(ticker, "MAX"))
     }, [dispatch, performanceId, ticker])
 
     const qLoading = useSelector(loadQuote);

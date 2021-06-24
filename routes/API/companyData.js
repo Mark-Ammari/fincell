@@ -24,71 +24,89 @@ router.get("/api/v1/company-data/search/:ticker", (req, res) => {
 // GET quotes
 router.get("/api/v1/company-data/quote/:performanceid/details", (req, res) => {
     let data = []
-    let URIone = axios.get(`${config.SAL_SERVICE}/keyratios/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+    let URIOne = axios.get(`${config.SAL_SERVICE}/valuation/v3/${req.params.performanceid}?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.X_API_KEY,
+            'x-api-realtime-e': config.X_API_REALTIME_E
+        }
+    }).then(response => {
+        return {
+            ratios: response.data["Collapsed"]["rows"],
+            valuations: response.data["Expanded"]["rows"]
+        }
+    })
+    let URITwo = axios.get(`${config.SAL_SERVICE}/operatingPerformance/v2/${req.params.performanceid}?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.X_API_KEY,
+            'x-api-realtime-e': config.X_API_REALTIME_E
+        }
+    }).then(response => {
+        console.log()
+        return {
+            ratios: response.data["reported"]["Collapsed"]["rows"],
+            valuations: response.data["reported"]["Expanded"]["rows"]
+        }
+    })
+    let URIThree = axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
             'apikey': config.X_API_KEY,
             'x-api-realtime-e': config.X_API_REALTIME_E
         }
     }).then(response => { return response.data })
-    let URItwo = axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
-        headers: {
-            'apikey': config.X_API_KEY,
-            'x-api-realtime-e': config.X_API_REALTIME_E
-        }
-    }).then(response => { return response.data })
-    Promise.all([URIone, URItwo]).then(response => {
+    Promise.all([URIOne, URITwo, URIThree]).then(response => {
         data = {
             quote: [
-                { title: "Today's Stats", data: response[1]["recentTradingDay"], highlight: true },
-                { title: "Market Cap", data: Numeral(response[1]["marketCap"]).format("0.00a"), bold: true },
-                { title: "Volume", data: Numeral(response[1]["volume"]).format("0.00a") },
-                { title: "Today's High", data: response[1]["dayRangeHigh"] },
-                { title: "Today's Low", data: response[1]["dayRangeLow"] },
-                { title: "52-Week High", data: response[1]["yearRangeHigh"] },
-                { title: "52-Week Low", data: response[1]["yearRangeLow"] },
-                { title: "Dividend Yield", data: response[1]["dividendYield"], bold: true }
+                { title: "Today's Stats", data: response[2]["recentTradingDay"], highlight: true },
+                { title: "Market Cap", data: Numeral(response[2]["marketCap"]).format("0.00a"), bold: true },
+                { title: "Volume", data: Numeral(response[2]["volume"]).format("0.00a") },
+                { title: "Today's High", data: response[2]["dayRangeHigh"] },
+                { title: "Today's Low", data: response[2]["dayRangeLow"] },
+                { title: "52-Week High", data: response[2]["yearRangeHigh"] },
+                { title: "52-Week Low", data: response[2]["yearRangeLow"] },
+                { title: "Dividend Yield", data: response[2]["dividendYield"] || "---", bold: true }
             ],
-            growthRatio: [
-                { title: "Growth Ratio", data: response[0]["growthRatio"]["reportDate"], highlight: true },
-                { title: "Revenue", data: Numeral(response[0]["growthRatio"]["revenue"]).format('0.00%') },
-                { title: "Profit Margin", data: Numeral(response[0]["profitabilityRatio"]["netMargin"]).format('0.00%'), bold: true },
-                { title: "Operating Income", data: Numeral(response[0]["growthRatio"]["operatingIncome"]).format('0.00%') },
-                { title: "Net Income", data: Numeral(response[0]["growthRatio"]["netIncome"]).format('0.00%') },
-                { title: "Earnings Per Share", data: Numeral(response[0]["growthRatio"]["eps"]).format('0.00%') }
-            ],
-
-            valuationRatio: [
-                { title: "Valuation Ratio", data: response[0]["valuationRatio"]["asOfDate"], highlight: true },
-                { title: "P/E Ratio (TTM)", data: response[0]["valuationRatio"]["priceToEPS"], bold: true },
-                { title: "P/B Ratio (TTM)", data: response[0]["valuationRatio"]["priceToBook"] },
-                { title: "P/S Ratio (TTM)", data: response[0]["valuationRatio"]["priceToSales"] },
-                { title: "P/CF Ratio (TTM)", data: response[0]["valuationRatio"]["priceToCashFlow"], bold: true },
+            valuation: [
+                { title: "Valuation", highlight: true },
+                { title: "P/E Ratio (TTM)", data: response[0]["ratios"][1]["datum"][10] || "---" },
+                { title: "P/E Ratio (5Y-AVG)", data: response[0]["ratios"][1]["datum"][11] || "---" },
+                { title: "P/S Ratio (TTM)", data: response[0]["ratios"][0]["datum"][10] || "---" },
+                { title: "P/S Ratio (5Y-AVG)", data: response[0]["ratios"][0]["datum"][11] || "---" },
+                { title: "P/B Ratio (TTM)", data: response[0]["ratios"][3]["datum"][10] || "---" },
+                { title: "P/B Ratio (5Y-AVG)", data: response[0]["ratios"][3]["datum"][11] || "---" },
+                { title: "P/FCF Ratio (TTM)", data: response[0]["ratios"][2]["datum"][10] || "---" },
+                { title: "P/FCF Ratio (5Y-AVG)", data: response[0]["ratios"][2]["datum"][11] || "---" },
             ],
 
-            efficiencyRatio: [
-                { title: "Efficiency Ratio", data: response[0]["efficiencyRatio"]["reportDate"], highlight: true },
-                { title: "Return on Assets", data: Numeral(response[0]["efficiencyRatio"]["returnOnAssets"]).format('0.00%'), bold: true },
-                { title: "Return on Equity", data: Numeral(response[0]["efficiencyRatio"]["returnOnEquity"]).format('0.00%') },
-                { title: "Return on Invested Capital", data: Numeral(response[0]["efficiencyRatio"]["returnOnInvestedCapital"]).format('0.00%'), bold: true },
+            growth: [
+                { title: "Margins", highlight: true },
+                { title: "Gross Margin (TTM)", data: response[1]["valuations"][1]["datum"][10] ? `${response[1]["valuations"][1]["datum"][10]}%` : "---" },
+                { title: "Gross Margin (5Y-AVG)", data: response[1]["valuations"][1]["datum"][11] ? `${response[1]["valuations"][1]["datum"][11]}%` : "---" },
+                { title: "Operating Margin (TTM)", data: response[1]["valuations"][2]["datum"][10] ? `${response[1]["valuations"][2]["datum"][10]}%` : "---" },
+                { title: "Operating Margin (5Y-AVG)", data: response[1]["valuations"][2]["datum"][11] ? `${response[1]["valuations"][2]["datum"][11]}%` : "---" },
+                { title: "Net Margin (TTM)", data: response[1]["valuations"][3]["datum"][10] ? `${response[1]["valuations"][3]["datum"][10]}%` : "---" },
+                { title: "Net Margin (5Y-AVG)", data: response[1]["valuations"][3]["datum"][11] ? `${response[1]["valuations"][3]["datum"][11]}%` : "---" },
             ],
 
-            financialHealth: [
-                { title: "Financial Health", data: response[0]["financialHealth"]["reportDate"], highlight: true },
-                { title: "Asset/Debt", data: Numeral(response[0]["financialHealth"]["currentRatio"]).format('0.00%'), bold: true },
-                { title: "Quick Ratio", data: Numeral(response[0]["financialHealth"]["quickRatio"]).format('0.00%') },
-                { title: "Debt/Equity", data: Numeral(response[0]["financialHealth"]["debtToEquity"]).format('0.00%') },
+            efficiency: [
+                { title: "Efficiency", highlight: true },
+                { title: "ROA (TTM)", data: response[1]["ratios"][0]["datum"][10] ? `${response[1]["ratios"][0]["datum"][10]}%` : "---" },
+                { title: "ROA (5Y-AVG)", data: response[1]["ratios"][0]["datum"][11] ? `${response[1]["ratios"][0]["datum"][11]}%` : "---" },
+                { title: "ROE (TTM)", data: response[1]["ratios"][1]["datum"][10] ? `${response[1]["ratios"][1]["datum"][10]}%` : "---" },
+                { title: "ROE (5Y-AVG)", data: response[1]["ratios"][1]["datum"][11] ? `${response[1]["ratios"][1]["datum"][11]}%` : "---" },
+                { title: "ROIC (TTM)", data: response[1]["ratios"][2]["datum"][10] ? `${response[1]["ratios"][2]["datum"][10]}%` : "---" },
+                { title: "ROIC (5Y-AVG)", data: response[1]["ratios"][2]["datum"][11] ? `${response[1]["ratios"][2]["datum"][11]}%` : "---" },
             ]
         }
+        // console.log(response)
         res.json(data)
     }).catch(err => {
-        res.status(400).send({ error: true, message: "Something weng wrong. The ticker entered may not exist" })
+        res.status(400).send(err)
     })
 })
 
 // GET Chart Data (SEEKING ALPHA)
 router.get("/api/v1/company-data/chart/:ticker/:period/details", (req, res) => {
     let data = {}
-
     axios.get(`${config.SEEKING_ALPHA_URI}/chart?period=${req.params.period}&symbol=${req.params.ticker}`
     ).then(response => {
         data = Object.keys(response.data.attributes).map((el) => {
@@ -415,14 +433,195 @@ router.get("/api/v1/company-data/key-ratios/stats/:ticker/details", (req, res) =
 })
 
 // GET getAllData
-router.get("/api/v1/company-data/:ticker/:performanceId/details", (req, res) => {
-    let data = []
-    let quoteURL = axios.get(`/api/v1/company-data/quote/${req.params.performanceId}/details`).then(response => response.data)
-    let financialsPartURL = axios.get(`/api/v1/company-data/key-ratios/financials/${req.params.ticker}/details`).then(response => response.data)
-    let keyStatsPartURL = axios.get(`/api/v1/company-data/key-ratios/stats/${req.params.ticker}/details`).then(response => response.data)
-    let incomeStatementURL = axios.get(`/api/v1/company-data/report-type/income-statement/${req.params.ticker}/details`).then(response => response.data)
-    let balanceSheetURL = axios.get(`/api/v1/company-data/report-type/balance-sheet/${req.params.ticker}/details`).then(response => response.data)
-    let cashFlowsURL = axios.get(`/api/v1/company-data/report-type/cash-flow/${req.params.ticker}/details`).then(response => response.data)
+router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req, res) => {
+    // let incomeStatementURL = axios.get(`/api/v1/company-data/report-type/income-statement/${req.params.ticker}/details`).then(response => response.data)
+    // let balanceSheetURL = axios.get(`/api/v1/company-data/report-type/balance-sheet/${req.params.ticker}/details`).then(response => response.data)
+    // let cashFlowsURL = axios.get(`/api/v1/company-data/report-type/cash-flow/${req.params.ticker}/details`).then(response => response.data)
+    let quotes = axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.X_API_KEY,
+            'x-api-realtime-e': config.X_API_REALTIME_E
+        }
+    }).then(response => {
+        return [
+            {
+                title: "Market Cap",
+                rawValue: response.data["marketCap"],
+                formattedValue: Numeral(response.data["marketCap"]).format("0.00a"),
+            },
+            {
+                title: "Stock Price",
+                rawValue: response.data["lastClose"],
+                formattedValue: Numeral(response.data["lastClose"]).format("0.00a"),
+            }
+        ]
+    })
+    let valuations = axios.get(`${config.SAL_SERVICE}/valuation/v3/${req.params.performanceid}?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.X_API_KEY,
+            'x-api-realtime-e': config.X_API_REALTIME_E
+        }
+    }).then(response => {
+        return [
+            {
+                title: "P/E Ratio",
+                TTM: response.data["Collapsed"]["rows"][1]["datum"][10],
+                fiveYearAVG: response.data["Collapsed"]["rows"][1]["datum"][11],
+            },
+            {
+                title: "P/S Ratio",
+                TTM: response.data["Collapsed"]["rows"][0]["datum"][10],
+                fiveYearAVG: response.data["Collapsed"]["rows"][0]["datum"][11],
+            },
+            {
+                title: "P/B Ratio",
+                TTM: response.data["Collapsed"]["rows"][3]["datum"][10],
+                fiveYearAVG: response.data["Collapsed"]["rows"][3]["datum"][11],
+            },
+            {
+                title: "P/FCF Ratio",
+                TTM: response.data["Collapsed"]["rows"][2]["datum"][10],
+                fiveYearAVG: response.data["Collapsed"]["rows"][2]["datum"][11],
+            }
+        ]
+    })
+    let operatingPerformance = axios.get(`${config.SAL_SERVICE}/operatingPerformance/v2/${req.params.performanceid}?clientId=MDC&benchmarkId=category&version=3.31.0`, {
+        headers: {
+            'apikey': config.X_API_KEY,
+            'x-api-realtime-e': config.X_API_REALTIME_E
+        }
+    }).then(response => {
+        console.log(response.data["reported"]["Expanded"]["rows"])
+        return [
+            {
+                title: "Gross Margin",
+                TTM: response.data["reported"]["Expanded"]["rows"][1]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][10]}%` : "—",
+                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][1]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][11]}%` : "—"
+            },
+            {
+                title: "Operating Margin",
+                TTM: response.data["reported"]["Expanded"]["rows"][2]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][10]}%` : "—",
+                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][2]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][11]}%` : "—"
+            },
+            {
+                title: "Net Margin",
+                TTM: response.data["reported"]["Expanded"]["rows"][3]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][10]}%` : "—",
+                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][3]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][11]}%` : "—"
+            },
+            {
+                title: "Return on Assets",
+                TTM: response.data["reported"]["Collapsed"]["rows"][0]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][10]}%` : "—",
+                fiveYearAVG: response.data["reported"]["Collapsed"]["rows"][0]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][11]}%` : "—"
+            },
+            {
+                title: "Return on Equity",
+                TTM: response.data["reported"]["Collapsed"]["rows"][1]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][10]}%` : "—",
+                fiveYearAVG: response.data["reported"]["Collapsed"]["rows"][1]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][11]}%` : "—"
+            },
+            {
+                title: "Return on Invested Capital",
+                TTM: response.data["reported"]["Collapsed"]["rows"][2]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][10]}%` : "—",
+                fiveYearAVG: response.data["reported"]["Collapsed"]["rows"][2]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][11]}%` : "—"
+            }
+        ]
+    })
+    let keyStatsPart = axios.get(`${config.keyStatsPartURI}?&t=${req.params.ticker}&region=usa&culture=en-US&cur=&order=desc`)
+        .then(response => {
+            let htmlString = response.data["componentData"]
+            let financialData = traverseThroughKeyStatsHTML(htmlString, "td")
+            return [
+                {
+                    title: "Timeline",
+                    TTM: "TTM",
+                    firstYear: "1Y-AVG",
+                    threeYearAVG: "3Y-AVG",
+                    fiveYearAVG: "5Y-AVG",
+                    tenYearAVG: "10Y-AVG",
+                    highlight: true
+                },
+                {
+                    title: "Revenue Growth %",
+                    tenYearData: financialData.slice(187, 198),
+                    TTM: financialData.slice(187, 198)[0],
+                    firstYear: financialData.slice(187, 198)[1],
+                    threeYearAVG: financialData.slice(198, 209)[1],
+                    fiveYearAVG: financialData.slice(209, 220)[1],
+                    tenYearAVG: financialData.slice(220, 231)[1]
+                },
+                {
+                    title: "Gross Profit Growth %",
+                    tenYearData: financialData.slice(22, 33),
+                    TTM: financialData.slice(22, 33)[0],
+                    firstYear: financialData.slice(22, 33)[1],
+                    threeYearAVG: (financialData.slice(23, 26).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3).toFixed(2),
+                    fiveYearAVG: (financialData.slice(23, 28).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).toFixed(2),
+                    tenYearAVG: (financialData.slice(23, 33).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2),
+                },
+                {
+                    title: "Net Profit Growth %",
+                    tenYearData: financialData.slice(110, 121),
+                    TTM: financialData.slice(110, 121)[0],
+                    firstYear: financialData.slice(110, 121)[1],
+                    threeYearAVG: (financialData.slice(111, 114).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3).toFixed(2),
+                    fiveYearAVG: (financialData.slice(111, 116).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).toFixed(2),
+                    tenYearAVG: (financialData.slice(111, 121).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2),
+                },
+                {
+                    title: "Free Cash Flow Growth %",
+                    tenYearData: financialData.slice(374, 385),
+                    TTM: financialData.slice(374, 385)[0],
+                    firstYear: financialData.slice(374, 385)[1],
+                    threeYearAVG: (financialData.slice(375, 378).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3).toFixed(2),
+                    fiveYearAVG: (financialData.slice(375, 380).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).toFixed(2),
+                    tenYearAVG: (financialData.slice(375, 385).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2)
+                }
+            ]
+        })
+    let incomeStatement = axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=is&period=12&dataType=A&order=desc&rounding=3`)
+        .then(response => {
+            let htmlString = response.data["result"]
+            return [
+                {
+                    title: "Total Revenue",
+                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1")[1],
+                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1")[1]).format("0.00a")
+                },
+                {
+                    title: "Gross Profit",
+                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10")[1],
+                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10")[1]).format("0.00a")
+                },
+                {
+                    title: "Net Income",
+                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i80")[1],
+                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i80")[1]).format("0.00a")
+                },
+                {
+                    title: "Basic WASO",
+                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i85")[1],
+                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i85")[1]).format("0.00a")
+                },
+            ]
+        })
+    let cashFlow = axios.get(`${config.financialsURI}?&t=${req.params.ticker}&reportType=cf&period=12&dataType=A&order=desc&rounding=3`)
+        .then(response => {
+            let htmlString = response.data["result"]
+            return [
+                {
+                    title: "Free Cash Flow",
+                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97")[1],
+                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97")[1]).format("0.00a"),
+                    fiveYearAVG: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97").slice(1).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5,
+                    fiveYearAVGRawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97").slice(1).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).format("0.00a")
+                },
+
+            ]
+        })
+    Promise.all([quotes, valuations, operatingPerformance, keyStatsPart, incomeStatement, cashFlow]).then(response => {
+        res.json(response)
+    }).catch(err => {
+        res.json(err)
+    })
 })
 
 module.exports = router;

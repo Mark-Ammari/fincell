@@ -4,7 +4,7 @@ import { Tabs, Tab, useTheme, AppBar, Box, Typography, Divider } from '@material
 import SwipeableViews from 'react-swipeable-views';
 import classes from './StatsPanel.module.css';
 import QuoteSection from '../Quote/QuoteSection';
-import FairValueSection from '../FairValueSection/FairValueSection';
+import FairValueTable from '../FairValueTable/FairValueTable';
 import FinancialTable from '../FinancialTable/FinancialTable';
 import FinancialStatsTable from '../FinancialStatsTable/FinancialStatsTable';
 import KeyStatsTable from '../KeyStatsTable/KeyStatsTable';
@@ -181,7 +181,7 @@ const StatsPanel = () => {
                     <Divider />
                 </TabPanel>
                 <TabPanel value={value} index={5} dir={theme.direction}>
-                    <FairValueSection />
+                    <FairValueTable />
                 </TabPanel>
             </SwipeableViews>
         </div>

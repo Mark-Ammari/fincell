@@ -41,7 +41,6 @@ router.get("/api/v1/company-data/quote/:performanceid/details", (req, res) => {
             'x-api-realtime-e': config.X_API_REALTIME_E
         }
     }).then(response => {
-        console.log()
         return {
             ratios: response.data["reported"]["Collapsed"]["rows"],
             valuations: response.data["reported"]["Expanded"]["rows"]
@@ -63,38 +62,38 @@ router.get("/api/v1/company-data/quote/:performanceid/details", (req, res) => {
                 { title: "Today's Low", data: response[2]["dayRangeLow"] },
                 { title: "52-Week High", data: response[2]["yearRangeHigh"] },
                 { title: "52-Week Low", data: response[2]["yearRangeLow"] },
-                { title: "Dividend Yield", data: response[2]["dividendYield"] || "---", bold: true }
+                { title: "Dividend Yield", data: response[2]["dividendYield"] || "—", bold: true }
             ],
             valuation: [
                 { title: "Valuation", highlight: true },
-                { title: "P/E Ratio (TTM)", data: response[0]["ratios"][1]["datum"][10] || "---" },
-                { title: "P/E Ratio (5Y-AVG)", data: response[0]["ratios"][1]["datum"][11] || "---" },
-                { title: "P/S Ratio (TTM)", data: response[0]["ratios"][0]["datum"][10] || "---" },
-                { title: "P/S Ratio (5Y-AVG)", data: response[0]["ratios"][0]["datum"][11] || "---" },
-                { title: "P/B Ratio (TTM)", data: response[0]["ratios"][3]["datum"][10] || "---" },
-                { title: "P/B Ratio (5Y-AVG)", data: response[0]["ratios"][3]["datum"][11] || "---" },
-                { title: "P/FCF Ratio (TTM)", data: response[0]["ratios"][2]["datum"][10] || "---" },
-                { title: "P/FCF Ratio (5Y-AVG)", data: response[0]["ratios"][2]["datum"][11] || "---" },
+                { title: "P/E Ratio (TTM)", data: response[0]["ratios"][1]["datum"][10] || "—" },
+                { title: "P/E Ratio (5Y-AVG)", data: response[0]["ratios"][1]["datum"][11] || "—" },
+                { title: "P/S Ratio (TTM)", data: response[0]["ratios"][0]["datum"][10] || "—" },
+                { title: "P/S Ratio (5Y-AVG)", data: response[0]["ratios"][0]["datum"][11] || "—" },
+                { title: "P/B Ratio (TTM)", data: response[0]["ratios"][3]["datum"][10] || "—" },
+                { title: "P/B Ratio (5Y-AVG)", data: response[0]["ratios"][3]["datum"][11] || "—" },
+                { title: "P/FCF Ratio (TTM)", data: response[0]["ratios"][2]["datum"][10] || "—" },
+                { title: "P/FCF Ratio (5Y-AVG)", data: response[0]["ratios"][2]["datum"][11] || "—" },
             ],
 
             growth: [
                 { title: "Margins", highlight: true },
-                { title: "Gross Margin (TTM)", data: response[1]["valuations"][1]["datum"][10] ? `${response[1]["valuations"][1]["datum"][10]}%` : "---" },
-                { title: "Gross Margin (5Y-AVG)", data: response[1]["valuations"][1]["datum"][11] ? `${response[1]["valuations"][1]["datum"][11]}%` : "---" },
-                { title: "Operating Margin (TTM)", data: response[1]["valuations"][2]["datum"][10] ? `${response[1]["valuations"][2]["datum"][10]}%` : "---" },
-                { title: "Operating Margin (5Y-AVG)", data: response[1]["valuations"][2]["datum"][11] ? `${response[1]["valuations"][2]["datum"][11]}%` : "---" },
-                { title: "Net Margin (TTM)", data: response[1]["valuations"][3]["datum"][10] ? `${response[1]["valuations"][3]["datum"][10]}%` : "---" },
-                { title: "Net Margin (5Y-AVG)", data: response[1]["valuations"][3]["datum"][11] ? `${response[1]["valuations"][3]["datum"][11]}%` : "---" },
+                { title: "Gross Margin (TTM)", data: response[1]["valuations"][1]["datum"][10] ? `${response[1]["valuations"][1]["datum"][10]}%` : "—" },
+                { title: "Gross Margin (5Y-AVG)", data: response[1]["valuations"][1]["datum"][11] ? `${response[1]["valuations"][1]["datum"][11]}%` : "—" },
+                { title: "Operating Margin (TTM)", data: response[1]["valuations"][2]["datum"][10] ? `${response[1]["valuations"][2]["datum"][10]}%` : "—" },
+                { title: "Operating Margin (5Y-AVG)", data: response[1]["valuations"][2]["datum"][11] ? `${response[1]["valuations"][2]["datum"][11]}%` : "—" },
+                { title: "Net Margin (TTM)", data: response[1]["valuations"][3]["datum"][10] ? `${response[1]["valuations"][3]["datum"][10]}%` : "—" },
+                { title: "Net Margin (5Y-AVG)", data: response[1]["valuations"][3]["datum"][11] ? `${response[1]["valuations"][3]["datum"][11]}%` : "—" },
             ],
 
             efficiency: [
                 { title: "Efficiency", highlight: true },
-                { title: "ROA (TTM)", data: response[1]["ratios"][0]["datum"][10] ? `${response[1]["ratios"][0]["datum"][10]}%` : "---" },
-                { title: "ROA (5Y-AVG)", data: response[1]["ratios"][0]["datum"][11] ? `${response[1]["ratios"][0]["datum"][11]}%` : "---" },
-                { title: "ROE (TTM)", data: response[1]["ratios"][1]["datum"][10] ? `${response[1]["ratios"][1]["datum"][10]}%` : "---" },
-                { title: "ROE (5Y-AVG)", data: response[1]["ratios"][1]["datum"][11] ? `${response[1]["ratios"][1]["datum"][11]}%` : "---" },
-                { title: "ROIC (TTM)", data: response[1]["ratios"][2]["datum"][10] ? `${response[1]["ratios"][2]["datum"][10]}%` : "---" },
-                { title: "ROIC (5Y-AVG)", data: response[1]["ratios"][2]["datum"][11] ? `${response[1]["ratios"][2]["datum"][11]}%` : "---" },
+                { title: "ROA (TTM)", data: response[1]["ratios"][0]["datum"][10] ? `${response[1]["ratios"][0]["datum"][10]}%` : "—" },
+                { title: "ROA (5Y-AVG)", data: response[1]["ratios"][0]["datum"][11] ? `${response[1]["ratios"][0]["datum"][11]}%` : "—" },
+                { title: "ROE (TTM)", data: response[1]["ratios"][1]["datum"][10] ? `${response[1]["ratios"][1]["datum"][10]}%` : "—" },
+                { title: "ROE (5Y-AVG)", data: response[1]["ratios"][1]["datum"][11] ? `${response[1]["ratios"][1]["datum"][11]}%` : "—" },
+                { title: "ROIC (TTM)", data: response[1]["ratios"][2]["datum"][10] ? `${response[1]["ratios"][2]["datum"][10]}%` : "—" },
+                { title: "ROIC (5Y-AVG)", data: response[1]["ratios"][2]["datum"][11] ? `${response[1]["ratios"][2]["datum"][11]}%` : "—" },
             ]
         }
         // console.log(response)
@@ -465,23 +464,35 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
         return [
             {
                 title: "P/E Ratio",
-                TTM: response.data["Collapsed"]["rows"][1]["datum"][10],
-                fiveYearAVG: response.data["Collapsed"]["rows"][1]["datum"][11],
+                TTM: response.data["Collapsed"]["rows"][1]["datum"][10] || "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
+                fiveYearAVG: response.data["Collapsed"]["rows"][1]["datum"][11] || "—",
             },
             {
                 title: "P/S Ratio",
-                TTM: response.data["Collapsed"]["rows"][0]["datum"][10],
-                fiveYearAVG: response.data["Collapsed"]["rows"][0]["datum"][11],
+                TTM: response.data["Collapsed"]["rows"][0]["datum"][10] || "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
+                fiveYearAVG: response.data["Collapsed"]["rows"][0]["datum"][11] || "—",
             },
             {
                 title: "P/B Ratio",
-                TTM: response.data["Collapsed"]["rows"][3]["datum"][10],
-                fiveYearAVG: response.data["Collapsed"]["rows"][3]["datum"][11],
+                TTM: response.data["Collapsed"]["rows"][3]["datum"][10] || "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
+                fiveYearAVG: response.data["Collapsed"]["rows"][3]["datum"][11] || "—",
             },
             {
                 title: "P/FCF Ratio",
-                TTM: response.data["Collapsed"]["rows"][2]["datum"][10],
-                fiveYearAVG: response.data["Collapsed"]["rows"][2]["datum"][11],
+                TTM: response.data["Collapsed"]["rows"][2]["datum"][10] || "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
+                fiveYearAVG: response.data["Collapsed"]["rows"][2]["datum"][11] || "—",
             }
         ]
     })
@@ -491,36 +502,53 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
             'x-api-realtime-e': config.X_API_REALTIME_E
         }
     }).then(response => {
-        console.log(response.data["reported"]["Expanded"]["rows"])
         return [
             {
                 title: "Gross Margin",
                 TTM: response.data["reported"]["Expanded"]["rows"][1]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][10]}%` : "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
                 fiveYearAVG: response.data["reported"]["Expanded"]["rows"][1]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][11]}%` : "—"
             },
             {
                 title: "Operating Margin",
                 TTM: response.data["reported"]["Expanded"]["rows"][2]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][10]}%` : "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
                 fiveYearAVG: response.data["reported"]["Expanded"]["rows"][2]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][11]}%` : "—"
             },
             {
                 title: "Net Margin",
                 TTM: response.data["reported"]["Expanded"]["rows"][3]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][10]}%` : "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
                 fiveYearAVG: response.data["reported"]["Expanded"]["rows"][3]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][11]}%` : "—"
             },
             {
                 title: "Return on Assets",
                 TTM: response.data["reported"]["Collapsed"]["rows"][0]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][10]}%` : "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
                 fiveYearAVG: response.data["reported"]["Collapsed"]["rows"][0]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][11]}%` : "—"
             },
             {
                 title: "Return on Equity",
                 TTM: response.data["reported"]["Collapsed"]["rows"][1]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][10]}%` : "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
                 fiveYearAVG: response.data["reported"]["Collapsed"]["rows"][1]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][11]}%` : "—"
             },
             {
                 title: "Return on Invested Capital",
                 TTM: response.data["reported"]["Collapsed"]["rows"][2]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][10]}%` : "—",
+                firstYear: "—",
+                threeYearAVG: "—",
+                tenYearAVG: "—",
                 fiveYearAVG: response.data["reported"]["Collapsed"]["rows"][2]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][11]}%` : "—"
             }
         ]
@@ -537,6 +565,7 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                     threeYearAVG: "3Y-AVG",
                     fiveYearAVG: "5Y-AVG",
                     tenYearAVG: "10Y-AVG",
+                    list: ["TTM", "firstYear", "threeYearAVG", "fiveYearAVG", "tenYearAVG"],
                     highlight: true
                 },
                 {

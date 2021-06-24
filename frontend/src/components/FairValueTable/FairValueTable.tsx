@@ -34,7 +34,7 @@ const FairValueTable: React.FC<FairValueTableProps> = ({ reportType }) => {
                 {loadingFairValue ? <div className={classes.Loader}></div> : match ?
                     <FairValueTableDesktop />
                     :
-                    null
+                    <FairValueTableMobile />
                 }
             </div>
         </div>
@@ -95,12 +95,12 @@ const FairValueTableDesktop: React.FC = () => {
 const FairValueTableMobile: React.FC = () => {
     const data = useSelector(fairValueData)
     const [activeStep, setActiveStep] = React.useState(0);
-
+    let carousel = data[3][0]["list"][activeStep]
     return (
         <List className={classes.FinancialTable}>
-            {/* <Tablet
+            <Tablet
                 activeStep={activeStep}
-                steps={data[2]["data"].length}
+                steps={5}
                 handleNext={() => {
                     setActiveStep((prevActiveStep) => prevActiveStep + 1)
                 }}
@@ -108,14 +108,34 @@ const FairValueTableMobile: React.FC = () => {
                     setActiveStep((prevActiveStep) => prevActiveStep - 1)
                 }}
                 disableBack={activeStep === 0}
-                disableNext={activeStep === data[2]["data"].length - 1}
-            /> */}
+                disableNext={activeStep === 5 - 1}
+            />
+            {
+                data[3]?.map((item: any, i: number) => {
+                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                        <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
+                        <div className={classes.ValueRow}>
+                            <p className={classes.Value}>{isNaN(item[carousel]) ? item[carousel] : `${item[carousel]}%`}</p>
+                        </div>
+                    </ListItem>
+                })
+            }
+            {
+                data[1]?.map((item: any, i: number) => {
+                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                        <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
+                        <div className={classes.ValueRow}>
+                            <p className={classes.Value}>{isNaN(item[carousel]) ? item[carousel] : `${item[carousel]}%`}</p>
+                        </div>
+                    </ListItem>
+                })
+            }
             {
                 data[2]?.map((item: any, i: number) => {
                     return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
-                            <p className={classes.Value}>{isNaN(item["data"][activeStep]) ? item["data"][activeStep] : Numeral(item["data"][activeStep]).format("0.00a")}</p>
+                            <p className={classes.Value}>{isNaN(item[carousel]) ? item[carousel] : `${item[carousel]}%`}</p>
                         </div>
                     </ListItem>
                 })

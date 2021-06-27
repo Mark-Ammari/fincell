@@ -16,7 +16,7 @@ const App: React.FC = () => {
         }}>
           <Header />
           <Switch>
-            <Route path="/stocks/:ticker" component={CompanyStatsScreen} />
+            <Route path="/stocks/:ticker/:performanceId" component={CompanyStatsScreen} />
           </Switch>
           <Footer />
         </Context.Provider>

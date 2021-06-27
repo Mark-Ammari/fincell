@@ -2,12 +2,12 @@ import React from 'react';
 import classes from './FairValueTable.module.css';
 import Tablet from '../Tablet/Tablet';
 import { useMediaQuery, List, ListItem } from '@material-ui/core';
-import Numeral from 'numeral';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fairValueData, fetchFairValue, loadFairValue } from '../../reduxStore/getFairValue/getFairValue';
 import { searchTickerdata } from '../../reduxStore/getSearchTicker/getSearchTicker';
+import ScenarioTable from '../ScenarioTable/ScenarioTable';
 
 interface FairValueTableProps {
     reportType?: string,
@@ -32,7 +32,10 @@ const FairValueTable: React.FC<FairValueTableProps> = ({ reportType }) => {
             </div>
             <div className={classes.FinancialSection}>
                 {loadingFairValue ? <div className={classes.Loader}></div> : match ?
-                    <FairValueTableDesktop />
+                    <>
+                        <FairValueTableDesktop />
+                        <ScenarioTable />
+                    </>
                     :
                     <FairValueTableMobile />
                 }
@@ -41,9 +44,9 @@ const FairValueTable: React.FC<FairValueTableProps> = ({ reportType }) => {
     );
 };
 
+
 const FairValueTableDesktop: React.FC = () => {
     const data = useSelector(fairValueData)
-    console.log(data)
     return (
         <List className={classes.FinancialTable}>
             {
@@ -143,6 +146,5 @@ const FairValueTableMobile: React.FC = () => {
         </List>
     );
 };
-
 
 export default FairValueTable;

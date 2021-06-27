@@ -1,13 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Tabs, Tab, useTheme, AppBar, Box, Typography, Divider } from '@material-ui/core';
-import SwipeableViews from 'react-swipeable-views';
+import { Tabs, Tab, useTheme, AppBar, Box, Typography } from '@material-ui/core';
 import classes from './StatsPanel.module.css';
 import QuoteSection from '../Quote/QuoteSection';
 import FairValueTable from '../FairValueTable/FairValueTable';
-import FinancialTable from '../FinancialTable/FinancialTable';
-import FinancialStatsTable from '../FinancialStatsTable/FinancialStatsTable';
-import KeyStatsTable from '../KeyStatsTable/KeyStatsTable';
+import KeyRatios from '../../modules/KeyRatios/KeyRatios';
+import IncomeStatement from '../../modules/IncomeStatement/IncomeStatement';
+import BalanceSheet from '../../modules/BalanceSheet/BalanceSheet';
+import CashFlow from '../../modules/CashFlow/CashFlow';
 
 const useStyles = makeStyles({
     root: {
@@ -78,14 +78,9 @@ const a11yProps = (index: any) => {
 const StatsPanel = () => {
     const styles = useStyles();
     const [value, setValue] = React.useState(0);
-
     const theme = useTheme();
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
-    };
-
-    const handleChangeIndex = (index: number) => {
-        setValue(index);
     };
 
     return (
@@ -97,7 +92,6 @@ const StatsPanel = () => {
                     variant="scrollable"
                     onChange={handleChange}
                     scrollButtons="auto"
-
                 >
                     <Tab
                         classes={{
@@ -155,35 +149,24 @@ const StatsPanel = () => {
                     />
                 </Tabs>
             </AppBar>
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    <QuoteSection />
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    <FinancialStatsTable reportType="key-ratios"/>
-                    <Divider />
-                    <KeyStatsTable />
-                </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                    <FinancialTable reportType="income-statement" />
-                    <Divider />
-                </TabPanel>
-                <TabPanel value={value} index={3} dir={theme.direction}>
-                    <FinancialTable reportType="balance-sheet" />
-                    <Divider />
-                </TabPanel>
-                <TabPanel value={value} index={4} dir={theme.direction}>
-                    <FinancialTable reportType="cash-flow" />
-                    <Divider />
-                </TabPanel>
-                <TabPanel value={value} index={5} dir={theme.direction}>
-                    <FairValueTable />
-                </TabPanel>
-            </SwipeableViews>
+            <TabPanel value={value} index={0} dir={theme.direction}>
+                <QuoteSection />
+            </TabPanel>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+                <KeyRatios />
+            </TabPanel>
+            <TabPanel value={value} index={2} dir={theme.direction}>
+                <IncomeStatement />
+            </TabPanel>
+            <TabPanel value={value} index={3} dir={theme.direction}>
+                <BalanceSheet />
+            </TabPanel>
+            <TabPanel value={value} index={4} dir={theme.direction}>
+                <CashFlow />
+            </TabPanel>
+            <TabPanel value={value} index={5} dir={theme.direction}>
+                <FairValueTable />
+            </TabPanel>
         </div>
     );
 }

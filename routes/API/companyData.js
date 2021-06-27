@@ -286,7 +286,7 @@ router.get("/api/v1/company-data/report-type/cash-flow/:ticker/details", (req, r
                 { title: "Net Change in Cash", data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i93"), margin: true },
 
                 { title: "Free Cash Flow", data: traverseThroughFinancialsHTML(htmlString, ".main .r_xcmenu.rf_table .rf_header"), highlight: true },
-                { title: "Free Cash Flow", data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97"), bold: true },
+                { title: `Free Cash Flow (5-Y/Q AVG: ${Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97").slice(1).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).format("0.00a")})`, data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97"), bold: true },
                 { title: "Operating Cash Flows", data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i100"), margin: true },
                 { title: "Capital Expenditures", data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i96"), margin: true }
             ]

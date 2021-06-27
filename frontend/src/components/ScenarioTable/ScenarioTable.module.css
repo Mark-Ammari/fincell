@@ -206,7 +206,7 @@
         width: 100%;
     }
     .FinancialTable {
-        width: 500px
+        width: 500px;
     }
     .FinancialRow {
         display: flex;
@@ -362,7 +362,7 @@
         font-style: italic;
     }
     .FinancialSection {
-        width: 100%;
+        width: 1366px;
     }
     .FinancialTable {
         width: 1366px
@@ -415,5 +415,10 @@
         margin: 0 10px 0 0;
         width: 90px;
         text-align: right;
+    }
+
+    .ScenarioTable {
+        display: flex;
+        justify-content: space-between;
     }
 }

@@ -1,62 +1,47 @@
 import React from 'react';
-import classes from './FinancialTable.module.css';
+import classes from './GenericTable.module.css';
 import Tablet from '../Tablet/Tablet';
 import { useMediaQuery, List, ListItem } from '@material-ui/core';
 import Numeral from 'numeral';
 import PeriodDropdown from '../PeriodDropdown/PeriodDropdown';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFinancialStatement, financialStatementData, loadFinancialStatement } from '../../reduxStore/getFinancialStatement/getFinancialStatement';
-import { useParams } from 'react-router-dom';
-import { valueOfPeriod } from '../../reduxStore/period/period';
 
-interface FinancialTableProps {
+interface GenericTableProps {
     reportType?: string,
+    loader?: boolean,
     width?: string,
+    hasDropdown?: boolean,
+    data?: any
 }
 
-const FinancialTable: React.FC<FinancialTableProps> = ({ reportType }) => {
-
-    const loadingFinancialStatement = useSelector(loadFinancialStatement)
+const GenericTable: React.FC<GenericTableProps> = ({ reportType, loader, width, hasDropdown, data }) => {
     const match = useMediaQuery('(min-width:1366px)')
-    const changePeriod = useSelector(valueOfPeriod)
-    
-    const dispatch = useDispatch()
-
-    const { ticker } = useParams<any>() 
-    useEffect(() => {
-        dispatch(fetchFinancialStatement(ticker, reportType as string, changePeriod))
-    }, [ticker, reportType, changePeriod])
 
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
-                <h1 className={classes.ReportType}>{reportType?.split("-").join(" ")}</h1>
-                <PeriodDropdown />
+                <h1 className={classes.ReportType}>{reportType}</h1>
+                {hasDropdown ? <PeriodDropdown /> : null}
             </div>
-            <div className={classes.FinancialSection}>
-                {loadingFinancialStatement ? <div className={classes.Loader}></div> : match ?
-                    <FinancialTableDesktop />
-                    :
-                    <FinancialTableMobile />
+            <div className={classes.GenericSection}>
+                {loader ? <div className={classes.Loader}></div>
+                    : match ? <GenericTableDesktop data={data} width={width} /> : <GenericTableMobile data={data} />
                 }
             </div>
         </div>
     );
 };
 
-const FinancialTableDesktop: React.FC<FinancialTableProps> = ({ width }) => {
-    const data = useSelector(financialStatementData)
+const GenericTableDesktop: React.FC<GenericTableProps> = ({ data, width }) => {
     return (
-        <List className={classes.FinancialTable}>
+        <List className={classes.GenericTable}>
             {
                 data?.map((item: any, i: number) => {
-                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                    return <ListItem button={!item["highlight"] as any} className={[classes.GenericRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
                             {
                                 item["data"].map((value: any, j: number) => {
-                                    return <p key={j} style={{ width: width }} className={classes.Value}>{isNaN(value) ? value : Numeral(value).format("0.00a")}</p>
+                                    return <p key={j} className={classes.Value} style={{width:width}}>{isNaN(value) ? value : Numeral(value).format("0.00a")}</p>
                                 })
                             }
                         </div>
@@ -67,12 +52,10 @@ const FinancialTableDesktop: React.FC<FinancialTableProps> = ({ width }) => {
     );
 };
 
-const FinancialTableMobile: React.FC = () => {
-    const data = useSelector(financialStatementData)
+const GenericTableMobile: React.FC<GenericTableProps> = ({ data }) => {
     const [activeStep, setActiveStep] = React.useState(0);
-
     return (
-        <List className={classes.FinancialTable}>
+        <List className={classes.GenericTable}>
             <Tablet
                 activeStep={activeStep}
                 steps={data[0]["data"].length}
@@ -87,7 +70,7 @@ const FinancialTableMobile: React.FC = () => {
             />
             {
                 data?.map((item: any, i: number) => {
-                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
+                    return <ListItem button={!item["highlight"] as any} className={[classes.GenericRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
                             <p className={classes.Value}>{isNaN(item["data"][activeStep]) ? item["data"][activeStep] : Numeral(item["data"][activeStep]).format("0.00a")}</p>
@@ -100,4 +83,4 @@ const FinancialTableMobile: React.FC = () => {
 };
 
 
-export default FinancialTable;
+export default GenericTable;

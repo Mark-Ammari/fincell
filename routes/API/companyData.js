@@ -505,27 +505,27 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
         return [
             {
                 title: "Gross Margin",
-                TTM: response.data["reported"]["Expanded"]["rows"][1]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][10]}%` : "—",
+                TTM: response.data["reported"]["Expanded"]["rows"][1]["datum"][10] ? `${response.data["reported"]["Expanded"]["rows"][1]["datum"][10] }%` : "—",
                 firstYear: "—",
                 threeYearAVG: "—",
                 tenYearAVG: "—",
-                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][1]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][0]["datum"][11]}%` : "—"
+                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][1]["datum"][11] ? `${response.data["reported"]["Expanded"]["rows"][1]["datum"][11]}%` : "—"
             },
             {
                 title: "Operating Margin",
-                TTM: response.data["reported"]["Expanded"]["rows"][2]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][10]}%` : "—",
+                TTM: response.data["reported"]["Expanded"]["rows"][2]["datum"][10] ? `${response.data["reported"]["Expanded"]["rows"][2]["datum"][10]}%` : "—",
                 firstYear: "—",
                 threeYearAVG: "—",
                 tenYearAVG: "—",
-                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][2]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][1]["datum"][11]}%` : "—"
+                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][2]["datum"][11] ? `${response.data["reported"]["Expanded"]["rows"][2]["datum"][11]}%` : "—"
             },
             {
                 title: "Net Margin",
-                TTM: response.data["reported"]["Expanded"]["rows"][3]["datum"][10] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][10]}%` : "—",
+                TTM: response.data["reported"]["Expanded"]["rows"][3]["datum"][10] ? `${response.data["reported"]["Expanded"]["rows"][3]["datum"][10]}%` : "—",
                 firstYear: "—",
                 threeYearAVG: "—",
                 tenYearAVG: "—",
-                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][3]["datum"][11] ? `${response.data["reported"]["Collapsed"]["rows"][2]["datum"][11]}%` : "—"
+                fiveYearAVG: response.data["reported"]["Expanded"]["rows"][3]["datum"][11] ? `${response.data["reported"]["Expanded"]["rows"][3]["datum"][11]}%` : "—"
             },
             {
                 title: "Return on Assets",

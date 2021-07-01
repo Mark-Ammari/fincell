@@ -37,10 +37,7 @@ const FairValueTable: React.FC<FairValueTableProps> = () => {
                     <FairValueTableMobile />
                 }
                 {loadingFairValue ? <div className={classes.Loader}></div> :
-                    <div>
-                        <KeyInfo />
-                        <IntrinsicValueAnalyzer />
-                    </div>
+                    <KeyInfo />
                 }
             </div>
         </div>
@@ -66,34 +63,26 @@ const FairValueTableDesktop: React.FC = () => {
                     </ListItem>
                 })
             }
-            {
-                data[1]?.map((item: any, i: number) => {
-                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
-                        <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
-                        <div className={classes.ValueRow}>
-                            <p className={classes.Value}>{item["TTM"]}</p>
-                            <p className={classes.Value}>—</p>
-                            <p className={classes.Value}>—</p>
-                            <p className={classes.Value}>{item["fiveYearAVG"]}</p>
-                            <p className={classes.Value}>—</p>
-                        </div>
-                    </ListItem>
-                })
-            }
-            {
-                data[2]?.map((item: any, i: number) => {
-                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
-                        <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
-                        <div className={classes.ValueRow}>
-                            <p className={classes.Value}>{item["TTM"]}</p>
-                            <p className={classes.Value}>—</p>
-                            <p className={classes.Value}>—</p>
-                            <p className={classes.Value}>{item["fiveYearAVG"]}</p>
-                            <p className={classes.Value}>—</p>
-                        </div>
-                    </ListItem>
-                })
-            }
+            <ListItem button={!data[1][0]["highlight"] as any} className={[classes.FinancialRow, data[1][0]["highlight"] ? classes.Highlight : "", data[1][0]["bold"] ? classes.Bold : ""].join(" ")}>
+                <p style={{ marginLeft: data[1][0]["margin"] ? "1.5em" : 10 }} className={classes.Title}>{data[1][0]["title"]}</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{data[1][0]["TTM"]}</p>
+                    <p className={classes.Value}>—</p>
+                    <p className={classes.Value}>—</p>
+                    <p className={classes.Value}>{data[1][0]["fiveYearAVG"]}</p>
+                    <p className={classes.Value}>—</p>
+                </div>
+            </ListItem>
+            <ListItem button={!data[1][3]["highlight"] as any} className={[classes.FinancialRow, data[1][3]["highlight"] ? classes.Highlight : "", data[1][3]["bold"] ? classes.Bold : ""].join(" ")}>
+                <p style={{ marginLeft: data[1][3]["margin"] ? "1.5em" : 10 }} className={classes.Title}>{data[1][3]["title"]}</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{data[1][3]["TTM"]}</p>
+                    <p className={classes.Value}>—</p>
+                    <p className={classes.Value}>—</p>
+                    <p className={classes.Value}>{data[1][3]["fiveYearAVG"]}</p>
+                    <p className={classes.Value}>—</p>
+                </div>
+            </ListItem>
         </List>
     );
 };
@@ -126,7 +115,7 @@ const FairValueTableMobile: React.FC = () => {
                     </ListItem>
                 })
             }
-            {
+            {/* {
                 data[1]?.map((item: any, i: number) => {
                     return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
@@ -135,8 +124,8 @@ const FairValueTableMobile: React.FC = () => {
                         </div>
                     </ListItem>
                 })
-            }
-            {
+            } */}
+            {/* {
                 data[2]?.map((item: any, i: number) => {
                     return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
@@ -145,7 +134,7 @@ const FairValueTableMobile: React.FC = () => {
                         </div>
                     </ListItem>
                 })
-            }
+            } */}
         </List>
     );
 };
@@ -169,6 +158,18 @@ const KeyInfo: React.FC = () => {
                     </div>
                 </ListItem>
             })}
+            <ListItem button className={classes.FinancialRow}>
+                <p className={classes.Title}>{data[4][0]["title"]}</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{data[4][0]["formattedValue"]}</p>
+                </div>
+            </ListItem>
+            <ListItem button className={classes.FinancialRow}>
+                <p className={classes.Title}>{data[4][3]["title"]}</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{data[4][3]["formattedValue"]}</p>
+                </div>
+            </ListItem>
             {data[5].map((item: any, i: number) => {
                 return <ListItem button key={i} className={classes.FinancialRow}>
                     <p className={classes.Title}>{item["title"]}</p>

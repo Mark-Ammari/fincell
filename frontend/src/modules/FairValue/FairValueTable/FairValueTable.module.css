@@ -344,7 +344,7 @@
         width: 100%
     }
     .Details {
-        width: calc(1366px - 20px);
+        width: 1366px;
         padding: 10px 10px 0 10px;
         display: flex;
         flex-direction: row;
@@ -363,9 +363,12 @@
     }
     .FinancialSection {
         width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
     }
     .FinancialTable {
-        width: 767px
+        width: 678px
     }
     .FinancialRow {
         display: flex;

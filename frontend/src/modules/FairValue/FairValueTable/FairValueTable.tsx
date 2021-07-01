@@ -1,20 +1,20 @@
 import React from 'react';
 import classes from './FairValueTable.module.css';
-import Tablet from '../Tablet/Tablet';
+import Tablet from '../../../components/Tablet/Tablet';
 import { useMediaQuery, List, ListItem } from '@material-ui/core';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { fairValueData, fetchFairValue, loadFairValue } from '../../reduxStore/getFairValue/getFairValue';
-import { searchTickerdata } from '../../reduxStore/getSearchTicker/getSearchTicker';
-import ScenarioTable from '../ScenarioTable/ScenarioTable';
+import { fairValueData, fetchFairValue, loadFairValue } from '../../../reduxStore/getFairValue/getFairValue';
+import { searchTickerdata } from '../../../reduxStore/getSearchTicker/getSearchTicker';
+import IntrinsicValueAnalyzer from '../IntrinsicValueAnalyzer/IntrinsicValueAnalyzer';
 
 interface FairValueTableProps {
     reportType?: string,
     width?: string,
 }
 
-const FairValueTable: React.FC<FairValueTableProps> = ({ reportType }) => {
+const FairValueTable: React.FC<FairValueTableProps> = () => {
     const loadingFairValue = useSelector(loadFairValue)
     const match = useMediaQuery('(min-width:1366px)')
     const performanceId = useSelector(searchTickerdata)["results"][0]["performanceId"]
@@ -28,16 +28,19 @@ const FairValueTable: React.FC<FairValueTableProps> = ({ reportType }) => {
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
-                <h1 className={classes.ReportType}>Stock Analyzer</h1>
+                <h1 className={classes.ReportType}>Fair Value Analyzer</h1>
             </div>
             <div className={classes.FinancialSection}>
                 {loadingFairValue ? <div className={classes.Loader}></div> : match ?
-                    <>
-                        <FairValueTableDesktop />
-                        <ScenarioTable />
-                    </>
+                    <FairValueTableDesktop />
                     :
                     <FairValueTableMobile />
+                }
+                {loadingFairValue ? <div className={classes.Loader}></div> :
+                    <div>
+                        <KeyInfo />
+                        <IntrinsicValueAnalyzer />
+                    </div>
                 }
             </div>
         </div>
@@ -143,6 +146,37 @@ const FairValueTableMobile: React.FC = () => {
                     </ListItem>
                 })
             }
+        </List>
+    );
+};
+
+const KeyInfo: React.FC = () => {
+    const data = useSelector(fairValueData)
+    console.log(data)
+    return (
+        <List className={classes.FinancialTable}>
+            <ListItem className={[classes.FinancialRow, classes.Highlight].join(" ")}>
+                <p className={classes.Title}>Key Info</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{new Date().getFullYear()}</p>
+                </div>
+            </ListItem>
+            {data[0].map((item: any, i: number) => {
+                return <ListItem button key={i} className={classes.FinancialRow}>
+                    <p className={classes.Title}>{item["title"]}</p>
+                    <div className={classes.ValueRow}>
+                        <p className={classes.Value}>{item["formattedValue"]}</p>
+                    </div>
+                </ListItem>
+            })}
+            {data[5].map((item: any, i: number) => {
+                return <ListItem button key={i} className={classes.FinancialRow}>
+                    <p className={classes.Title}>{item["title"]}</p>
+                    <div className={classes.ValueRow}>
+                        <p className={classes.Value}>{item["formattedValue"]}</p>
+                    </div>
+                </ListItem>
+            })}
         </List>
     );
 };

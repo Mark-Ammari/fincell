@@ -569,7 +569,7 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                     highlight: true
                 },
                 {
-                    title: "Revenue Growth %",
+                    title: "Revenue Growth",
                     tenYearData: financialData.slice(187, 198),
                     TTM: financialData.slice(187, 198)[0],
                     firstYear: financialData.slice(187, 198)[1],
@@ -578,7 +578,7 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                     tenYearAVG: financialData.slice(220, 231)[1]
                 },
                 {
-                    title: "Gross Profit Growth %",
+                    title: "Gross Profit Growth",
                     tenYearData: financialData.slice(22, 33),
                     TTM: financialData.slice(22, 33)[0],
                     firstYear: financialData.slice(22, 33)[1],
@@ -587,7 +587,7 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                     tenYearAVG: (financialData.slice(23, 33).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2),
                 },
                 {
-                    title: "Net Profit Growth %",
+                    title: "Net Profit Growth",
                     tenYearData: financialData.slice(110, 121),
                     TTM: financialData.slice(110, 121)[0],
                     firstYear: financialData.slice(110, 121)[1],
@@ -596,7 +596,7 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                     tenYearAVG: (financialData.slice(111, 121).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2),
                 },
                 {
-                    title: "Free Cash Flow Growth %",
+                    title: "Free Cash Flow Growth",
                     tenYearData: financialData.slice(374, 385),
                     TTM: financialData.slice(374, 385)[0],
                     firstYear: financialData.slice(374, 385)[1],
@@ -612,23 +612,23 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
             return [
                 {
                     title: "Total Revenue",
-                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1")[1],
-                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1")[1]).format("0.00a")
+                    rawValue: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1")[1],
+                    formattedValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i1")[1]).format("0.00a")
                 },
                 {
                     title: "Gross Profit",
-                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10")[1],
-                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10")[1]).format("0.00a")
+                    rawValue: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10")[1],
+                    formattedValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header .rf_crow, #data_i10")[1]).format("0.00a")
                 },
                 {
                     title: "Net Income",
-                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i80")[1],
-                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i80")[1]).format("0.00a")
+                    rawValue: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i80")[1],
+                    formattedValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i80")[1]).format("0.00a")
                 },
                 {
                     title: "Basic WASO",
-                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i85")[1],
-                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i85")[1]).format("0.00a")
+                    rawValue: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i85")[1],
+                    formattedValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .rf_crow, #data_i85")[1]).format("0.00a")
                 },
             ]
         })
@@ -638,11 +638,14 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
             return [
                 {
                     title: "Free Cash Flow",
-                    data: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97")[1],
-                    rawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97")[1]).format("0.00a"),
-                    fiveYearAVG: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97").slice(1).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5,
-                    fiveYearAVGRawValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97").slice(1).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).format("0.00a")
+                    rawValue: traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97")[1],
+                    formattedValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97")[1]).format("0.00a"),
                 },
+                {
+                    title: "Free Cash Flow (5Y-AVG)",
+                    rawValue:  traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97").slice(1).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5,
+                    formattedValue: Numeral(traverseThroughFinancialsHTML(htmlString, ".main > .r_xcmenu.rf_table .rf_header > .r_content .rf_crow, #data_i97").slice(1).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).format("0.00a")
+                }
 
             ]
         })

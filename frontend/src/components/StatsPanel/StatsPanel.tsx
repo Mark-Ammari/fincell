@@ -3,11 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Tabs, Tab, useTheme, AppBar, Box, Typography } from '@material-ui/core';
 import classes from './StatsPanel.module.css';
 import QuoteSection from '../Quote/QuoteSection';
-import FairValueTable from '../FairValueTable/FairValueTable';
 import KeyRatios from '../../modules/KeyRatios/KeyRatios';
 import IncomeStatement from '../../modules/IncomeStatement/IncomeStatement';
 import BalanceSheet from '../../modules/BalanceSheet/BalanceSheet';
 import CashFlow from '../../modules/CashFlow/CashFlow';
+import FairValue from '../../modules/FairValue/FairValue';
 
 const useStyles = makeStyles({
     root: {
@@ -165,7 +165,7 @@ const StatsPanel = () => {
                 <CashFlow />
             </TabPanel>
             <TabPanel value={value} index={5} dir={theme.direction}>
-                <FairValueTable />
+                <FairValue />
             </TabPanel>
         </div>
     );

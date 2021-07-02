@@ -2,7 +2,52 @@ import React from 'react';
 import classes from './IntrinsicValueAnalyzer.module.css';
 import { InputAdornment, List, MenuItem, TextField, makeStyles, Divider, ListItem, Button } from '@material-ui/core';
 
+const useStyles = makeStyles({
+  root: {
+    margin: "0 10px 0 10px",
+    padding: 0,
+    width: 90,
+    fontSize: 10,
+  },
+  btn: {
+    height: "40px",
+    fontFamily: "'Montserrat', sans-serif",
+    textTransform: "capitalize",
+    fontWeight: "bold",
+    margin: "0 10px 0 10px",
+  }
+})
+
 const IntrinsicValueAnalyzer: React.FC = () => {
+  const styles = useStyles()
+  const [dataPoints, setDataPoints] = React.useState({
+    worst: {
+      revenueGrowth: "0",
+      shareChange: "0",
+      profitMargin: "0",
+      fcfOfRevenue: "0",
+      peRatio: "0",
+      pfcfRatio: "0"
+    },
+    normal: {
+      revenueGrowth: "0",
+      shareChange: "0",
+      profitMargin: "0",
+      fcfOfRevenue: "0",
+      peRatio: "0",
+      pfcfRatio: "0"
+    },
+    best: {
+      revenueGrowth: "0",
+      shareChange: "0",
+      profitMargin: "0",
+      fcfOfRevenue: "0",
+      peRatio: "0",
+      pfcfRatio: "0"
+    },
+    outlook: "5",
+    discountRate: "10"
+  })
 
   return (
     <form noValidate autoComplete="off">
@@ -18,54 +63,54 @@ const IntrinsicValueAnalyzer: React.FC = () => {
         <ListItem className={[classes.ScenarioRow].join(" ")}>
           <p className={classes.Title}>Revenue Growth</p>
           <div className={classes.ValueRow}>
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, worst: { ...dataPoints.worst, revenueGrowth: event.target.value } })} value={dataPoints.worst.revenueGrowth} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, normal: { ...dataPoints.normal, revenueGrowth: event.target.value } })} value={dataPoints.normal.revenueGrowth} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, best: { ...dataPoints.best, revenueGrowth: event.target.value } })} value={dataPoints.best.revenueGrowth} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
           </div>
         </ListItem>
         <Divider />
         <ListItem className={[classes.ScenarioRow].join(" ")}>
-          <p className={classes.Title}>Share Buyback/Issuance</p>
+          <p className={classes.Title}>Share Change</p>
           <div className={classes.ValueRow}>
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, worst: { ...dataPoints.worst, shareChange: event.target.value } })} value={dataPoints.worst.shareChange} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, normal: { ...dataPoints.normal, shareChange: event.target.value } })} value={dataPoints.normal.shareChange} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, best: { ...dataPoints.best, shareChange: event.target.value } })} value={dataPoints.best.shareChange} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
           </div>
         </ListItem>
         <Divider />
         <ListItem className={[classes.ScenarioRow].join(" ")}>
           <p className={classes.Title}>Profit Margin</p>
           <div className={classes.ValueRow}>
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, worst: { ...dataPoints.worst, profitMargin: event.target.value } })} value={dataPoints.worst.profitMargin} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, normal: { ...dataPoints.normal, profitMargin: event.target.value } })} value={dataPoints.normal.profitMargin} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, best: { ...dataPoints.best, profitMargin: event.target.value } })} value={dataPoints.best.profitMargin} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
           </div>
         </ListItem>
         <Divider />
         <ListItem className={[classes.ScenarioRow].join(" ")}>
           <p className={classes.Title}>FCF % of Revenue</p>
           <div className={classes.ValueRow}>
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, worst: { ...dataPoints.worst, fcfOfRevenue: event.target.value } })} value={dataPoints.worst.fcfOfRevenue} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, normal: { ...dataPoints.normal, fcfOfRevenue: event.target.value } })} value={dataPoints.normal.fcfOfRevenue} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, best: { ...dataPoints.best, fcfOfRevenue: event.target.value } })} value={dataPoints.best.fcfOfRevenue} label="" adornment="%" variant="outlined" helperText="" margin="dense" />
           </div>
         </ListItem>
         <Divider />
         <ListItem className={[classes.ScenarioRow].join(" ")}>
           <p className={classes.Title}>Desired P/E</p>
           <div className={classes.ValueRow}>
-            <InputField label="" adornment="" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, worst: { ...dataPoints.worst, peRatio: event.target.value } })} value={dataPoints.worst.peRatio} label="" adornment="" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, normal: { ...dataPoints.normal, peRatio: event.target.value } })} value={dataPoints.normal.peRatio} label="" adornment="" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, best: { ...dataPoints.best, peRatio: event.target.value } })} value={dataPoints.best.peRatio} label="" adornment="" variant="outlined" helperText="" margin="dense" />
           </div>
         </ListItem>
         <Divider />
         <ListItem className={[classes.ScenarioRow].join(" ")}>
           <p className={classes.Title}>Desired P/FCF</p>
           <div className={classes.ValueRow}>
-            <InputField label="" adornment="" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="" variant="outlined" helperText="" margin="dense" />
-            <InputField label="" adornment="" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, worst: { ...dataPoints.worst, pfcfRatio: event.target.value } })} value={dataPoints.worst.pfcfRatio} label="" adornment="" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, normal: { ...dataPoints.normal, pfcfRatio: event.target.value } })} value={dataPoints.normal.pfcfRatio} label="" adornment="" variant="outlined" helperText="" margin="dense" />
+            <InputField onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, best: { ...dataPoints.best, pfcfRatio: event.target.value } })} value={dataPoints.best.pfcfRatio} label="" adornment="" variant="outlined" helperText="" margin="dense" />
           </div>
         </ListItem>
         <Divider />
@@ -86,27 +131,14 @@ const IntrinsicValueAnalyzer: React.FC = () => {
           </div>
         </ListItem>
       </List>
-      <Analyze />
+      <>
+        <InputField label="Outlook" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, outlook: event.target.value })} value={dataPoints.outlook} helperText="" select adornment="" variant="outlined" width="90px" margin="dense" />
+        <InputField label="Discount Rate" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, discountRate: event.target.value })} value={dataPoints.discountRate} helperText="" adornment="%" variant="outlined" width="150px" margin="dense" />
+        <Button className={styles.btn} variant="outlined">Analyze</Button>
+      </>
     </form>
   );
 }
-
-const useStyles = makeStyles({
-  root: {
-    margin: "0 10px 0 10px",
-    padding: 0,
-    width: 90,
-    fontSize: 10,
-  },
-  btn: {
-    height: "40px",
-    fontFamily: "'Montserrat', sans-serif",
-    textTransform: "capitalize",
-    fontWeight: "bold",
-    margin: "0 10px 0 10px",
-  }
-})
-
 
 interface InputFieldProps {
   label: string,
@@ -115,64 +147,38 @@ interface InputFieldProps {
   helperText: string,
   adornment?: string,
   width?: string,
-  error?: boolean
+  error?: boolean,
+  value?: number | string,
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> | undefined,
+  select?: boolean
 }
 
-const InputField: React.FC<InputFieldProps> = ({ label, variant, margin, helperText, adornment, width, error }) => {
+const InputField: React.FC<InputFieldProps> = ({ onChange, select, value, label, variant, margin, helperText, adornment, width, error }) => {
   const styles = useStyles()
   return (
     <TextField
+      value={value}
       className={styles.root}
       style={{ width: width }}
       label={label}
+      select={select}
       variant={variant}
       error={error}
       margin={margin}
       helperText={helperText}
+      onChange={onChange}
       InputProps={{
         endAdornment: <InputAdornment position="end">{adornment}</InputAdornment>,
       }}
-    />
-  )
-}
-
-const SelectField: React.FC = () => {
-  const styles = useStyles()
-  const [period, setPeriod] = React.useState("1");
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPeriod(event.target.value);
-  };
-
-  return (
-    <TextField
-      className={styles.root}
-      id="outlined-select-period"
-      select
-      margin="dense"
-      label="Outlook"
-      value={period}
-      onChange={handleChange}
-      variant="outlined"
     >
-      {["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((year: string, key: number) => {
-        return <MenuItem key={key} value={year}>{year}</MenuItem>
-      })}
+      {select ?
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((year: string, key: number) => {
+          return <MenuItem key={key} value={year}>{year}</MenuItem>
+        })
+        : null
+      }
     </TextField>
-  );
-}
-
-const Analyze: React.FC = () => {
-  const styles = useStyles()
-  return (
-    <>
-      <SelectField />
-      <InputField label="Discount Rate" helperText="" adornment="%" variant="outlined" width="150px" margin="dense" />
-      <Button type="submit" className={styles.btn} variant="outlined">Analyze</Button>
-    </>
   )
 }
-
-
 
 export default IntrinsicValueAnalyzer;

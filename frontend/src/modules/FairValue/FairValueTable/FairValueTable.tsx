@@ -2,12 +2,8 @@ import React from 'react';
 import classes from './FairValueTable.module.css';
 import Tablet from '../../../components/Tablet/Tablet';
 import { useMediaQuery, List, ListItem } from '@material-ui/core';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fairValueData, fetchFairValue, loadFairValue } from '../../../reduxStore/getFairValue/getFairValue';
-import { searchTickerdata } from '../../../reduxStore/getSearchTicker/getSearchTicker';
-import IntrinsicValueAnalyzer from '../IntrinsicValueAnalyzer/IntrinsicValueAnalyzer';
+import { fairValueData } from '../../../reduxStore/getFairValue/getFairValue';
+import { useSelector } from 'react-redux';
 
 interface FairValueTableProps {
     reportType?: string,
@@ -15,15 +11,7 @@ interface FairValueTableProps {
 }
 
 const FairValueTable: React.FC<FairValueTableProps> = () => {
-    const loadingFairValue = useSelector(loadFairValue)
     const match = useMediaQuery('(min-width:1366px)')
-    const performanceId = useSelector(searchTickerdata)["results"][0]["performanceId"]
-    const dispatch = useDispatch()
-
-    const { ticker } = useParams<any>()
-    useEffect(() => {
-        dispatch(fetchFairValue(ticker, performanceId))
-    }, [ticker, performanceId])
 
     return (
         <div className={classes.Container}>
@@ -31,14 +19,12 @@ const FairValueTable: React.FC<FairValueTableProps> = () => {
                 <h1 className={classes.ReportType}>Fair Value Analyzer</h1>
             </div>
             <div className={classes.FinancialSection}>
-                {loadingFairValue ? <div className={classes.Loader}></div> : match ?
+                {match ?
                     <FairValueTableDesktop />
                     :
                     <FairValueTableMobile />
                 }
-                {loadingFairValue ? <div className={classes.Loader}></div> :
-                    <KeyInfo />
-                }
+                <KeyInfo />
             </div>
         </div>
     );
@@ -63,7 +49,7 @@ const FairValueTableDesktop: React.FC = () => {
                     </ListItem>
                 })
             }
-           {
+            {
                 data[6]?.map((item: any, i: number) => {
                     return <ListItem button={!item["highlight"] as any} className={classes.FinancialRow} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
@@ -176,6 +162,12 @@ const KeyInfo: React.FC = () => {
                 <p className={classes.Title}>{data[4][0]["title"]}</p>
                 <div className={classes.ValueRow}>
                     <p className={classes.Value}>{data[4][0]["formattedValue"]}</p>
+                </div>
+            </ListItem>
+            <ListItem button className={classes.FinancialRow}>
+                <p className={classes.Title}>{data[4][2]["title"]}</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{data[4][2]["formattedValue"]}</p>
                 </div>
             </ListItem>
             <ListItem button className={classes.FinancialRow}>

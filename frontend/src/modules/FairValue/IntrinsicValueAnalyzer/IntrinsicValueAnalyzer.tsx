@@ -1,6 +1,10 @@
 import React from 'react';
 import classes from './IntrinsicValueAnalyzer.module.css';
 import { InputAdornment, List, MenuItem, TextField, makeStyles, Divider, ListItem, Button } from '@material-ui/core';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { fairValueData } from '../../../reduxStore/getFairValue/getFairValue';
+import Numeral from 'numeral';
 
 const useStyles = makeStyles({
   root: {
@@ -20,6 +24,8 @@ const useStyles = makeStyles({
 
 const IntrinsicValueAnalyzer: React.FC = () => {
   const styles = useStyles()
+  const epsVal = useSelector(fairValueData)[4]
+  const fcfVal = useSelector(fairValueData)[5]
   const [dataPoints, setDataPoints] = React.useState({
     worst: {
       revenueGrowth: "0",
@@ -48,6 +54,74 @@ const IntrinsicValueAnalyzer: React.FC = () => {
     outlook: "5",
     discountRate: "10"
   })
+  const [instrinsicValue, setIntrinsicValue] = useState({
+    marketCap: {
+      worst: "0",
+      normal: "0",
+      best: "0"
+    },
+    stockValue: {
+      worst: "0",
+      normal: "0",
+      best: "0"
+    }
+  })
+
+  const analyzeHandler = () => {
+    let dcfWorst = 0
+    let dcfNormal = 0
+    let dcfBest = 0
+
+    let epsWorst = 0
+    let epsNormal = 0
+    let epsBest = 0
+
+    let cfWorst = parseInt(epsVal[0]["rawValue"])
+    let cfNormal = parseInt(epsVal[0]["rawValue"])
+    let cfBest = parseInt(epsVal[0]["rawValue"])
+
+    let wasoWorst = parseInt(epsVal[3]["rawValue"])
+    let wasoNormal = parseInt(epsVal[3]["rawValue"])
+    let wasoBest = parseInt(epsVal[3]["rawValue"])
+
+    let netIncomeWorst = parseInt(epsVal[2]["rawValue"])
+    let netIncomeNormal = parseInt(epsVal[2]["rawValue"])
+    let netIncomeBest = parseInt(epsVal[2]["rawValue"])
+
+    for (let i = 0; i < parseInt(dataPoints.outlook); i++) {
+      wasoWorst += (wasoWorst * (parseFloat(dataPoints.worst.shareChange) / 100))
+      wasoNormal += (wasoNormal * (parseFloat(dataPoints.normal.shareChange) / 100))
+      wasoBest += (wasoBest * (parseFloat(dataPoints.best.shareChange) / 100))
+
+      netIncomeWorst += (netIncomeWorst * (parseFloat(dataPoints.worst.profitMargin) / 100))
+      netIncomeNormal += (netIncomeNormal * (parseFloat(dataPoints.normal.profitMargin) / 100))
+      netIncomeBest += (netIncomeBest * (parseFloat(dataPoints.best.profitMargin) / 100))
+
+      epsWorst += (netIncomeWorst / wasoWorst) / (Math.pow(1 + (parseFloat(dataPoints.discountRate) / 100), i + 1))
+      epsNormal += (netIncomeNormal / wasoNormal) / (Math.pow(1 + (parseFloat(dataPoints.discountRate) / 100), i + 1))
+      epsBest += (netIncomeBest / wasoBest) / (Math.pow(1 + (parseFloat(dataPoints.discountRate) / 100), i + 1))
+
+      cfWorst += (cfWorst * (parseFloat(dataPoints.worst.fcfOfRevenue) / 100))
+      cfNormal += (cfNormal * (parseFloat(dataPoints.normal.fcfOfRevenue) / 100))
+      cfBest += (cfBest * (parseFloat(dataPoints.best.fcfOfRevenue) / 100))
+
+      dcfWorst += cfWorst / Math.pow(1 + (parseFloat(dataPoints.discountRate) / 100), i + 1)
+      dcfNormal += cfNormal / Math.pow(1 + (parseFloat(dataPoints.discountRate) / 100), i + 1)
+      dcfBest += cfBest / Math.pow(1 + (parseFloat(dataPoints.discountRate) / 100), i + 1)
+    }
+    setIntrinsicValue({
+      marketCap: {
+        worst: Numeral(dcfWorst * parseFloat(dataPoints.worst.pfcfRatio)).format("0.00a"),
+        normal: Numeral(dcfNormal * parseFloat(dataPoints.normal.pfcfRatio)).format("0.00a"),
+        best: Numeral(dcfBest * parseFloat(dataPoints.best.pfcfRatio)).format("0.00a"),
+      },
+      stockValue: {
+        worst: (epsWorst * parseFloat(dataPoints.worst.peRatio)).toFixed(2),
+        normal: (epsNormal * parseFloat(dataPoints.normal.peRatio)).toFixed(2),
+        best: (epsBest * parseFloat(dataPoints.best.peRatio)).toFixed(2),
+      }
+    })
+  }
 
   return (
     <form noValidate autoComplete="off">
@@ -117,24 +191,24 @@ const IntrinsicValueAnalyzer: React.FC = () => {
         <ListItem button className={classes.ScenarioRow}>
           <p className={classes.Title}>Market Cap</p>
           <div className={classes.ValueRow}>
-            <p className={classes.Value}>—</p>
-            <p className={classes.Value}>—</p>
-            <p className={classes.Value}>—</p>
+            <p className={classes.Value}>{instrinsicValue.marketCap.worst}</p>
+            <p className={classes.Value}>{instrinsicValue.marketCap.normal}</p>
+            <p className={classes.Value}>{instrinsicValue.marketCap.best}</p>
           </div>
         </ListItem>
         <ListItem button className={classes.ScenarioRow}>
           <p className={classes.Title}>Stock Price</p>
           <div className={classes.ValueRow}>
-            <p className={classes.Value}>—</p>
-            <p className={classes.Value}>—</p>
-            <p className={classes.Value}>—</p>
+            <p className={classes.Value}>{instrinsicValue.stockValue.worst}</p>
+            <p className={classes.Value}>{instrinsicValue.stockValue.normal}</p>
+            <p className={classes.Value}>{instrinsicValue.stockValue.best}</p>
           </div>
         </ListItem>
       </List>
       <>
         <InputField label="Outlook" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, outlook: event.target.value })} value={dataPoints.outlook} helperText="" select adornment="" variant="outlined" width="90px" margin="dense" />
         <InputField label="Discount Rate" onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDataPoints({ ...dataPoints, discountRate: event.target.value })} value={dataPoints.discountRate} helperText="" adornment="%" variant="outlined" width="150px" margin="dense" />
-        <Button className={styles.btn} variant="outlined">Analyze</Button>
+        <Button onClick={analyzeHandler} className={styles.btn} variant="outlined">Analyze</Button>
       </>
     </form>
   );

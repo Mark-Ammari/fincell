@@ -54,11 +54,25 @@ const FairValueTableDesktop: React.FC = () => {
                     return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
-                            <p className={classes.Value}>{isNaN(item["TTM"]) ? item["TTM"] : `${item["TTM"]}%`}</p>
-                            <p className={classes.Value}>{isNaN(item["firstYear"]) ? item["firstYear"] : `${item["firstYear"]}%`}</p>
-                            <p className={classes.Value}>{isNaN(item["threeYearAVG"]) ? item["threeYearAVG"] : `${item["threeYearAVG"]}%`}</p>
-                            <p className={classes.Value}>{isNaN(item["fiveYearAVG"]) ? item["fiveYearAVG"] : `${item["fiveYearAVG"]}%`}</p>
-                            <p className={classes.Value}>{isNaN(item["tenYearAVG"]) ? item["tenYearAVG"] : `${item["tenYearAVG"]}%`}</p>
+                            <p className={classes.Value}>{item["TTM"]}</p>
+                            <p className={classes.Value}>{item["firstYear"]}</p>
+                            <p className={classes.Value}>{item["threeYearAVG"]}</p>
+                            <p className={classes.Value}>{item["fiveYearAVG"]}</p>
+                            <p className={classes.Value}>{item["tenYearAVG"]}</p>
+                        </div>
+                    </ListItem>
+                })
+            }
+           {
+                data[6]?.map((item: any, i: number) => {
+                    return <ListItem button={!item["highlight"] as any} className={classes.FinancialRow} key={i}>
+                        <p style={{ marginLeft: item["margin"] ? "1.5em" : 10 }} className={classes.Title}>{item["title"]}</p>
+                        <div className={classes.ValueRow}>
+                            <p className={classes.Value}>{item["TTM"]}</p>
+                            <p className={classes.Value}>{item["firstYear"]}</p>
+                            <p className={classes.Value}>{item["threeYearAVG"]}</p>
+                            <p className={classes.Value}>{item["fiveYearAVG"]}</p>
+                            <p className={classes.Value}>{item["tenYearAVG"]}</p>
                         </div>
                     </ListItem>
                 })

@@ -607,9 +607,9 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                     tenYearData: financialData.slice(396, 407),
                     TTM: !isNaN(financialData.slice(396, 407)[0]) ? `${financialData.slice(396, 407)[0]}%` : "—",
                     firstYear: !isNaN(financialData.slice(396, 407)[1]) ? `${financialData.slice(396, 407)[1]}%` : "—",
-                    threeYearAVG: !isNaN(financialData.slice(397, 400).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3) ? `${(financialData.slice(397, 400).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3)}%` : "—",
-                    fiveYearAVG: !isNaN(financialData.slice(397, 402).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5) ? `${(financialData.slice(397, 402).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5)}%` : "—",
-                    tenYearAVG: !isNaN(financialData.slice(396, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10) ? `${(financialData.slice(397, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10)}%` : "—",
+                    threeYearAVG: !isNaN(financialData.slice(397, 400).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3) ? `${(financialData.slice(397, 400).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3).toFixed(2)}%` : "—",
+                    fiveYearAVG: !isNaN(financialData.slice(397, 402).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5) ? `${(financialData.slice(397, 402).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).toFixed(2)}%` : "—",
+                    tenYearAVG: !isNaN(financialData.slice(396, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10) ? `${(financialData.slice(397, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2)}%` : "—",
                 },
             ]
         })

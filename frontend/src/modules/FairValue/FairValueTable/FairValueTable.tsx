@@ -115,8 +115,8 @@ const FairValueTableMobile: React.FC = () => {
                     </ListItem>
                 })
             }
-            {/* {
-                data[1]?.map((item: any, i: number) => {
+            {
+                data[6]?.map((item: any, i: number) => {
                     return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
                         <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
                         <div className={classes.ValueRow}>
@@ -124,24 +124,25 @@ const FairValueTableMobile: React.FC = () => {
                         </div>
                     </ListItem>
                 })
-            } */}
-            {/* {
-                data[2]?.map((item: any, i: number) => {
-                    return <ListItem button={!item["highlight"] as any} className={[classes.FinancialRow, item["highlight"] ? classes.Highlight : "", item["bold"] ? classes.Bold : ""].join(" ")} key={i}>
-                        <p style={{ marginLeft: item["margin"] ? "1em" : 10 }} className={classes.Title}>{item["title"]}</p>
-                        <div className={classes.ValueRow}>
-                            <p className={classes.Value}>{isNaN(item[carousel]) ? item[carousel] : `${item[carousel]}%`}</p>
-                        </div>
-                    </ListItem>
-                })
-            } */}
+            }
+            <ListItem button={!data[1][0]["highlight"] as any} className={[classes.FinancialRow, data[1][0]["highlight"] ? classes.Highlight : "", data[1][0]["bold"] ? classes.Bold : ""].join(" ")}>
+                <p style={{ marginLeft: data[1][0]["margin"] ? "1em" : 10 }} className={classes.Title}>{data[1][0]["title"]}</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{data[1][0][carousel]}</p>
+                </div>
+            </ListItem>
+            <ListItem button={!data[1][3]["highlight"] as any} className={[classes.FinancialRow, data[1][3]["highlight"] ? classes.Highlight : "", data[1][3]["bold"] ? classes.Bold : ""].join(" ")}>
+                <p style={{ marginLeft: data[1][3]["margin"] ? "1em" : 10 }} className={classes.Title}>{data[1][3]["title"]}</p>
+                <div className={classes.ValueRow}>
+                    <p className={classes.Value}>{data[1][3][carousel]}</p>
+                </div>
+            </ListItem>
         </List>
     );
 };
 
 const KeyInfo: React.FC = () => {
     const data = useSelector(fairValueData)
-    console.log(data)
     return (
         <List className={classes.FinancialTable}>
             <ListItem className={[classes.FinancialRow, classes.Highlight].join(" ")}>

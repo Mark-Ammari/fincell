@@ -554,7 +554,6 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
         .then(response => {
             let htmlString = response.data["componentData"]
             let financialData = traverseThroughKeyStatsHTML(htmlString, "td")
-            console.log(!isNaN(financialData.slice(0, 11)[5].replace(/,/g, '')), financialData.slice(0, 11)[5].replace(/,/g, ''))
             return [
                 {
                     title: "Timeline",

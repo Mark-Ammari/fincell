@@ -56,14 +56,19 @@ const IntrinsicValueAnalyzer: React.FC = () => {
   })
   const [instrinsicValue, setIntrinsicValue] = useState({
     marketCap: {
-      worst: "0",
-      normal: "0",
-      best: "0"
+      worst: "$0.00",
+      normal: "$0.00",
+      best: "$0.00"
     },
-    stockValue: {
-      worst: "0",
-      normal: "0",
-      best: "0"
+    earningsValue: {
+      worst: "$0.00",
+      normal: "$0.00",
+      best: "$0.00"
+    },
+    dcfValue: {
+      worst: "$0.00",
+      normal: "$0.00",
+      best: "$0.00"
     }
   })
 
@@ -125,14 +130,19 @@ const IntrinsicValueAnalyzer: React.FC = () => {
     
     setIntrinsicValue({
       marketCap: {
-        worst: `$${Numeral(dcfWorst.reduce((a, b) => a + b)).format("0.00a")}`,
-        normal: `$${Numeral(dcfNormal.reduce((a, b) => a + b)).format("0.00a")}`,
-        best: `$${Numeral(dcfBest.reduce((a, b) => a + b)).format("0.00a")}`
+        worst: `${Numeral(dcfWorst.reduce((a, b) => a + b)).format("$0.00a")}`,
+        normal: `${Numeral(dcfNormal.reduce((a, b) => a + b)).format("$0.00a")}`,
+        best: `${Numeral(dcfBest.reduce((a, b) => a + b)).format("$0.00a")}`
       },
-      stockValue: {
-        worst: `$${Numeral(epsWorst.reduce((a, b) => a + b)).format("0.00a")}`,
-        normal: `$${Numeral(epsNormal.reduce((a, b) => a + b)).format("0.00a")}`,
-        best: `$${Numeral(epsBest.reduce((a, b) => a + b)).format("0.00a")}`
+      earningsValue: {
+        worst: `${Numeral(epsWorst.reduce((a, b) => a + b)).format("$0.00a")}`,
+        normal: `${Numeral(epsNormal.reduce((a, b) => a + b)).format("$0.00a")}`,
+        best: `${Numeral(epsBest.reduce((a, b) => a + b)).format("$0.00a")}`
+      },
+      dcfValue: {
+        worst: `${Numeral(dcfWorst.reduce((a, b) => a + b)/wasoWorst).format("$0.00a")}`,
+        normal: `${Numeral(dcfNormal.reduce((a, b) => a + b)/wasoNormal).format("$0.00a")}`,
+        best: `${Numeral(dcfBest.reduce((a, b) => a + b)/wasoBest).format("$0.00a")}`
       }
     })
   }
@@ -210,12 +220,21 @@ const IntrinsicValueAnalyzer: React.FC = () => {
             <p className={classes.Value}>{instrinsicValue.marketCap.best}</p>
           </div>
         </ListItem>
+        <Divider />
         <ListItem button className={classes.ScenarioRow}>
-          <p className={classes.Title}>Stock Price</p>
+          <p className={classes.Title}>Earnings Value</p>
           <div className={classes.ValueRow}>
-            <p className={classes.Value}>{instrinsicValue.stockValue.worst}</p>
-            <p className={classes.Value}>{instrinsicValue.stockValue.normal}</p>
-            <p className={classes.Value}>{instrinsicValue.stockValue.best}</p>
+            <p className={classes.Value}>{instrinsicValue.earningsValue.worst}</p>
+            <p className={classes.Value}>{instrinsicValue.earningsValue.normal}</p>
+            <p className={classes.Value}>{instrinsicValue.earningsValue.best}</p>
+          </div>
+        </ListItem>
+        <ListItem button className={classes.ScenarioRow}>
+          <p className={classes.Title}>DCF Value</p>
+          <div className={classes.ValueRow}>
+            <p className={classes.Value}>{instrinsicValue.dcfValue.worst}</p>
+            <p className={classes.Value}>{instrinsicValue.dcfValue.normal}</p>
+            <p className={classes.Value}>{instrinsicValue.dcfValue.best}</p>
           </div>
         </ListItem>
       </List>

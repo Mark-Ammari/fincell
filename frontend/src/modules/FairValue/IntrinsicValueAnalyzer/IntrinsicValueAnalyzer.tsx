@@ -68,57 +68,71 @@ const IntrinsicValueAnalyzer: React.FC = () => {
   })
 
   const analyzeHandler = () => {
-    let dcfWorst = 0
-    let dcfNormal = 0
-    let dcfBest = 0
+    let dcfWorst = []
+    let dcfNormal = []
+    let dcfBest = []
 
-    let epsWorst = 0
-    let epsNormal = 0
-    let epsBest = 0
+    let epsWorst = []
+    let epsNormal = []
+    let epsBest = []
 
-    let netIncomeWorst = parseInt(epsVal[0]["rawValue"])
-    let cashFlowWorst = parseInt(epsVal[0]["rawValue"])
-    let netIncomeNormal = parseInt(epsVal[0]["rawValue"])
-    let cashFlowNormal = parseInt(epsVal[0]["rawValue"])
-    let netIncomeBest = parseInt(epsVal[0]["rawValue"])
-    let cashFlowBest = parseInt(epsVal[0]["rawValue"])
+    let revGrowthWorst = parseInt(epsVal[0]["rawValue"])
+    let revGrowthNormal = parseInt(epsVal[0]["rawValue"])
+    let revGrowthBest = parseInt(epsVal[0]["rawValue"])
+
+    let cashFlowWorst = []
+    let cashFlowNormal = []
+    let cashFlowBest = []
+
+    let netProfitWorst = []
+    let netProfitNormal = []
+    let netProfitBest = []
 
     let wasoWorst = parseInt(epsVal[3]["rawValue"])
     let wasoNormal = parseInt(epsVal[3]["rawValue"])
     let wasoBest = parseInt(epsVal[3]["rawValue"])
 
-    for (let i = 0; i < parseInt(dataPoints.outlook); i++) {
+    for (let i = 1; i < parseInt(dataPoints.outlook) + 1; i++) {
+      revGrowthWorst += (revGrowthWorst * (parseFloat(dataPoints.worst.revenueGrowth) / 100))
       wasoWorst += (wasoWorst * (parseFloat(dataPoints.worst.shareChange) / 100))
-      netIncomeWorst += (netIncomeWorst * (parseFloat(dataPoints.worst.profitMargin) / 100))
-      epsWorst += (netIncomeWorst / wasoWorst) / Math.pow((1 + parseFloat(dataPoints.discountRate)), i + 1)
+      cashFlowWorst.push(revGrowthWorst * (parseFloat(dataPoints.worst.fcfOfRevenue) / 100))
+      dcfWorst.push((cashFlowWorst[i - 1] * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -i)))  
+      netProfitWorst.push(revGrowthWorst * (parseFloat(dataPoints.worst.profitMargin) / 100))
+      epsWorst.push(((netProfitWorst[i - 1]/wasoWorst) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -i)))
 
+      revGrowthNormal += (revGrowthNormal * (parseFloat(dataPoints.normal.revenueGrowth) / 100))
       wasoNormal += (wasoNormal * (parseFloat(dataPoints.normal.shareChange) / 100))
-      netIncomeNormal += (netIncomeNormal * (parseFloat(dataPoints.normal.profitMargin) / 100))
-      epsNormal += (netIncomeNormal / wasoNormal) / Math.pow((1 + parseFloat(dataPoints.discountRate)), i + 1)
+      cashFlowNormal.push(revGrowthNormal * (parseFloat(dataPoints.normal.fcfOfRevenue) / 100))
+      dcfNormal.push((cashFlowNormal[i - 1] * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -i)))
+      netProfitNormal.push(revGrowthNormal * (parseFloat(dataPoints.normal.profitMargin) / 100))
+      epsNormal.push(((netProfitNormal[i - 1]/wasoNormal) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -i)))
 
+      revGrowthBest += (revGrowthBest * (parseFloat(dataPoints.best.revenueGrowth) / 100))
       wasoBest += (wasoBest * (parseFloat(dataPoints.best.shareChange) / 100))
-      netIncomeBest += (netIncomeBest * (parseFloat(dataPoints.best.profitMargin) / 100))
-      epsBest += (netIncomeBest / wasoBest) / Math.pow((1 + parseFloat(dataPoints.discountRate)), i + 1)
-      // -------------------------------------------------------------------------------------------------------
-      cashFlowWorst += (cashFlowWorst * (parseFloat(dataPoints.worst.fcfOfRevenue) / 100))
-      dcfWorst += cashFlowWorst / Math.pow((1 + parseFloat(dataPoints.discountRate)), i + 1)
-
-      cashFlowNormal += (cashFlowNormal * (parseFloat(dataPoints.normal.fcfOfRevenue) / 100))
-      dcfNormal += cashFlowNormal / Math.pow((1 + parseFloat(dataPoints.discountRate)), i + 1)
-
-      cashFlowBest += (cashFlowBest * (parseFloat(dataPoints.best.fcfOfRevenue) / 100))
-      dcfBest += cashFlowBest / Math.pow((1 + parseFloat(dataPoints.discountRate)), i + 1)
+      cashFlowBest.push(revGrowthBest * (parseFloat(dataPoints.best.fcfOfRevenue) / 100))
+      dcfBest.push((cashFlowBest[i - 1] * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -i)))
+      netProfitBest.push(revGrowthBest * (parseFloat(dataPoints.best.profitMargin) / 100))
+      epsBest.push(((netProfitBest[i - 1]/wasoBest) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -i)))
     }
+    
+    dcfWorst.push((cashFlowWorst[cashFlowWorst.length - 1] * parseFloat(dataPoints.worst.pfcfRatio)) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -parseFloat(dataPoints.outlook)))
+    dcfNormal.push((cashFlowNormal[cashFlowNormal.length - 1] * parseFloat(dataPoints.normal.pfcfRatio)) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -parseFloat(dataPoints.outlook)))
+    dcfBest.push((cashFlowBest[cashFlowBest.length - 1] * parseFloat(dataPoints.best.pfcfRatio)) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -parseFloat(dataPoints.outlook)))
+
+    epsWorst.push(((netProfitWorst[netProfitWorst.length - 1]/wasoWorst) * parseFloat(dataPoints.worst.peRatio)) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -parseFloat(dataPoints.outlook)))
+    epsNormal.push(((netProfitNormal[netProfitNormal.length - 1]/wasoWorst) * parseFloat(dataPoints.normal.peRatio)) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -parseFloat(dataPoints.outlook)))    
+    epsBest.push(((netProfitBest[netProfitBest.length - 1]/wasoWorst) * parseFloat(dataPoints.best.peRatio)) * Math.pow((1 + (parseFloat(dataPoints.discountRate) / 100)), -parseFloat(dataPoints.outlook)))
+    
     setIntrinsicValue({
       marketCap: {
-        worst: `$${Numeral(dcfWorst * parseFloat(dataPoints.worst.pfcfRatio)).format("0.00a")}`,
-        normal: `$${Numeral(dcfNormal * parseFloat(dataPoints.normal.pfcfRatio)).format("0.00a")}`,
-        best: `$${Numeral(dcfBest * parseFloat(dataPoints.best.pfcfRatio)).format("0.00a")}`,
+        worst: `$${Numeral(dcfWorst.reduce((a, b) => a + b)).format("0.00a")}`,
+        normal: `$${Numeral(dcfNormal.reduce((a, b) => a + b)).format("0.00a")}`,
+        best: `$${Numeral(dcfBest.reduce((a, b) => a + b)).format("0.00a")}`
       },
       stockValue: {
-        worst: `$${(epsWorst * parseFloat(dataPoints.worst.peRatio)).toFixed(2)}`,
-        normal: `$${(epsNormal * parseFloat(dataPoints.normal.peRatio)).toFixed(2)}`,
-        best: `$${(epsBest * parseFloat(dataPoints.best.peRatio)).toFixed(2)}`,
+        worst: `$${Numeral(epsWorst.reduce((a, b) => a + b)).format("0.00a")}`,
+        normal: `$${Numeral(epsNormal.reduce((a, b) => a + b)).format("0.00a")}`,
+        best: `$${Numeral(epsBest.reduce((a, b) => a + b)).format("0.00a")}`
       }
     })
   }

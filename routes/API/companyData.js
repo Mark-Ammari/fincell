@@ -433,9 +433,6 @@ router.get("/api/v1/company-data/key-ratios/stats/:ticker/details", (req, res) =
 
 // GET getAllData
 router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req, res) => {
-    // let incomeStatementURL = axios.get(`/api/v1/company-data/report-type/income-statement/${req.params.ticker}/details`).then(response => response.data)
-    // let balanceSheetURL = axios.get(`/api/v1/company-data/report-type/balance-sheet/${req.params.ticker}/details`).then(response => response.data)
-    // let cashFlowsURL = axios.get(`/api/v1/company-data/report-type/cash-flow/${req.params.ticker}/details`).then(response => response.data)
     let quotes = axios.get(`${config.SAL_SERVICE}/realTime/v3/${req.params.performanceid}/data?clientId=MDC&benchmarkId=category&version=3.31.0`, {
         headers: {
             'apikey': config.X_API_KEY,

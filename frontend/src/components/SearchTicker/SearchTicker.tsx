@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { InputBase, Dialog, ListItemText, ListItem, List, Divider, AppBar, Toolbar, IconButton, Slide } from '@material-ui/core';
-import { TransitionProps } from '@material-ui/core/transitions';
-import { CloseRounded, SearchRounded } from '@material-ui/icons';
+import { List, InputBase, ListItemText, ListItem, Divider } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchTickerdata, fetchSearchTicker, loadSearchTicker, searchTickerError } from '../../reduxStore/getSearchTicker/getSearchTicker';
 import { useHistory } from 'react-router';
+import classes from './SearchTicker.module.css';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,24 +23,16 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: "0 5px"
         },
         textField: {
-            color: "white",
+            color: "black",
             widith: "100%",
             paddingLeft: "1em",
-            borderBottom: "1px solid white"
+            borderBottom: "1px solid black"
         }
     }),
 );
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction="down" ref={ref} {...props} />;
-});
-
 export default function SearchTicker() {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
+    const styles = useStyles();
     const dispatch = useDispatch();
     const [value, setValue] = React.useState("");
     const [show, setShow] = React.useState(false);
@@ -51,19 +42,10 @@ export default function SearchTicker() {
     const error = useSelector(searchTickerError)
     const history = useHistory()
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     const handleSearch = (ticker: string, performanceId: string) => {
         history.push({
             pathname: `/stocks/${ticker}/${performanceId}`,
         })
-        handleClose()
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,41 +70,28 @@ export default function SearchTicker() {
     }, [value, ref, dispatch])
 
     return (
-        <div>
-            <IconButton className={classes.iconButton} onClick={handleClickOpen}>
-                <SearchRounded />
-            </IconButton>
-            <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-                <AppBar className={classes.appBar}>
-                    <Toolbar>
-                        <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                            <CloseRounded />
-                        </IconButton>
-                        <InputBase
-                            className={classes.textField}
-                            fullWidth
-                            autoFocus
-                            ref={ref}
-                            placeholder="Search Ticker..."
-                            value={value}
-                            onChange={handleChange}
-                        />
-                    </Toolbar>
-                </AppBar>
-                {show ?
-                    <List>
-                        {loadTickerData ? <div></div> : error ? <p>Cannot Load Ticker</p> :
-                            tickerData.results.map((t: any, index: number) => {
-                                return <ListItem key={index} button onClick={() => handleSearch(t["ticker"], t["performanceId"])} >
-                                    <ListItemText primary={t["name"]} secondary={t["ticker"]} />
-                                </ListItem>
-                            })
-                        }
-                    </List>
-                    :
-                    null
-                }
-            </Dialog>
+        <div className={classes.SearchTicker}>
+            <InputBase
+                ref={ref}
+                placeholder="Search Ticker..."
+                value={value}
+                onChange={handleChange}
+                fullWidth
+                className={styles.textField}
+            />
+            {show ?
+                <List>
+                    {loadTickerData ? <div></div> : error ? <p>Cannot Load Ticker</p> :
+                        tickerData.results.map((t: any, index: number) => {
+                            return <ListItem key={index} button onClick={() => handleSearch(t["ticker"], t["performanceId"])} >
+                                <ListItemText primary={t["name"]} secondary={t["ticker"]} />
+                            </ListItem>
+                        })
+                    }
+                </List>
+                :
+                null
+            }
         </div>
     );
 }

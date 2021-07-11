@@ -19,6 +19,7 @@
     "cheerio": "^1.0.0-rc.9",
     "concurrently": "^6.1.0",
     "connect-mongo": "^4.4.1",
+    "csv-parser": "^3.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "flatted": "^3.1.1",

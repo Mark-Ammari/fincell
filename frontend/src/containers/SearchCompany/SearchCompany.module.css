@@ -1,0 +1,64 @@
+.CompanyStatsScreen {
+    width: 100%;
+    padding: 1em 0
+}
+
+/* media queries */
+
+@media only screen and (max-width: 400px) {
+    .CompanyName {
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        font-size: 16pt;
+    }
+    .TickerDetails {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 401px) {
+    .CompanyName {
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        font-size: 16pt;
+    }
+    .TickerDetails {
+        width: 100%
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .CompanyName {
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        font-size: 18pt;
+    }
+    .TickerDetails {
+        width: 500px;
+        margin: auto
+    }
+}
+
+@media only screen and (min-width: 767px) {
+    .CompanyName {
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        font-size: 18pt;
+    }
+    .TickerDetails {
+        width: 767px;
+        margin: auto
+    }
+}
+
+@media only screen and (min-width: 1366px) {
+    .CompanyName {
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        font-size: 18pt;
+    }
+    .TickerDetails {
+        width: 1366px;
+        margin: auto
+    }
+}

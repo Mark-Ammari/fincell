@@ -12,8 +12,6 @@ const CompanyStatsScreen: React.FC = () => {
     const loadTickerData = useSelector(loadSearchTicker);
     const error = useSelector(searchTickerError)
 
-    console.log(error)
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchSearchTicker(ticker))

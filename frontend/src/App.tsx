@@ -4,7 +4,7 @@ import './App.css';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Context from './context/Context';
-import { CompanyStatsScreen } from './routes/Routes';
+import { CompanyStatsScreen, SearchCompany } from './routes/Routes';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +16,7 @@ const App: React.FC = () => {
         }}>
           <Header />
           <Switch>
+            <Route path="/" exact component={SearchCompany} />
             <Route path="/stocks/:ticker/:performanceId" component={CompanyStatsScreen} />
           </Switch>
           <Footer />

@@ -558,10 +558,10 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                 {
                     title: "Timeline",
                     TTM: "TTM",
-                    firstYear: "1Y-CAGR",
-                    threeYearAVG: "3Y-CAGR",
-                    fiveYearAVG: "5Y-CAGR",
-                    tenYearAVG: "10Y-CAGR",
+                    firstYear: "1Y-AVG",
+                    threeYearAVG: "3Y-AVG",
+                    fiveYearAVG: "5Y-AVG",
+                    tenYearAVG: "10Y-AVG",
                     list: ["TTM", "firstYear", "threeYearAVG", "fiveYearAVG", "tenYearAVG"],
                     highlight: true
                 },
@@ -583,15 +583,6 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
                     fiveYearAVG: !isNaN(financialData.slice(88, 99)[1].replace(/,/g, '')) && !isNaN(financialData.slice(88, 99)[5].replace(/,/g, '')) ? `${((Math.pow(((parseInt(financialData.slice(88, 99)[1].replace(/,/g, '')) / parseInt(financialData.slice(88, 99)[5].replace(/,/g, '')))), (1 / 5)) - 1) * 100).toFixed(2)}%` : "—",
                     tenYearAVG: !isNaN(financialData.slice(88, 99)[1].replace(/,/g, '')) && !isNaN(financialData.slice(88, 99)[10].replace(/,/g, '')) ? `${((Math.pow(((parseInt(financialData.slice(88, 99)[1].replace(/,/g, '')) / parseInt(financialData.slice(88, 99)[10].replace(/,/g, '')))), (1 / 10)) - 1) * 100).toFixed(2)}%` : "—",
                 },
-                {
-                    title: "Net Profit",
-                    tenYearData: financialData.slice(44, 55),
-                    TTM: !isNaN(financialData.slice(44, 55)[0].replace(/,/g, '')) && !isNaN(financialData.slice(44, 55)[1].replace(/,/g, '')) ? `${((parseInt(financialData.slice(44, 55)[0].replace(/,/g, '')) - parseInt(financialData.slice(44, 55)[1].replace(/,/g, ''))) / parseFloat(financialData.slice(44, 55)[1].replace(/,/g, '')) * 100).toFixed(2)}%` : "—",
-                    firstYear: !isNaN(financialData.slice(44, 55)[1].replace(/,/g, '')) && !isNaN(financialData.slice(44, 55)[2].replace(/,/g, '')) ? `${((parseInt(financialData.slice(44, 55)[1].replace(/,/g, '')) - parseInt(financialData.slice(44, 55)[2].replace(/,/g, ''))) / parseFloat(financialData.slice(44, 55)[2].replace(/,/g, '')) * 100).toFixed(2)}%` : "—",
-                    threeYearAVG: !isNaN(financialData.slice(44, 55)[1].replace(/,/g, '')) && !isNaN(financialData.slice(44, 55)[3].replace(/,/g, '')) ? `${((Math.pow(((parseInt(financialData.slice(44, 55)[1].replace(/,/g, '')) / parseInt(financialData.slice(44, 55)[3].replace(/,/g, '')))), (1 / 3)) - 1) * 100).toFixed(2)}%` : "—",
-                    fiveYearAVG: !isNaN(financialData.slice(44, 55)[1].replace(/,/g, '')) && !isNaN(financialData.slice(44, 55)[5].replace(/,/g, '')) ? `${((Math.pow(((parseInt(financialData.slice(44, 55)[1].replace(/,/g, '')) / parseInt(financialData.slice(44, 55)[5].replace(/,/g, '')))), (1 / 5)) - 1) * 100).toFixed(2)}%` : "—",
-                    tenYearAVG: !isNaN(financialData.slice(44, 55)[1].replace(/,/g, '')) && !isNaN(financialData.slice(44, 55)[10].replace(/,/g, '')) ? `${((Math.pow(((parseInt(financialData.slice(44, 55)[1].replace(/,/g, '')) / parseInt(financialData.slice(44, 55)[10].replace(/,/g, '')))), (1 / 10)) - 1) * 100).toFixed(2)}%` : "—",
-                },
             ]
         })
     let keyStatsPart = axios.get(`${config.keyStatsPartURI}?&t=${req.params.ticker}&region=usa&culture=en-US&cur=&order=desc`)
@@ -600,13 +591,22 @@ router.get("/api/v1/company-data/analysis/:ticker/:performanceid/details", (req,
             let financialData = traverseThroughKeyStatsHTML(htmlString, "td")
             return [
                 {
+                    title: "Net Profit",
+                    tenYearData: financialData.slice(110, 121),
+                    TTM: !isNaN(financialData.slice(110, 121)[0]) ? `${financialData.slice(110, 121)[0]}%` : "—",
+                    firstYear: !isNaN(financialData.slice(110, 121)[1]) ? `${financialData.slice(110, 121)[1]}%` : "—",
+                    threeYearAVG: !isNaN(financialData.slice(111, 114).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3) ? `${(financialData.slice(111, 114).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3).toFixed(2)}%` : "—",
+                    fiveYearAVG: !isNaN(financialData.slice(111, 116).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5) ? `${(financialData.slice(111, 116).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).toFixed(2)}%` : "—",
+                    tenYearAVG: !isNaN(financialData.slice(111, 121).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10) ? `${(financialData.slice(111, 121).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2)}%` : "—",
+                },
+                {
                     title: "FCF as % of Rev",
                     tenYearData: financialData.slice(396, 407),
                     TTM: !isNaN(financialData.slice(396, 407)[0]) ? `${financialData.slice(396, 407)[0]}%` : "—",
                     firstYear: !isNaN(financialData.slice(396, 407)[1]) ? `${financialData.slice(396, 407)[1]}%` : "—",
                     threeYearAVG: !isNaN(financialData.slice(397, 400).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3) ? `${(financialData.slice(397, 400).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 3).toFixed(2)}%` : "—",
                     fiveYearAVG: !isNaN(financialData.slice(397, 402).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5) ? `${(financialData.slice(397, 402).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 5).toFixed(2)}%` : "—",
-                    tenYearAVG: !isNaN(financialData.slice(396, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10) ? `${(financialData.slice(397, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2)}%` : "—",
+                    tenYearAVG: !isNaN(financialData.slice(397, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10) ? `${(financialData.slice(397, 407).reduce((a, b) => { a = !isNaN(a) ? parseInt(a) : 0; b = !isNaN(b) ? parseInt(b) : 0; return a + b }) / 10).toFixed(2)}%` : "—",
                 },
             ]
         })

@@ -1,0 +1,11 @@
+.SearchTicker {
+    width: 90%;
+    min-height: 485px;
+    padding: 1em 0;
+    margin: auto;
+}
+
+.TextField {
+    margin: auto;
+    width: 100%;
+}

@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const session = require('express-session')
-const MongoStore = require('connect-mongo');
+// const MongoStore = require('connect-mongo');
 const server = express();
 const PORT = process.env.PORT || 80;
 // const uri = "mongodb+srv://fincell:KsJKofqe7Y9njLoe@fincell.dqw5e.mongodb.net/fincell?retryWrites=true&w=majority";

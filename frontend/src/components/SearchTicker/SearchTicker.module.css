@@ -9,3 +9,10 @@
     margin: auto;
     width: 100%;
 }
+
+.Error {
+    margin: auto;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}

@@ -71,9 +71,9 @@ const IntrinsicValueAnalyzer: React.FC = () => {
       best: "$0.00"
     },
     marginOfSafety: {
-      worst: "%",
-      normal: "%",
-      best: "%"
+      worst: "%0.00 %0.00",
+      normal: "%0.00 %0.00",
+      best: "%0.00 %0.00"
     }
   })
 

@@ -18,15 +18,17 @@ const GenericTable: React.FC<GenericTableProps> = ({ reportType, loader, width, 
 
     return (
         <div className={classes.Container}>
-            <div className={classes.Details}>
-                <h1 className={classes.ReportType}>{reportType}</h1>
-                {hasDropdown ? <PeriodDropdown /> : null}
-            </div>
-            <div className={classes.GenericSection}>
-                {loader ? <div className={classes.Loader}></div>
-                    : match ? <GenericTableDesktop data={data} width={width} /> : <GenericTableMobile data={data} />
-                }
-            </div>
+            {loader ? <div className={classes.Loader}></div> :
+                <>
+                    <div className={classes.Details}>
+                        <h1 className={classes.ReportType}>{reportType}</h1>
+                        {hasDropdown ? <PeriodDropdown /> : null}
+                    </div>
+                    <div className={classes.GenericSection}>
+                        {match ? <GenericTableDesktop data={data} width={width} /> : <GenericTableMobile data={data} />}
+                    </div>
+                </>
+            }
         </div>
     );
 };
@@ -41,7 +43,7 @@ const GenericTableDesktop: React.FC<GenericTableProps> = ({ data, width }) => {
                         <div className={classes.ValueRow}>
                             {
                                 item["data"].map((value: any, j: number) => {
-                                    return <p key={j} className={classes.Value} style={{width:width}}>{isNaN(value) ? value : Numeral(value).format("0.00a")}</p>
+                                    return <p key={j} className={classes.Value} style={{ width: width }}>{isNaN(value) ? value : Numeral(value).format("0.00a")}</p>
                                 })
                             }
                         </div>

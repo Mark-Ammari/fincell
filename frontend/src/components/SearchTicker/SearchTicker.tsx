@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { searchTickerdata, fetchSearchTicker, loadSearchTicker, searchTickerError } from '../../reduxStore/getSearchTicker/getSearchTicker';
 import { useHistory } from 'react-router';
 import classes from './SearchTicker.module.css';
+import ErrorWrapper from '../ErrorWrapper/ErrorWrapper';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -81,12 +82,14 @@ export default function SearchTicker() {
             />
             {show ?
                 <List>
-                    {loadTickerData ? <div></div> : error ? <p>Cannot Load Ticker</p> :
-                        tickerData.results.map((t: any, index: number) => {
-                            return <ListItem key={index} button onClick={() => handleSearch(t["ticker"], t["performanceId"])} >
-                                <ListItemText primary={t["name"]} secondary={t["ticker"]} />
-                            </ListItem>
-                        })
+                    {loadTickerData ? <div></div> :
+                        <ErrorWrapper error={error || !tickerData.results.length} message="Cannot Find Ticker.">
+                            {tickerData.results.map((t: any, index: number) => {
+                                return <ListItem key={index} button onClick={() => handleSearch(t["ticker"], t["performanceId"])} >
+                                    <ListItemText primary={t["name"]} secondary={t["ticker"]} />
+                                </ListItem>
+                            })}
+                        </ErrorWrapper>
                     }
                 </List>
                 :

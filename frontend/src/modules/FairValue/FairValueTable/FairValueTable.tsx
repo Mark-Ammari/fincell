@@ -2,8 +2,10 @@ import React from 'react';
 import classes from './FairValueTable.module.css';
 import Tablet from '../../../components/Tablet/Tablet';
 import { useMediaQuery, List, ListItem } from '@material-ui/core';
-import { fairValueData } from '../../../reduxStore/getFairValue/getFairValue';
+import { error, fairValueData } from '../../../reduxStore/getFairValue/getFairValue';
 import { useSelector } from 'react-redux';
+import ErrorWrapper from '../../../components/ErrorWrapper/ErrorWrapper';
+import { useEffect } from 'react';
 
 interface FairValueTableProps {
     reportType?: string,
@@ -12,19 +14,24 @@ interface FairValueTableProps {
 
 const FairValueTable: React.FC<FairValueTableProps> = () => {
     const match = useMediaQuery('(min-width:1366px)')
-
+    const fairValueError = useSelector(error)
     return (
         <div className={classes.Container}>
             <div className={classes.Details}>
                 <h1 className={classes.ReportType}>Fair Value Analyzer</h1>
             </div>
             <div className={classes.FinancialSection}>
-                {match ?
-                    <FairValueTableDesktop />
-                    :
-                    <FairValueTableMobile />
-                }
-                <KeyInfo />
+                <ErrorWrapper error={fairValueError} message="Cannot use fair value analyzer on this stock.">
+                    <>
+                        {match ?
+                            <FairValueTableDesktop />
+                            :
+                            <FairValueTableMobile />
+                        }
+                        <KeyInfo />
+                    </>
+                </ErrorWrapper>
+
             </div>
         </div>
     );

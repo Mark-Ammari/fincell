@@ -23,7 +23,7 @@ const companyData = require('./routes/API/companyData');
 server.use(companyData)
 
 if (process.env.NODE_ENV === 'production') {
-  server.use(express.static('/frontend/build'));
+  server.use(express.static('frontend/build'));
   server.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });

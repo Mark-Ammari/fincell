@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Market Dashboard",
   "main": "server.js",
+  "engines": {
+    "node": "16.14.2"
+  },
   "scripts": {
     "client": "npm run start --prefix frontend",
     "server": "nodemon server.js",
@@ -11,8 +14,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Mark Ammari",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.26.1",
     "cheerio": "^1.0.0-rc.9",

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
-import baseURI from '../../URI/URI';
+import axios from 'axios';
 
 export interface GetSearchTicker {
     data: any,
@@ -48,7 +48,7 @@ export const fetchSearchTicker = (ticker: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getSearchTickerStart())
-    baseURI.get(`/search/${ticker}`)
+    axios.get(`/api/v1/company-data/search/${ticker}`)
     .then(res => {
         dispatch(getSearchTickerSuccess(res.data))
     }).catch(err => {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
-import baseURI from '../../URI/URI';
+import axios from 'axios';
 
 export interface GetFinancialStatsState {
     data: any,
@@ -48,7 +48,7 @@ export const fetchFinancialStats= (ticker: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getFinancialStatsStart())
-    baseURI.get(`/key-ratios/financials/${ticker}/details`)
+    axios.get(`/api/v1/company-data/key-ratios/financials/${ticker}/details`)
     .then(res => {
         dispatch(getFinancialStatsSuccess(res.data))
     }).catch(err => {

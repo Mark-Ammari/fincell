@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
-import baseURI from '../../URI/URI';
+import axios from 'axios';
 
 export interface GetQuote {
     data: any,
@@ -48,7 +48,7 @@ export const fetchQuote= (performanceId: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getQuoteStart())
-    baseURI.get(`/quote/${performanceId}/details`)
+    axios.get(`/api/v1/company-data/quote/${performanceId}/details`)
     .then(res => {
         dispatch(getQuoteSuccess(res.data))
     }).catch(err => {

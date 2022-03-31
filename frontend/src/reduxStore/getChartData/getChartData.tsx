@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
-import baseURI from '../../URI/URI';
+import axios from 'axios';
 
 export interface GetChartData {
     data: any,
@@ -48,7 +48,7 @@ export const fetchChartData = (ticker: string, period: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getChartDataStart())
-    baseURI.get(`/chart/${ticker}/${period}/details`)
+    axios.get(`/api/v1/company-data/chart/${ticker}/${period}/details`)
     .then(res => {
         dispatch(getChartDataSuccess(res.data))
     }).catch(err => {

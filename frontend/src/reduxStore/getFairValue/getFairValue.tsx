@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
-import baseURI from '../../URI/URI';
+import axios from 'axios';
 
 export interface GetFairValueState {
     data: any,
@@ -48,7 +48,7 @@ export const fetchFairValue = (ticker: string, performanceId: string): AppThunk 
     dispatch
 ) => {
     dispatch(getFairValueStart())
-    baseURI.get(`/analysis/${ticker}/${performanceId}/details`)
+    axios.get(`/api/v1/company-data/analysis/${ticker}/${performanceId}/details`)
         .then(res => {
             dispatch(getFairValueSuccess(res.data))
         }).catch(err => {

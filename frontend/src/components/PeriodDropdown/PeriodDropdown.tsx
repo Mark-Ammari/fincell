@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import classes from './PeriodDropdown.module.css';
 import { switchPeriod, valueOfPeriod } from '../../reduxStore/period/period';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 export default function PeriodDropdown() {
     const changePeriod = useSelector(valueOfPeriod)

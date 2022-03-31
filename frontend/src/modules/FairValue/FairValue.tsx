@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FairValueTable from './FairValueTable/FairValueTable';
 import classes from './FairValue.module.css';
 import IntrinsicValueAnalyzer from './IntrinsicValueAnalyzer/IntrinsicValueAnalyzer';
-import { useEffect } from 'react';
-import { error, fairValueData, fetchFairValue, loadFairValue } from '../../reduxStore/getFairValue/getFairValue';
+import { error, fetchFairValue, loadFairValue } from '../../reduxStore/getFairValue/getFairValue';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchTickerdata } from '../../reduxStore/getSearchTicker/getSearchTicker';
@@ -17,7 +16,7 @@ const FairValue: React.FC = () => {
     const { ticker } = useParams<any>()
 
     useEffect(() => {
-        dispatch(fetchFairValue(ticker, performanceId))
+        dispatch(fetchFairValue(ticker as string, performanceId))
     }, [ticker, performanceId, dispatch])
 
     return (

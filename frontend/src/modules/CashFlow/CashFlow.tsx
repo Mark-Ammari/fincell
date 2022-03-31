@@ -15,7 +15,7 @@ const CashFlow: React.FC = () => {
     const changePeriod = useSelector(valueOfPeriod)
     const financialStatementError = useSelector(error)
     useEffect(() => {
-        dispatch(fetchFinancialStatement(ticker, "cash-flow", changePeriod))
+        dispatch(fetchFinancialStatement(ticker as string, "cash-flow", changePeriod))
     }, [dispatch, ticker, changePeriod])
 
     return (

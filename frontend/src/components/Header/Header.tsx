@@ -1,9 +1,7 @@
-import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, IconButton, makeStyles, Toolbar } from '@material-ui/core';
 import { Menu, SearchRounded } from '@material-ui/icons';
 import React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
-import SearchTicker from '../SearchTicker/SearchTicker';
-import classes from './Header.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -23,14 +21,14 @@ const useStyles = makeStyles(() => ({
 
 const Header: React.FC = () => {
     const styles = useStyles()
-    const history = useHistory()
+    const history = useNavigate()
     return (
         <AppBar className={styles.root} position="static">
             <Toolbar className={styles.toolbar}>
                 <IconButton className={styles.iconButton} edge="start" color="inherit" aria-label="menu">
                     <Menu />
                 </IconButton>
-                <IconButton onClick={() => history.push({ pathname: '/' })} className={styles.iconButton} edge="start" color="inherit" aria-label="menu">
+                <IconButton onClick={() => history('/')} className={styles.iconButton} edge="start" color="inherit" aria-label="menu">
                     <SearchRounded />
                 </IconButton>
             </Toolbar>

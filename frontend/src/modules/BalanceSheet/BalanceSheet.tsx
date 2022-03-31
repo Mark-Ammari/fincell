@@ -17,7 +17,7 @@ const BalanceSheet: React.FC = () => {
     const financialStatementError = useSelector(error)
 
     useEffect(() => {
-        dispatch(fetchFinancialStatement(ticker, "balance-sheet", changePeriod))
+        dispatch(fetchFinancialStatement(ticker as string, "balance-sheet", changePeriod))
     }, [dispatch, ticker, changePeriod])
 
     return (

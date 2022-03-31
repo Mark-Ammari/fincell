@@ -1,4 +1,4 @@
-import React, {lazy} from 'react';
+import {lazy} from 'react';
 
 export const CompanyStatsScreen = lazy(() => 
     import('../containers/CompanyStatsScreen/CompanyStatsScreen')

@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action, createSerializableStateInvariantMiddleware, isPlain, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, getDefaultMiddleware } from '@reduxjs/toolkit';
 import getSeatchTickerReducer from './getSearchTicker/getSearchTicker';
 import getQuoteReducer from './getQuote/getQuote';
 import getChartDataReducer from './getChartData/getChartData';

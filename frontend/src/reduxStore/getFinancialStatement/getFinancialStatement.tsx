@@ -48,7 +48,7 @@ export const fetchFinancialStatement = (ticker: string, statementType: string, p
     dispatch
 ) => {
     dispatch(getFinancialStatementStart())
-    baseURI.get(`report-type/${statementType}/${ticker}/details?period=${period}`)
+    baseURI.get(`/report-type/${statementType}/${ticker}/details?period=${period}`)
         .then(res => {
             dispatch(getFinancialStatementSuccess(res.data))
         }).catch(err => {

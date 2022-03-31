@@ -6,7 +6,7 @@ import { fetchQuote, loadQuote, quoteData } from '../../reduxStore/getQuote/getQ
 import { searchTickerdata } from '../../reduxStore/getSearchTicker/getSearchTicker';
 import { data as chartData, loading as loadingChartData } from '../../reduxStore/getChartData/getChartData';
 import classes from './QuoteSection.module.css';
-import { List, ListItem, Paper } from '@material-ui/core';
+import { List, ListItem } from '@material-ui/core';
 import StockChart from '../StockChart/StockChart';
 
 const QuoteSection: React.FC = () => {
@@ -16,7 +16,7 @@ const QuoteSection: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchQuote(performanceId.results[0]["performanceId"]))
-        dispatch(fetchChartData(ticker, "MAX"))
+        dispatch(fetchChartData(ticker as string, "MAX"))
     }, [dispatch, performanceId, ticker])
 
     const qLoading = useSelector(loadQuote);

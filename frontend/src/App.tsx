@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
@@ -15,10 +15,10 @@ const App: React.FC = () => {
           ticker: ""
         }}>
           <Header />
-          <Switch>
-            <Route path="/" exact component={SearchCompany} />
-            <Route path="/stocks/:ticker/:performanceId" component={CompanyStatsScreen} />
-          </Switch>
+          <Routes>
+            <Route path="/" element={<SearchCompany />} />
+            <Route path="/stocks/:ticker/:performanceId" element={<CompanyStatsScreen />} />
+          </Routes>
           <Footer />
         </Context.Provider>
       </Suspense>

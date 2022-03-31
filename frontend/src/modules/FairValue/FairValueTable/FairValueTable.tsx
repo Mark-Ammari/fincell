@@ -5,7 +5,6 @@ import { useMediaQuery, List, ListItem } from '@material-ui/core';
 import { error, fairValueData } from '../../../reduxStore/getFairValue/getFairValue';
 import { useSelector } from 'react-redux';
 import ErrorWrapper from '../../../components/ErrorWrapper/ErrorWrapper';
-import { useEffect } from 'react';
 
 interface FairValueTableProps {
     reportType?: string,

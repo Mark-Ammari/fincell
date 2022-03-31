@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { List, InputBase, ListItemText, ListItem, Divider } from '@material-ui/core';
+import { List, InputBase, ListItemText, ListItem } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchTickerdata, fetchSearchTicker, loadSearchTicker, searchTickerError } from '../../reduxStore/getSearchTicker/getSearchTicker';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import classes from './SearchTicker.module.css';
 import ErrorWrapper from '../ErrorWrapper/ErrorWrapper';
 
@@ -41,12 +41,10 @@ export default function SearchTicker() {
     const tickerData = useSelector(searchTickerdata);
     const loadTickerData = useSelector(loadSearchTicker);
     const error = useSelector(searchTickerError)
-    const history = useHistory()
+    const history = useNavigate()
 
     const handleSearch = (ticker: string, performanceId: string) => {
-        history.push({
-            pathname: `/stocks/${ticker}/${performanceId}`,
-        })
+        history(`/stocks/${ticker}/${performanceId}`)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

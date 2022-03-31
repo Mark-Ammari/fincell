@@ -15,7 +15,7 @@ const IncomeStatement: React.FC = () => {
     const loadData = useSelector(loadFinancialStatement)
     const changePeriod = useSelector(valueOfPeriod)
     useEffect(() => {
-        dispatch(fetchFinancialStatement(ticker, "income-statement", changePeriod))
+        dispatch(fetchFinancialStatement(ticker as string, "income-statement", changePeriod))
     }, [dispatch, ticker, changePeriod])
 
     return (

@@ -14,7 +14,7 @@ const CompanyStatsScreen: React.FC = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchSearchTicker(ticker))
+        dispatch(fetchSearchTicker(ticker as string))
     }, [ticker, dispatch])
 
     return (
@@ -23,7 +23,7 @@ const CompanyStatsScreen: React.FC = () => {
                 loadTickerData ? null : error ? <p>Cannot Load Ticker</p> :
                     <>
                         <div className={classes.TickerDetails}>
-                            <h1 className={classes.CompanyName}>{tickerData.results[0].name + ' ' + `(${tickerData.results[0].ticker})`}</h1>
+                            <h1 className={classes.CompanyName}>{tickerData.results[0].name + ` - (${tickerData.results[0].ticker})`}</h1>
                         </div>
                         <StatsPanel />
                     </>

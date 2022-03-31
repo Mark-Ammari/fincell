@@ -48,7 +48,7 @@ export const fetchFinancialStats= (ticker: string): AppThunk => (
     dispatch
 ) => {
     dispatch(getFinancialStatsStart())
-    baseURI.get(`key-ratios/financials/${ticker}/details`)
+    baseURI.get(`/key-ratios/financials/${ticker}/details`)
     .then(res => {
         dispatch(getFinancialStatsSuccess(res.data))
     }).catch(err => {

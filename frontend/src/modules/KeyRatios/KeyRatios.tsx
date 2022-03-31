@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import classes from './KeyRatios.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import GenericTable from '../../components/GenericTable/GenericTable';
@@ -19,8 +18,8 @@ const KeyRatios: React.FC = () => {
     const keyStatsError = useSelector(ksError)
 
     useEffect(() => {
-        dispatch(fetchFinancialStats(ticker))
-        dispatch(fetchKeyStats(ticker))
+        dispatch(fetchFinancialStats(ticker as string))
+        dispatch(fetchKeyStats(ticker as string))
     }, [dispatch, ticker, performanceId])
 
     return (

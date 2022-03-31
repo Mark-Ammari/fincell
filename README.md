@@ -35,7 +35,6 @@ This project was designed to demonstrate:
   * material-ui
   * react-router-dom
   * recharts
-  * axios
 
 ## Release History
 
